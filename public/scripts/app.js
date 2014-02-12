@@ -162,7 +162,10 @@ module.exports = App.ApplicationAdapter = DS.FixtureAdapter;
 ;require.register("controllers/peopleController", function(exports, require, module) {
 App.PeopleController = Ember.ArrayController.extend({
   sortProperties: ['name'],
-  sortAscending: true
+  sortAscending: true,
+  peopleCount: (function() {
+    return this.get('model.length');
+  }).property('@each')
 });
 });
 
