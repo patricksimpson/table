@@ -1,4 +1,4 @@
-App.UsersRoute = Ember.Route.extend(
+App.PeopleRoute = Ember.Route.extend(
   model: ->
     return @store.find('person')
 )

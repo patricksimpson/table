@@ -146,7 +146,7 @@ module.exports = Environment.create(window.TAPAS_ENV);
 module.exports = App.Router.map(function() {
   this.resource("people", function() {
     this.resource("person", {
-      path: "/:person_id"
+      path: "/person/:person_id"
     }, function() {
       this.route("edit");
     });
@@ -159,7 +159,7 @@ module.exports = App.Router.map(function() {
 module.exports = App.ApplicationAdapter = DS.FixtureAdapter;
 });
 
-;require.register("controllers/peopleController", function(exports, require, module) {
+;require.register("controllers/people_controller", function(exports, require, module) {
 App.PeopleController = Ember.ArrayController.extend({
   sortProperties: ['name'],
   sortAscending: true,
@@ -235,8 +235,8 @@ module.exports = App.IndexRoute = Ember.Route.extend({
 });
 });
 
-;require.register("routes/peopleRoute", function(exports, require, module) {
-App.UsersRoute = Ember.Route.extend({
+;require.register("routes/people", function(exports, require, module) {
+App.PeopleRoute = Ember.Route.extend({
   model: function() {
     return this.store.find('person');
   }
@@ -310,7 +310,7 @@ function program3(depth0,data) {
   data.buffer.push("\n    <li>Nobody is here...</li>\n  ");
   }
 
-  data.buffer.push("/* /templates/people.hbs\n*/\n<div>People: ");
+  data.buffer.push("<div>People: ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "peopleCount", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
