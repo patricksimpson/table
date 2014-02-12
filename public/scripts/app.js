@@ -143,7 +143,27 @@ module.exports = Environment.create(window.TAPAS_ENV);
 });
 
 ;require.register("config/router", function(exports, require, module) {
-module.exports = App.Router.map(function() {});
+module.exports = App.Router.map(function() {
+  this.resource("people", function() {
+    this.resource("person", {
+      path: "/:person_id"
+    }, function() {
+      this.route("edit");
+    });
+    this.route("add");
+  });
+});
+});
+
+;require.register("config/store", function(exports, require, module) {
+module.exports = App.ApplicationAdapter = DS.FixtureAdapter;
+});
+
+;require.register("controllers/peopleController", function(exports, require, module) {
+App.PeopleController = Ember.ArrayController.extend({
+  sortProperties: ['name'],
+  sortAscending: true
+});
 });
 
 ;require.register("initialize", function(exports, require, module) {
@@ -181,10 +201,41 @@ module.exports = Ember.Application.initializer({
 });
 });
 
+;require.register("models/person", function(exports, require, module) {
+App.ApplicationAdapter = DS.FixtureAdapter;
+
+App.Person = DS.Model.extend({
+  name: DS.attr(),
+  email: DS.attr()
+});
+
+App.Person.FIXTURES = [
+  {
+    id: 1,
+    name: 'Patrick Simpson',
+    email: 'izerop@gmail.com'
+  }, {
+    id: 2,
+    name: 'Sizzle Pea',
+    email: 'patrick@heysparkbox.com'
+  }
+];
+});
+
 ;require.register("routes/index", function(exports, require, module) {
 module.exports = App.IndexRoute = Ember.Route.extend({
   model: function() {
-    return ['red', 'yellow', 'blue'];
+    return EmberFire.Object.create({
+      ref: new Firebase("https://glaring-fire-8110.firebaseio.com/")
+    });
+  }
+});
+});
+
+;require.register("routes/peopleRoute", function(exports, require, module) {
+App.UsersRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.find('person');
   }
 });
 });
@@ -217,21 +268,95 @@ function program1(depth0,data) {
   data.buffer.push("\n    <li>");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "item", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "person", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("</li>\n  ");
   return buffer;
   }
 
-  data.buffer.push("<h2>Welcome to Tapas with Ember</h2>\n<p>\n  You are running in the ");
+  data.buffer.push("<h2>Table</h2>\n<ul>\n  ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "env.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" environment.\n</p>\n<ul>\n  ");
+  stack1 = helpers.each.call(depth0, "person", "in", "people", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n</ul>\n<nav>\n  <ul>\n    <li><a href=\"create_table\">Create Table</a></li>\n    <li><a href=\"person\">Add Person</a></li>\n  </ul>\n</nav>\n");
+  return buffer;
+  
+});
+});
+
+;require.register("templates/people", function(exports, require, module) {
+module.exports = Ember.TEMPLATES['people'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n    <li>");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "item", "in", "content", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "person.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</li>\n  ");
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  data.buffer.push("\n    <li>Nobody is here...</li>\n  ");
+  }
+
+  data.buffer.push("/* /templates/people.hbs\n*/\n<div>People: ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "peopleCount", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" </div>\n<ul>\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers.each.call(depth0, "person", "in", "controller", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n</ul>\n");
+  return buffer;
+  
+});
+});
+
+;require.register("templates/person", function(exports, require, module) {
+module.exports = Ember.TEMPLATES['person'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
+
+function program1(depth0,data) {
+  
+  var buffer = '', stack1, stack2, hashTypes, hashContexts, options;
+  data.buffer.push("\n  <li>\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  options = {hash:{},inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  stack2 = ((stack1 = helpers['link-to'] || depth0['link-to']),stack1 ? stack1.call(depth0, "person", "person", options) : helperMissing.call(depth0, "link-to", "person", "person", options));
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
+  data.buffer.push("\n</li>\n");
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "person.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n  ");
+  return buffer;
+  }
+
+  data.buffer.push("/* /templates/person.hbs\n*/\n\n");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers.each.call(depth0, "person", "in", "controller", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n");
   return buffer;
   
 });

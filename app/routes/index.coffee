@@ -1,3 +1,6 @@
 module.exports = App.IndexRoute = Ember.Route.extend
   model: ->
-    ['red', 'yellow', 'blue']
+    EmberFire.Object.create({
+        ref: new Firebase "https://glaring-fire-8110.firebaseio.com/"
+      }
+    )

@@ -1,0 +1,10 @@
+/* /templates/people.hbs
+*/
+<div>People: {{peopleCount}} </div>
+<ul>
+  {{#each person in controller}}
+    <li>{{person.name}}</li>
+  {{else}}
+    <li>Nobody is here...</li>
+  {{/each}}
+</ul>
