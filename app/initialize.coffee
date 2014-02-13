@@ -2,6 +2,9 @@
 window.App = require 'config/app'
 require 'config/router'
 
+App.Store = FP.Store.extend
+  firebaseRoot: "https://glaring-fire-8110.firebaseio.com"
+
 # Load all modules in order automagically. Ember likes things to work this
 # way so everything is in the App.* namespace.
 folderOrder = [

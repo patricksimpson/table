@@ -1,7 +1,4 @@
-/* /templates/person.hbs
-*/
-
-{{#each person in controller}}
+{{#each person}}
   <li>
   {{#link-to "person" person}}
     {{person.name}}

@@ -12,12 +12,8 @@ exports.config =
       joinTo:
         'scripts/app.js':
           new RegExp("^(app|config/environments/#{environment}\.coffee)")
-        'scripts/vendor.js': new RegExp('^('+
-            [
-              "vendor/(scripts|ember/#{environment})"
-              'bower_components'
-            ].join('|') +
-          ')')
+        'scripts/vendor.js':
+          new RegExp("^(vendor/(scripts|ember/#{environment})|bower_components)")
       order:
         before: [
           'vendor/scripts/console-polyfill.js'
@@ -28,6 +24,8 @@ exports.config =
           "vendor/ember/#{environment}/ember-data.js"
           "vendor/ember/#{environment}/ember-model.js"
           # Anything else that depends on Ember
+          "vendor/scripts/ember-inflector.js"
+          "vendor/scripts/firebase.js"
           "vendor/scripts/fireplace.min.js"
         ]
 

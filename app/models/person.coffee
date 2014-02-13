@@ -1,6 +1,10 @@
+FP.Store.extend(
+  firebaseRoot: "https://glaring-fire-8110.firebaseio.com/"
+)
+
 App.Person = FP.Model.extend(
-  name: FP.attr()
-  email: FP.attr()
+  name: FP.attr 'string'
+  email: FP.attr 'string'
 )
 
 ###
