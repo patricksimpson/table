@@ -156,7 +156,9 @@ module.exports = App.Router.map(function() {
 });
 
 ;require.register("config/store", function(exports, require, module) {
-module.exports = App.ApplicationAdapter = DS.FixtureAdapter;
+module.exports = FP.Store.extend({
+  firebaseRoot: "https://glaring-fire-8110.firebaseio.com/"
+});
 });
 
 ;require.register("controllers/people_controller", function(exports, require, module) {
@@ -205,24 +207,26 @@ module.exports = Ember.Application.initializer({
 });
 
 ;require.register("models/person", function(exports, require, module) {
-App.ApplicationAdapter = DS.FixtureAdapter;
-
-App.Person = DS.Model.extend({
-  name: DS.attr(),
-  email: DS.attr()
+App.Person = FP.Model.extend({
+  name: FP.attr(),
+  email: FP.attr()
 });
 
+/*
 App.Person.FIXTURES = [
   {
-    id: 1,
-    name: 'Patrick Simpson',
+    id: 1
+    name: 'Patrick Simpson'
     email: 'izerop@gmail.com'
-  }, {
-    id: 2,
-    name: 'Sizzle Pea',
+  },
+  {
+    id: 2
+    name: 'Sizzle Pea'
     email: 'patrick@heysparkbox.com'
   }
-];
+]
+*/
+
 });
 
 ;require.register("routes/index", function(exports, require, module) {
@@ -338,7 +342,7 @@ function program1(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   options = {hash:{},inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  stack2 = ((stack1 = helpers['link-to'] || depth0['link-to']),stack1 ? stack1.call(depth0, "person", "person", options) : helperMissing.call(depth0, "link-to", "person", "person", options));
+  stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "person", "person", options) : helperMissing.call(depth0, "link-to", "person", "person", options));
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("\n</li>\n");
   return buffer;

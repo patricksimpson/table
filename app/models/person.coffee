@@ -1,9 +1,9 @@
-App.ApplicationAdapter = DS.FixtureAdapter
-App.Person = DS.Model.extend(
-  name: DS.attr()
-  email: DS.attr()
+App.Person = FP.Model.extend(
+  name: FP.attr()
+  email: FP.attr()
 )
 
+###
 App.Person.FIXTURES = [
   {
     id: 1
@@ -16,3 +16,4 @@ App.Person.FIXTURES = [
     email: 'patrick@heysparkbox.com'
   }
 ]
+###
