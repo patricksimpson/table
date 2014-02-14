@@ -162,7 +162,11 @@ module.exports = App.PersonEditController = Ember.ObjectController.extend();
 });
 
 ;require.register("controllers/person_controller", function(exports, require, module) {
-App.PersonController = Ember.ObjectController.extend();
+App.PersonController = Ember.ObjectController.extend({
+  wins: (function() {
+    return 1;
+  }).property('games')
+});
 });
 
 ;require.register("initialize", function(exports, require, module) {

@@ -1,1 +1,5 @@
-App.PersonController = Ember.ObjectController.extend()
+App.PersonController = Ember.ObjectController.extend
+  wins:( ->
+    #@get('name')
+    1
+  ).property('games')
