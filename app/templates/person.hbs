@@ -1,1 +1,11 @@
-<h2>{{name}}</h2>
+<div class="profile">
+  <h2>{{name}}</h2>
+  <a href="#">Challenge</a>
+  <div class="stats">
+    Wins: <span class="wins">{{wins}}</span>
+    Losses: <span class="losses">{{losses}}</span>
+  </div>
+  {{#each games}}
+    <p>{{game.score}}</p>
+  {{/each}}
+</div>
