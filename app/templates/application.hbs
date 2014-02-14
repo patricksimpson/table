@@ -1,4 +1,5 @@
-<h2>Table Application</h2>
+<h1>Table</h1>
+<h2>Sparkbox PingPong</h2>
 <nav>
   <ul>
     <li><a href="create_table">Create Table</a></li>
@@ -6,12 +7,4 @@
   </ul>
 </nav>
 {{people.length}}
-<ul>
-{{#each people}}
-  <li>
-  {{#link-to "person" this}}
-    {{name}}
-  {{/link-to}}
-</li>
-{{/each}}
-</ul>
+{{outlet}}

@@ -1,3 +1,10 @@
-<div class="hidden-note">
-You are running in the {{env.name}} environment.
-</div>
+{{!people-list people=people}}
+<ul>
+{{#each people}}
+  <li>
+  {{#link-to "person" this}}
+    {{name}}
+  {{/link-to}}
+</li>
+{{/each}}
+</ul>
