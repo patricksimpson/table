@@ -205,10 +205,6 @@ module.exports = Ember.Application.initializer({
 });
 
 ;require.register("models/person", function(exports, require, module) {
-FP.Store.extend({
-  firebaseRoot: "https://glaring-fire-8110.firebaseio.com/"
-});
-
 App.Person = FP.Model.extend({
   name: FP.attr('string'),
   email: FP.attr('string')
@@ -234,7 +230,6 @@ App.Person.FIXTURES = [
 ;require.register("routes/application", function(exports, require, module) {
 module.exports = App.ApplicationRoute = Ember.Route.extend({
   setupController: function(controller, model) {
-    this._super.apply(this, arguments);
     return controller.set('people', this.get('store').findAll('person'));
   }
 });
@@ -263,7 +258,11 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   var buffer = '', hashTypes, hashContexts, escapeExpression=this.escapeExpression;
 
 
-  data.buffer.push("<h1>Table</h1>\n<h2>Sparkbox PingPong</h2>\n<nav>\n  <ul>\n    <li><a href=\"create_table\">Create Table</a></li>\n    <li><a href=\"person\">Add Person</a></li>\n  </ul>\n</nav>\n");
+  data.buffer.push("<h1>Table</h1>\n<h2>");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "table.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</h2>\n<nav>\n  <ul>\n    <li><a href=\"create_table\">Create Table</a></li>\n    <li><a href=\"person\">Add Person</a></li>\n  </ul>\n</nav>\n");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "people.length", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
