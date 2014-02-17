@@ -21,3 +21,4 @@ App.NewpersonController = Ember.ObjectController.extend
         email: personEmail
       )
       person.save()
+      @transitionToRoute('/')

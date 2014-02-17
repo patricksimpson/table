@@ -193,7 +193,8 @@ App.NewpersonController = Ember.ObjectController.extend({
         name: personName,
         email: personEmail
       });
-      return person.save();
+      person.save();
+      return this.transitionToRoute('/');
     }
   }
 });
@@ -281,23 +282,10 @@ module.exports = App.PersonRoute = Ember.Route.extend({
 module.exports = Ember.TEMPLATES['application'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, stack2, hashContexts, hashTypes, options, self=this, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  var buffer = '', hashTypes, hashContexts, escapeExpression=this.escapeExpression;
 
-function program1(depth0,data) {
-  
-  
-  data.buffer.push("Table");
-  }
 
-  data.buffer.push("<h1>Table</h1>\n<header>\n  <nav>\n    <ul>\n      <li>");
-  hashContexts = {'activeClass': depth0};
-  hashTypes = {'activeClass': "STRING"};
-  options = {hash:{
-    'activeClass': ("selected")
-  },inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "table.index", options) : helperMissing.call(depth0, "link-to", "table.index", options));
-  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
-  data.buffer.push("</li>\n    </ul>\n  </nav>\n</header>\nPeople on table: ");
+  data.buffer.push("<h1>Table</h1>\n<header>\n  <nav>\n    <ul>\n      <li><a href=\"/\">Table Listing</a></li>\n    </ul>\n  </nav>\n</header>\nPeople on table: ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "people.length", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
