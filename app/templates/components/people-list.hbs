@@ -1,0 +1,11 @@
+<h2>People List</h2>
+<ul>
+{{#each people}}
+  <li>
+  {{#link-to "person" this}}
+    {{name}}
+  {{/link-to}}
+</li>
+{{/each}}
+</ul>
+{{#link-to 'newperson'}}Add Person{{/link-to}}

@@ -3,3 +3,4 @@ App.PersonController = Ember.ObjectController.extend
     #@get('name')
     1
   ).property('games')
+  add: ->
