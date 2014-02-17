@@ -3,4 +3,4 @@ module.exports = App.Router.map ->
   @resource "person", { path: '/person/:person_id' }, ->
     @route "edit"
 
-  @resource "newperson"
+  @resource "newperson", { path: '/newperson'}
