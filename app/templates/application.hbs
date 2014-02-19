@@ -9,6 +9,11 @@
 People on table: {{people.length}}
 <div class="content">
 {{outlet}}
+{{#if isAdding}}
+  {{add-person}}
+{{else}}
+ <button {{action 'showAdd'}}>Add Person</button> 
+{{/if}}
 </div>
 <footer>
 Table footer 
