@@ -7,11 +7,10 @@ App.AuthController = Ember.Controller.extend
     @authClient = new FirebaseSimpleLogin(slRef, (err, user) =>
       if !err && user
         @set('isAuthed', true)
-        @pickName(user)
-        
+        @pickUser(user)
     )
     
-  pickName: (user) ->
+  pickUser: (user) ->
     @set('user', user)
     peopleRef = new Firebase('https://glaring-fire-8110.firebaseio.com/people')
     peopleRef.on('value', (snapshot) =>
@@ -34,6 +33,7 @@ App.AuthController = Ember.Controller.extend
     
   login: ->
     @authClient.login('twitter', { rememberMe: true } )
+    
   logout: ->
     @authClient.logout()
     @set('isAuthed', false)

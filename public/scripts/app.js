@@ -181,11 +181,11 @@ App.AuthController = Ember.Controller.extend({
     return this.authClient = new FirebaseSimpleLogin(slRef, function(err, user) {
       if (!err && user) {
         _this.set('isAuthed', true);
-        return _this.pickName(user);
+        return _this.pickUser(user);
       }
     });
   },
-  pickName: function(user) {
+  pickUser: function(user) {
     var peopleRef,
       _this = this;
     this.set('user', user);
@@ -393,35 +393,35 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n          Logged in as ");
+  data.buffer.push("\n            Logged in as ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "auth.user.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n          <button ");
+  data.buffer.push("\n            <button ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "logout", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"button grey\">Logout</button>\n        ");
+  data.buffer.push(" class=\"button grey\">Logout</button>\n          ");
   return buffer;
   }
 
 function program3(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n        <button ");
+  data.buffer.push("\n          <button ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "login", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"button grey\">Login or Signup</button>\n        ");
+  data.buffer.push(" class=\"button grey\">Login or Signup</button>\n          ");
   return buffer;
   }
 
-  data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<header class=\"banner\">\n  <nav>\n    <ul class=\"banner--navigation\">\n      <li class=\"banner--navigation--item\"><a href=\"#/\">Table Listing</a></li>\n      <li class=\"banner--navigation--item\"><a href=\"#/games\">Game History</a></li>\n      <li class=\"banner--navigation--item banner--navigation--login\">\n        ");
+  data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<div class=\"main\">\n  <header class=\"banner\">\n    <nav>\n      <ul class=\"banner--navigation\">\n        <li class=\"banner--navigation--item\"><a href=\"#/\">Table Listing</a></li>\n        <li class=\"banner--navigation--item\"><a href=\"#/games\">Game History</a></li>\n        <li class=\"banner--navigation--item banner--navigation--login\">\n          ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "auth.isAuthed", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n        </li>\n    </ul>\n  </nav>\n</header>\n<div class=\"main\">\n  People on table: ");
+  data.buffer.push("\n          </li>\n      </ul>\n    </nav>\n  </header>\n\n  People on table: ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "people.length", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));

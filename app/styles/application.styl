@@ -10,7 +10,7 @@ html, body
 
 .banner--navigation
   list-style: none
-  padding: 0.25em
+  padding: 0.25em 0
   margin: 0
 
 .banner--navigation--item
@@ -26,6 +26,7 @@ html, body
     display: inline-block
   &:first-child:before
     content: ""
+    margin: 0
     
 .banner--navigation--login
   float: right
@@ -34,7 +35,9 @@ html, body
 
 
 .main
-  margin: 1em
+  margin: 1em auto
+  max-width: 55em
+  
   
 
 label

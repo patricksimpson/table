@@ -1,23 +1,24 @@
 <header class="hero">
   <h1 class="hero--text">Table</h1>
 </header>
-<header class="banner">
-  <nav>
-    <ul class="banner--navigation">
-      <li class="banner--navigation--item"><a href="#/">Table Listing</a></li>
-      <li class="banner--navigation--item"><a href="#/games">Game History</a></li>
-      <li class="banner--navigation--item banner--navigation--login">
-        {{#if auth.isAuthed}}
-          Logged in as {{auth.user.name}}
-          <button {{action "logout"}} class="button grey">Logout</button>
-        {{else}}
-        <button {{action "login"}} class="button grey">Login or Signup</button>
-        {{/if}}
-        </li>
-    </ul>
-  </nav>
-</header>
 <div class="main">
+  <header class="banner">
+    <nav>
+      <ul class="banner--navigation">
+        <li class="banner--navigation--item"><a href="#/">Table Listing</a></li>
+        <li class="banner--navigation--item"><a href="#/games">Game History</a></li>
+        <li class="banner--navigation--item banner--navigation--login">
+          {{#if auth.isAuthed}}
+            Logged in as {{auth.user.name}}
+            <button {{action "logout"}} class="button grey">Logout</button>
+          {{else}}
+          <button {{action "login"}} class="button grey">Login or Signup</button>
+          {{/if}}
+          </li>
+      </ul>
+    </nav>
+  </header>
+
   People on table: {{people.length}}
   <div class="content">
     {{outlet}}
