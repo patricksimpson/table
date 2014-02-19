@@ -27,6 +27,7 @@ exports.config =
           "vendor/scripts/ember-inflector.js"
           "vendor/scripts/firebase.js"
           "vendor/scripts/fireplace.min.js"
+          "vendor/scripts/firebase-simple-login.js"
         ]
 
     stylesheets:

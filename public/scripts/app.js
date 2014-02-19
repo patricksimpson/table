@@ -155,6 +155,74 @@ module.exports = App.Router.map(function() {
 });
 });
 
+;require.register("controllers/application_controller", function(exports, require, module) {
+App.ApplicationController = Ember.Controller.extend({
+  needs: ['auth'],
+  authBinding: "controllers.auth",
+  actions: {
+    login: function() {
+      return this.get('controllers.auth').login();
+    },
+    logout: function() {
+      return this.get('controllers.auth').logout();
+    }
+  }
+});
+});
+
+;require.register("controllers/auth_controller", function(exports, require, module) {
+App.AuthController = Ember.Controller.extend({
+  isAuthed: false,
+  user: {},
+  init: function() {
+    var slRef,
+      _this = this;
+    slRef = new Firebase('https://glaring-fire-8110.firebaseio.com');
+    return this.authClient = new FirebaseSimpleLogin(slRef, function(err, user) {
+      if (!err && user) {
+        _this.set('isAuthed', true);
+        return _this.pickName(user);
+      }
+    });
+  },
+  pickName: function(user) {
+    var peopleRef,
+      _this = this;
+    this.set('user', user);
+    peopleRef = new Firebase('https://glaring-fire-8110.firebaseio.com/people');
+    return peopleRef.on('value', function(snapshot) {
+      var key, newPerson, people, person;
+      people = snapshot.val();
+      user = _this.get('user');
+      for (key in people) {
+        person = people[key];
+        if (person.twitter === user.username) {
+          console.log("Hello" + person.twitter);
+          return;
+        }
+      }
+      newPerson = _this.store.createRecord("person", {
+        name: user.name,
+        twitter: user.username,
+        email: '',
+        create_date: new Date()
+      });
+      return newPerson.save();
+    });
+  },
+  login: function() {
+    return this.authClient.login('twitter', {
+      rememberMe: true
+    });
+  },
+  logout: function() {
+    this.authClient.logout();
+    this.set('isAuthed', false);
+    return this.set('user', {});
+  }
+});
+});
+
 ;require.register("controllers/people_controller", function(exports, require, module) {
 App.PeopleController = Ember.ArrayController.extend({
   errors: [],
@@ -269,11 +337,22 @@ module.exports = Ember.Application.initializer({
 ;require.register("models/person", function(exports, require, module) {
 App.Person = FP.Model.extend({
   name: FP.attr('string'),
+  twitter: FP.attr('string'),
   email: FP.attr('string'),
+  create_date: FP.attr('date'),
   games: FP.hasMany("games", {
     embedded: false,
     as: "games"
+  }),
+  user: FP.hasOne("user", {
+    embedded: false
   })
+});
+});
+
+;require.register("models/user", function(exports, require, module) {
+App.User = FP.Model.extend({
+  timestamp: FP.attr('date')
 });
 });
 
@@ -309,10 +388,40 @@ module.exports = App.PersonRoute = Ember.Route.extend({
 module.exports = Ember.TEMPLATES['application'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', hashTypes, hashContexts, escapeExpression=this.escapeExpression;
+  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
 
+function program1(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n          Logged in as ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "auth.user.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n          <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "logout", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button grey\">Logout</button>\n        ");
+  return buffer;
+  }
 
-  data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<header class=\"banner\">\n  <nav>\n    <ul class=\"banner--navigation\">\n      <li class=\"banner--navigation--item\"><a href=\"/\">Table Listing</a></li>\n      <li class=\"banner--navigation--item\"><a href=\"#\">Your Profile</a></li>\n    </ul>\n  </nav>\n</header>\n<div class=\"main\">\n  People on table: ");
+function program3(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n        <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "login", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button grey\">Login or Signup</button>\n        ");
+  return buffer;
+  }
+
+  data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<header class=\"banner\">\n  <nav>\n    <ul class=\"banner--navigation\">\n      <li class=\"banner--navigation--item\"><a href=\"/\">Table Listing</a></li>\n      <li class=\"banner--navigation--item\">\n        ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "auth.isAuthed", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n        </li>\n    </ul>\n  </nav>\n</header>\n<div class=\"main\">\n  People on table: ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "people.length", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));

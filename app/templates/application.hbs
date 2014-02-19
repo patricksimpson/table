@@ -5,7 +5,14 @@
   <nav>
     <ul class="banner--navigation">
       <li class="banner--navigation--item"><a href="/">Table Listing</a></li>
-      <li class="banner--navigation--item"><a href="#">Your Profile</a></li>
+      <li class="banner--navigation--item">
+        {{#if auth.isAuthed}}
+          Logged in as {{auth.user.name}}
+          <button {{action "logout"}} class="button grey">Logout</button>
+        {{else}}
+        <button {{action "login"}} class="button grey">Login or Signup</button>
+        {{/if}}
+        </li>
     </ul>
   </nav>
 </header>
