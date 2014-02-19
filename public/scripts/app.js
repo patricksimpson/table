@@ -172,9 +172,9 @@ App.ApplicationController = Ember.Controller.extend({
 
 ;require.register("controllers/auth_controller", function(exports, require, module) {
 App.AuthController = Ember.Controller.extend({
+  needs: ['people'],
   isAuthed: false,
-  user: {},
-  init: function() {
+  setupAuth: (function() {
     var slRef,
       _this = this;
     slRef = new Firebase('https://glaring-fire-8110.firebaseio.com');
@@ -184,30 +184,30 @@ App.AuthController = Ember.Controller.extend({
         return _this.pickUser(user);
       }
     });
-  },
+  }).on('init'),
   pickUser: function(user) {
-    var peopleRef,
-      _this = this;
+    var _this = this;
     this.set('user', user);
-    peopleRef = new Firebase('https://glaring-fire-8110.firebaseio.com/people');
-    return peopleRef.on('value', function(snapshot) {
-      var key, newPerson, people, person;
-      people = snapshot.val();
-      user = _this.get('user');
-      for (key in people) {
-        person = people[key];
-        if (person.twitter === user.username) {
-          console.log("Hello" + person.twitter);
-          return;
-        }
-      }
-      newPerson = _this.store.createRecord("person", {
+    return this.get('store').fetch('person', user.id).then((function(person) {
+      person.setProperties({
+        name: user.name,
+        twitter: user.username
+      });
+      person.save();
+      return _this.set('person', person);
+    }), function(error) {
+      var newPerson;
+      console.log(user);
+      newPerson = _this.get('store').createRecord("person", {
+        id: user.id,
         name: user.name,
         twitter: user.username,
         email: '',
         create_date: new Date()
       });
-      return newPerson.save();
+      return newPerson.save().then(function() {
+        return _this.set('person', person);
+      });
     });
   },
   login: function() {
@@ -218,16 +218,26 @@ App.AuthController = Ember.Controller.extend({
   logout: function() {
     this.authClient.logout();
     this.set('isAuthed', false);
-    return this.set('user', {});
+    return this.set('person', void 0);
   }
 });
 });
 
 ;require.register("controllers/people_controller", function(exports, require, module) {
-App.PeopleController = Ember.ArrayController.extend({
+module.exports = App.PeopleController = Ember.ArrayController.extend({
+  needs: ['auth'],
+  person: Ember.computed.alias('controllers.auth.person'),
   errors: [],
   personName: null,
   personEmail: null,
+  people: (function() {
+    var currentPerson;
+    currentPerson = this.get('person');
+    return this.get('content').map(function(person) {
+      person.set('isMe', person.get('id') === (currentPerson != null ? currentPerson.get('id') : void 0));
+      return person;
+    });
+  }).property('content.@each', 'person'),
   actions: {
     addPerson: function() {
       var errors, person, personEmail, personName;
@@ -370,8 +380,8 @@ module.exports = App.ApplicationRoute = Ember.Route.extend({
 
 ;require.register("routes/people", function(exports, require, module) {
 module.exports = App.PeopleRoute = Ember.Route.extend({
-  setupController: function(controller, model) {
-    return controller.set('people', this.get('store').findAll('person'));
+  model: function() {
+    return this.get('store').findAll('person');
   }
 });
 });
@@ -450,21 +460,31 @@ function program1(depth0,data) {
   options = {hash:{},inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "person", "", options) : helperMissing.call(depth0, "link-to", "person", "", options));
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
-  data.buffer.push("\n</li>\n");
+  data.buffer.push("\n  </li>\n  ");
   return buffer;
   }
 function program2(depth0,data) {
   
-  var buffer = '', hashTypes, hashContexts;
+  var buffer = '', stack1, hashTypes, hashContexts;
   data.buffer.push("\n    ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "isMe", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  ");
   return buffer;
   }
+function program3(depth0,data) {
+  
+  
+  data.buffer.push("\n      (you)\n    ");
+  }
 
-  data.buffer.push("<h2>Leaderboard</h2>\n<ul>\n");
+  data.buffer.push("<h2>Leaderboard</h2>\n<ul>\n  ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers.each.call(depth0, "people", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
@@ -491,7 +511,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 module.exports = Ember.TEMPLATES['people'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
+  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
 
 function program1(depth0,data) {
   
@@ -567,7 +587,8 @@ function program4(depth0,data) {
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "isAdding", {hash:{},inverse:self.program(4, program4, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  else { data.buffer.push(''); }
+  data.buffer.push("\n");
+  return buffer;
   
 });
 });

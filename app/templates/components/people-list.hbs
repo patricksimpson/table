@@ -1,10 +1,13 @@
 <h2>Leaderboard</h2>
 <ul>
-{{#each people}}
+  {{#each people}}
   <li>
   {{#link-to "person" this}}
     {{name}}
+    {{#if isMe}}
+      (you)
+    {{/if}}
   {{/link-to}}
-</li>
-{{/each}}
+  </li>
+  {{/each}}
 </ul>

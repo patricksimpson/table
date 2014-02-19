@@ -1,13 +1,21 @@
-App.PeopleController = Ember.ArrayController.extend  
+module.exports = App.PeopleController = Ember.ArrayController.extend
+  needs: ['auth']
+  person: Ember.computed.alias('controllers.auth.person')
   errors: []
   personName: null
   personEmail: null
+  people: (->
+    currentPerson = @get('person')
+    @get('content').map (person) ->
+      person.set('isMe', person.get('id') == currentPerson?.get('id'))
+      person
+  ).property('content.@each', 'person')
   actions:
     addPerson: ->
       personName = @get('personName')
       personEmail = @get('personEmail')
       errors = @get('errors')
-      errors = [] 
+      errors = []
       if personName == undefined or personName == "" or personName == null
         errors.push "Person name empty."
       if personEmail == undefined or personEmail == "" or personEmail== null

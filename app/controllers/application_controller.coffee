@@ -1,7 +1,7 @@
 App.ApplicationController = Ember.Controller.extend
   needs: ['auth']
   authBinding: "controllers.auth"
-  actions: 
+  actions:
     login: ->
       @get('controllers.auth').login()
     logout: ->
