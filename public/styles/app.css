@@ -548,6 +548,25 @@ body {
 }
 .banner--navigation--item {
   display: inline-block;
+  color: #2f2f2f;
+  font-size: 0.8rem;
+}
+.banner--navigation--item a {
+  color: #41788c;
+}
+.banner--navigation--item:before {
+  margin: 0 0.5em;
+  content: "|";
+  display: inline-block;
+}
+.banner--navigation--item:first-child:before {
+  content: "";
+}
+.banner--navigation--login {
+  float: right;
+}
+.banner--navigation--login:before {
+  content: "";
 }
 .main {
   margin: 1em;

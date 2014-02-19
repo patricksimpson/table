@@ -15,6 +15,23 @@ html, body
 
 .banner--navigation--item
   display: inline-block
+  color: #2f2f2f
+  font-size: .8rem
+  a
+    color: #41788c
+    
+  &:before
+    margin: 0 .5em;
+    content: "|"
+    display: inline-block
+  &:first-child:before
+    content: ""
+    
+.banner--navigation--login
+  float: right
+  &:before
+    content: ""
+
 
 .main
   margin: 1em

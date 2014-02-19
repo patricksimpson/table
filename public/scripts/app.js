@@ -416,7 +416,7 @@ function program3(depth0,data) {
   return buffer;
   }
 
-  data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<header class=\"banner\">\n  <nav>\n    <ul class=\"banner--navigation\">\n      <li class=\"banner--navigation--item\"><a href=\"/\">Table Listing</a></li>\n      <li class=\"banner--navigation--item\">\n        ");
+  data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<header class=\"banner\">\n  <nav>\n    <ul class=\"banner--navigation\">\n      <li class=\"banner--navigation--item\"><a href=\"#/\">Table Listing</a></li>\n      <li class=\"banner--navigation--item\"><a href=\"#/games\">Game History</a></li>\n      <li class=\"banner--navigation--item banner--navigation--login\">\n        ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "auth.isAuthed", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
