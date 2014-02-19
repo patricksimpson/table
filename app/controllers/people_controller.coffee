@@ -1,4 +1,4 @@
-App.ApplicationController = Ember.ArrayController.extend
+App.PeopleController = Ember.ArrayController.extend  
   actions:
     addPerson: ->
       personName = @get('personName')
@@ -14,7 +14,6 @@ App.ApplicationController = Ember.ArrayController.extend
       person.save()
       @set('isAdding', false)
 
-    showAdd: ->
-      alert("isAdding")
+    showAddPerson: ->
       @set('isAdding', true)
   isAdding: false

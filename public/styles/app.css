@@ -534,7 +534,39 @@ table {
 
 html,
 body {
-  margin: 20px;
+  margin: 0px;
+  font-family: 'Open Sans', sans-serif;
+}
+.banner {
+  background-color: #fff;
+  width: 100%;
+}
+.banner--navigation {
+  list-style: none;
+  padding: 0.25em;
+  margin: 0;
+}
+.banner--navigation--item {
+  display: inline-block;
+}
+.hero {
+  margin: 0;
+  margin-bottom: 0px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  font-size: inherit;
+  line-height: inherit;
+  background: #2f2f2f;
+  text-align: center;
+  color: #fff;
+}
+.hero--text {
+  margin: 0;
+  font-size: 44px;
+  line-height: 50px;
+  color: inherit;
+  letter-spacing: -1px;
+  font-weight: normal;
 }
 
 

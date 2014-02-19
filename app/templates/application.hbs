@@ -1,19 +1,17 @@
-<h1>Table</h1>
-<header>
+<header class="hero">
+  <h1 class="hero--text">Table</h1>
+</header>
+<header class="banner">
   <nav>
-    <ul>
-      <li><a href="/">Table Listing</a></li>
+    <ul class="banner--navigation">
+      <li class="banner--navigation--item"><a href="/">Table Listing</a></li>
+      <li class="banner--navigation--item"><a href="#">Your Profile</a></li>
     </ul>
   </nav>
 </header>
 People on table: {{people.length}}
 <div class="content">
-{{outlet}}
-{{#if isAdding}}
-  {{add-person}}
-{{else}}
- <button {{action 'showAdd'}}>Add Person</button> 
-{{/if}}
+  {{outlet}}
 </div>
 <footer>
 Table footer 
