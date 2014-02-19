@@ -9,3 +9,8 @@
     <p>{{game.score}}</p>
   {{/each}}
 </div>
+<div class="deleteme">
+  <label for="iamsure">I have decided that I am not a fun person, therefore I wish to be deleted: </label>
+  {{input type="checkbox" checked=iAmSure id="iamsure"}}
+  <button {{action 'deleteMe'}} class="button black">Delete Me</button>
+</div>

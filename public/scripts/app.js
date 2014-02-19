@@ -157,26 +157,43 @@ module.exports = App.Router.map(function() {
 
 ;require.register("controllers/people_controller", function(exports, require, module) {
 App.PeopleController = Ember.ArrayController.extend({
+  errors: [],
+  personName: null,
+  personEmail: null,
   actions: {
     addPerson: function() {
-      var person, personEmail, personName;
+      var errors, person, personEmail, personName;
       personName = this.get('personName');
       personEmail = this.get('personEmail');
-      if (personName === void 0 || personName === "") {
-        personName = "Nobody";
+      errors = this.get('errors');
+      errors = [];
+      if (personName === void 0 || personName === "" || personName === null) {
+        errors.push("Person name empty.");
       }
-      if (personEmail === void 0 || personEmail === "") {
-        personEmail = "nobody@mail.com";
+      if (personEmail === void 0 || personEmail === "" || personEmail === null) {
+        errors.push("Person email empty.");
       }
-      person = this.store.createRecord("person", {
-        name: personName,
-        email: personEmail
-      });
-      person.save();
-      return this.set('isAdding', false);
+      if (errors.length < 1) {
+        person = this.store.createRecord("person", {
+          name: personName,
+          email: personEmail
+        });
+        person.save();
+        this.set('isAdding', false);
+        this.set('personName', null);
+        return this.set('personEmail', null);
+      } else {
+        return this.set('errors', errors);
+      }
     },
     showAddPerson: function() {
       return this.set('isAdding', true);
+    },
+    cancelAddPerson: function() {
+      this.set('isAdding', false);
+      this.set('errors', []);
+      this.set('personName', null);
+      return this.set('personEmail', null);
     }
   },
   isAdding: false
@@ -191,7 +208,22 @@ module.exports = App.PersonEditController = Ember.ObjectController.extend();
 App.PersonController = Ember.ObjectController.extend({
   wins: (function() {
     return 1;
-  }).property('games')
+  }).property('games'),
+  iAmSure: false,
+  actions: {
+    deleteMe: function() {
+      var person, yousure;
+      yousure = this.get('iAmSure');
+      if (!yousure) {
+        return alert("Go if you must... but you must be sure.");
+      } else {
+        person = this.get('model');
+        person["delete"]();
+        this.set('iAmSure', false);
+        return this.transitionTo('/');
+      }
+    }
+  }
 });
 });
 
@@ -280,15 +312,15 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   var buffer = '', hashTypes, hashContexts, escapeExpression=this.escapeExpression;
 
 
-  data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<header class=\"banner\">\n  <nav>\n    <ul class=\"banner--navigation\">\n      <li class=\"banner--navigation--item\"><a href=\"/\">Table Listing</a></li>\n      <li class=\"banner--navigation--item\"><a href=\"#\">Your Profile</a></li>\n    </ul>\n  </nav>\n</header>\nPeople on table: ");
+  data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<header class=\"banner\">\n  <nav>\n    <ul class=\"banner--navigation\">\n      <li class=\"banner--navigation--item\"><a href=\"/\">Table Listing</a></li>\n      <li class=\"banner--navigation--item\"><a href=\"#\">Your Profile</a></li>\n    </ul>\n  </nav>\n</header>\n<div class=\"main\">\n  People on table: ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "people.length", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n<div class=\"content\">\n  ");
+  data.buffer.push("\n  <div class=\"content\">\n    ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n</div>\n<footer>\nTable footer \n</footer>");
+  data.buffer.push("\n  </div>\n</div>\n<footer class=\"footer\">\nTable - 2014 - by Patrick Simpson \n</footer>");
   return buffer;
   
 });
@@ -350,38 +382,61 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 module.exports = Ember.TEMPLATES['people'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, self=this;
+  var stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
 
 function program1(depth0,data) {
   
-  var buffer = '', stack1, hashContexts, hashTypes, options;
-  data.buffer.push("\n<h2>Add Person</h2>\n  <form ");
+  var buffer = '', stack1, hashTypes, hashContexts, options;
+  data.buffer.push("\n<h2>Add Person</h2>\n");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers.each.call(depth0, "errors", {hash:{},inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n  <form ");
   hashContexts = {'on': depth0};
   hashTypes = {'on': "STRING"};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "addPerson", {hash:{
     'on': ("submit")
   },contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push(">\n  <label for=\"personName\">Name</label>\n  ");
-  hashContexts = {'type': depth0,'valueBinding': depth0};
-  hashTypes = {'type': "STRING",'valueBinding': "STRING"};
+  hashContexts = {'type': depth0,'valueBinding': depth0,'placeholder': depth0,'required': depth0};
+  hashTypes = {'type': "STRING",'valueBinding': "STRING",'placeholder': "STRING",'required': "STRING"};
   options = {hash:{
     'type': ("text"),
-    'valueBinding': ("personName")
+    'valueBinding': ("personName"),
+    'placeholder': ("Happy Panda"),
+    'required': ("true")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push("\n  <label for=\"personEmail\">Email</label>\n  ");
-  hashContexts = {'type': depth0,'valueBinding': depth0};
-  hashTypes = {'type': "STRING",'valueBinding': "STRING"};
+  hashContexts = {'type': depth0,'valueBinding': depth0,'placeholder': depth0,'required': depth0};
+  hashTypes = {'type': "STRING",'valueBinding': "STRING",'placeholder': "STRING",'required': "STRING"};
   options = {hash:{
     'type': ("email"),
-    'valueBinding': ("personEmail")
+    'valueBinding': ("personEmail"),
+    'placeholder': ("your@email.com"),
+    'required': ("true")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n  <button>Add</button>\n  </form>\n");
+  data.buffer.push("\n  <div class=\"button--container\">\n    <button class=\"button blue\">Add</button>\n    <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "cancelAddPerson", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button black\">Nevermind</button>\n  </div>\n  </form>\n  \n");
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("<p class=\"error\">");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</p>");
   return buffer;
   }
 
-function program3(depth0,data) {
+function program4(depth0,data) {
   
   var buffer = '', stack1, hashContexts, hashTypes, options;
   data.buffer.push("\n  ");
@@ -391,17 +446,17 @@ function program3(depth0,data) {
     'people': ("people")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['people-list'] || (depth0 && depth0['people-list'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "people-list", options))));
-  data.buffer.push("\n  <button ");
+  data.buffer.push("\n  <div class=\"button--container\"><button class=\"button--add\" ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "showAddPerson", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">Add Person</button> \n");
+  data.buffer.push("></button></div>\n");
   return buffer;
   }
 
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isAdding", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "isAdding", {hash:{},inverse:self.program(4, program4, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   else { data.buffer.push(''); }
   
@@ -412,7 +467,7 @@ function program3(depth0,data) {
 module.exports = Ember.TEMPLATES['person'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
+  var buffer = '', stack1, hashTypes, hashContexts, options, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
 
 function program1(depth0,data) {
   
@@ -442,7 +497,20 @@ function program1(depth0,data) {
   hashContexts = {};
   stack1 = helpers.each.call(depth0, "games", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n</div>\n");
+  data.buffer.push("\n</div>\n<div class=\"deleteme\">\n  <label for=\"iamsure\">I have decided that I am not a fun person, therefore I wish to be deleted: </label>\n  ");
+  hashContexts = {'type': depth0,'checked': depth0,'id': depth0};
+  hashTypes = {'type': "STRING",'checked': "ID",'id': "STRING"};
+  options = {hash:{
+    'type': ("checkbox"),
+    'checked': ("iAmSure"),
+    'id': ("iamsure")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push("\n  <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "deleteMe", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button black\">Delete Me</button>\n</div>");
   return buffer;
   
 });

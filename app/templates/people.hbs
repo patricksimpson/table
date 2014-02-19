@@ -1,13 +1,18 @@
 {{#if isAdding}}
 <h2>Add Person</h2>
+{{#each errors}}<p class="error">{{this}}</p>{{/each}}
   <form {{action 'addPerson' on="submit"}}>
   <label for="personName">Name</label>
-  {{input type="text" valueBinding='personName'}}
+  {{input type="text" valueBinding='personName' placeholder="Happy Panda" required="true"}}
   <label for="personEmail">Email</label>
-  {{input type="email" valueBinding='personEmail'}}
-  <button>Add</button>
+  {{input type="email" valueBinding='personEmail' placeholder="your@email.com" required="true"}}
+  <div class="button--container">
+    <button class="button blue">Add</button>
+    <button {{action 'cancelAddPerson'}} class="button black">Nevermind</button>
+  </div>
   </form>
+  
 {{else}}
   {{people-list people=people}}
-  <button {{action 'showAddPerson'}}>Add Person</button> 
+  <div class="button--container"><button class="button--add" {{action 'showAddPerson'}}></button></div>
 {{/if}}
