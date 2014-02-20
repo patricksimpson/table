@@ -4,10 +4,12 @@
   <li>
   {{#link-to "person" this}}
     {{name}}
+  {{/link-to}}
     {{#if isMe}}
       (you)
+    {{else}}
+      <!--<button {{action 'challenge'}} class="button blue">Challenge</button>-->
     {{/if}}
-  {{/link-to}}
   </li>
   {{/each}}
 </ul>

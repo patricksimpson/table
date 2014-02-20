@@ -1,6 +1,10 @@
 <div class="profile">
   <h2>{{name}}</h2>
-  <a href="#">Challenge</a>
+  {{#unless isMe}}
+    <button {{action 'challengeRequest'}} class="button blue">Challenge!</button>
+  {{else}}
+    <button {{action 'joinQueue'}} class="button green">Join Queue</button>
+  {{/unless}}
   <div class="stats">
     Wins: <span class="wins">{{wins}}</span>
     Losses: <span class="losses">{{losses}}</span>
@@ -9,8 +13,10 @@
     <p>{{game.score}}</p>
   {{/each}}
 </div>
-<div class="deleteme">
-  <label for="iamsure">I have decided that I am not a fun person, therefore I wish to be deleted: </label>
-  {{input type="checkbox" checked=iAmSure id="iamsure"}}
-  <button {{action 'deleteMe'}} class="button black">Delete Me</button>
-</div>
+{{#if is_admin}}
+  <div class="deleteme">
+    <label for="iamsure">Delete this user?: </label>
+    {{input type="checkbox" checked=iAmSure id="iamsure"}}
+    <button {{action 'deleteMe'}} class="button black">Delete!</button>
+  </div>
+{{/if}}
