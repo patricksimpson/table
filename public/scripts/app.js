@@ -173,7 +173,7 @@ App.AuthController = Ember.Controller.extend({
   needs: ['people'],
   needs: ['person'],
   isAuthed: false,
-  authId: 0,
+  userId: 0,
   setupAuth: (function() {
     var slRef,
       _this = this;
@@ -187,7 +187,7 @@ App.AuthController = Ember.Controller.extend({
   pickUser: function(user) {
     var _this = this;
     this.set('user', user);
-    this.set('authId', user.id);
+    this.set('userId', user.id);
     return this.get('store').fetch('person', user.id).then((function(person) {
       person.setProperties({
         name: user.name,
@@ -196,7 +196,7 @@ App.AuthController = Ember.Controller.extend({
       person.save();
       _this.set('person', person);
       _this.set('isAuthed', true);
-      return _this.set('controllers.person.loggedIn', true);
+      return _this.set('controllers.person.isLoggedIn', true);
     }), function(error) {
       var newPerson;
       newPerson = _this.get('store').createRecord("person", {
@@ -211,7 +211,7 @@ App.AuthController = Ember.Controller.extend({
         return _this.set('person', person);
       });
       _this.set('isAuthed', true);
-      return _this.set('controllers.person.loggedIn', true);
+      return _this.set('controllers.person.isLoggedIn', true);
     });
   },
   login: function() {
@@ -222,7 +222,9 @@ App.AuthController = Ember.Controller.extend({
   logout: function() {
     this.authClient.logout();
     this.set('isAuthed', false);
-    return this.set('person', void 0);
+    this.set('controllers.person.isLoggedIn', false);
+    this.set('person', void 0);
+    return this.set('userId', 0);
   }
 });
 });
@@ -283,20 +285,20 @@ module.exports = App.PeopleController = Ember.ArrayController.extend({
 });
 
 ;require.register("controllers/person_controller", function(exports, require, module) {
-App.PersonController = Ember.ObjectController.extend(Ember.Evented, {
+App.PersonController = Ember.ObjectController.extend({
   wins: (function() {
     return 1;
   }).property('games'),
   needs: ['auth'],
-  loggedIn: false,
   iAmSure: false,
-  isLoggedIn: (function() {
+  isLoggedIn: false,
+  loggedIn: (function() {
     if (this.loggedIn) {
-      return this.set('isMe', this.get('id') === this.get('controllers.auth.authId'));
+      return this.set('isMe', this.get('id') === this.get('controllers.auth.userId'));
     } else {
       return this.set('isMe', false);
     }
-  }).observes('loggedIn'),
+  }).observes('isLoggedIn'),
   actions: {
     deleteMe: function() {
       var person, yousure;

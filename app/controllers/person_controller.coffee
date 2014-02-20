@@ -1,17 +1,17 @@
-App.PersonController = Ember.ObjectController.extend(Ember.Evented, {
+App.PersonController = Ember.ObjectController.extend
   wins:( ->
     #@get('name')
     1
   ).property('games')
   needs: ['auth']
-  loggedIn: false
   iAmSure: false
-  isLoggedIn: (->
+  isLoggedIn: false
+  loggedIn: (->
     if @loggedIn
-      @set('isMe', @get('id') == @get('controllers.auth.authId'))
+      @set('isMe', @get('id') == @get('controllers.auth.userId'))
     else
       @set('isMe', false)
-  ).observes('loggedIn')
+  ).observes('isLoggedIn')
   actions:
     deleteMe: ->
       yousure = @get('iAmSure')
@@ -22,4 +22,3 @@ App.PersonController = Ember.ObjectController.extend(Ember.Evented, {
         person.delete()
         @set('iAmSure', false)
         @transitionTo('/')
-})

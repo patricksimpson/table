@@ -2,7 +2,7 @@ App.AuthController = Ember.Controller.extend
   needs: ['people']
   needs: ['person']
   isAuthed: false
-  authId: 0
+  userId: 0
   setupAuth:( ->
     slRef = new Firebase('https://glaring-fire-8110.firebaseio.com')
     @authClient = new FirebaseSimpleLogin(slRef, (err, user) =>
@@ -12,7 +12,7 @@ App.AuthController = Ember.Controller.extend
   ).on('init')
   pickUser: (user) ->
     @set('user', user)
-    @set('authId', user.id)
+    @set('userId', user.id)
     @get('store').fetch('person', user.id).then ((person) =>
       person.setProperties(
         name: user.name
@@ -21,7 +21,7 @@ App.AuthController = Ember.Controller.extend
       person.save()
       @set('person', person)
       @set('isAuthed', true)
-      @set('controllers.person.loggedIn', true)
+      @set('controllers.person.isLoggedIn', true)
     ), (error) =>
       newPerson = @get('store').createRecord("person",
         id: user.id
@@ -34,7 +34,7 @@ App.AuthController = Ember.Controller.extend
       newPerson.save().then =>
         @set('person', person)
       @set('isAuthed', true)
-      @set('controllers.person.loggedIn', true)
+      @set('controllers.person.isLoggedIn', true)
 
   login: ->
     @authClient.login('twitter', { rememberMe: true } )
@@ -42,4 +42,6 @@ App.AuthController = Ember.Controller.extend
   logout: ->
     @authClient.logout()
     @set('isAuthed', false)
+    @set('controllers.person.isLoggedIn', false)
     @set('person', undefined)
+    @set('userId', 0)
