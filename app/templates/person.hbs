@@ -1,10 +1,11 @@
 <div class="profile">
-  <h2>{{name}}</h2>
+  <h2>{{name}}</h2>{{#if isMe}}<button {{action 'editPerson'}} class="button grey">Edit</button>{{/if}}
   {{#unless isMe}}
     <button {{action 'challengeRequest'}} class="button blue">Challenge!</button>
   {{else}}
     <button {{action 'joinQueue'}} class="button green">Join Queue</button>
   {{/unless}}
+  {{outlet}}
   <div class="stats">
     Wins: <span class="wins">{{wins}}</span>
     Losses: <span class="losses">{{losses}}</span>
@@ -15,8 +16,8 @@
 </div>
 {{#if is_admin}}
   <div class="deleteme">
-    <label for="iamsure">Delete this user?: </label>
     {{input type="checkbox" checked=iAmSure id="iamsure"}}
-    <button {{action 'deleteMe'}} class="button black">Delete!</button>
+    <label for="iamsure">Delete this user?</label>
+    <button {{action 'deleteMe'}} class="button black">Yes, delete</button>
   </div>
 {{/if}}

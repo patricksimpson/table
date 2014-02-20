@@ -573,6 +573,9 @@ body {
   margin: 1em auto;
   max-width: 55em;
 }
+.stats {
+  margin: 1em 0;
+}
 label {
   display: block;
 }
@@ -918,19 +921,18 @@ label {
   content: '+ Person';
 }
 .deleteme {
-  margin: 1em;
+  margin: 1em 0;
   font-size: 0.8rem;
 }
 .deleteme label {
-  display: block;
-  float: left;
+  display: inline;
 }
 .deleteme input {
-  display: block;
-  float: left;
+  display: inline;
   margin: 0.25em 0.5em;
 }
-.deleteme button {
+.deleteme .button {
+  float: none;
   clear: both;
   margin: 1em 0;
   display: block;
