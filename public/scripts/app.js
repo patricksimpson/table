@@ -470,7 +470,8 @@ App.Wait = FP.Model.extend({
 ;require.register("routes/application", function(exports, require, module) {
 module.exports = App.ApplicationRoute = Ember.Route.extend({
   setupController: function(controller, model) {
-    return controller.set('people', this.get('store').findAll('person'));
+    controller.set('people', this.get('store').findAll('person'));
+    return controller.set('wait', this.get('store').findAll('wait'));
   }
 });
 });
@@ -503,7 +504,7 @@ module.exports = App.WaitRoute = Ember.Route.extend;
 module.exports = Ember.TEMPLATES['application'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
+  var buffer = '', stack1, hashTypes, hashContexts, options, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
 
 function program1(depth0,data) {
   
@@ -544,7 +545,14 @@ function program3(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n  </div>\n</div>\n<footer class=\"footer\">\nTable - 2014 - by Patrick Simpson \n</footer>");
+  data.buffer.push("\n  </div>\n  <h3>Waitlist</h3>\n  <div class=\"waitlist\">\n    ");
+  hashContexts = {'people': depth0};
+  hashTypes = {'people': "ID"};
+  options = {hash:{
+    'people': ("wait")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers['people-list'] || (depth0 && depth0['people-list'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "people-list", options))));
+  data.buffer.push("\n  </div>\n</div>\n<footer class=\"footer\">\nTable - 2014 - by Patrick Simpson \n</footer>\n");
   return buffer;
   
 });
@@ -601,7 +609,7 @@ function program6(depth0,data) {
   return buffer;
   }
 
-  data.buffer.push("<h2>Leaderboard</h2>\n<ul>\n  ");
+  data.buffer.push("<ul>\n  ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers.each.call(depth0, "people", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
@@ -685,18 +693,14 @@ function program2(depth0,data) {
 function program4(depth0,data) {
   
   var buffer = '', stack1, hashContexts, hashTypes, options;
-  data.buffer.push("\n  ");
+  data.buffer.push("\n  <h2>Leaderboard</h2>\n  ");
   hashContexts = {'people': depth0};
   hashTypes = {'people': "ID"};
   options = {hash:{
     'people': ("people")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['people-list'] || (depth0 && depth0['people-list'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "people-list", options))));
-  data.buffer.push("\n  <div class=\"button--container\"><button class=\"button--add\" ");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers.action.call(depth0, "showAddPerson", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("></button></div>\n");
+  data.buffer.push("\n");
   return buffer;
   }
 
