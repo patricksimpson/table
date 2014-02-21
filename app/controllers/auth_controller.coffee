@@ -1,6 +1,5 @@
 App.AuthController = Ember.Controller.extend
-  needs: ['people']
-  needs: ['person']
+  needs: ['people', 'person']
   isAuthed: false
   userId: 0
   setupAuth:( ->

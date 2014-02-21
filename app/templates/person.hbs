@@ -3,7 +3,11 @@
   {{#unless isMe}}
     <button {{action 'challengeRequest'}} class="button blue">Challenge!</button>
   {{else}}
-    <button {{action 'joinQueue'}} class="button green">Join Queue</button>
+    {{#unless isWaiting}}
+      <button {{action 'joinWaitingList'}} class="button green">Join Queue</button>
+    {{else}}
+      <button {{action 'leaveWaitingList'}} class="button red">Leave Queue</button>
+    {{/unless}}
   {{/unless}}
   {{outlet}}
   <div class="stats">
@@ -14,10 +18,23 @@
     <p>{{game.score}}</p>
   {{/each}}
 </div>
-{{#if is_admin}}
-  <div class="deleteme">
-    {{input type="checkbox" checked=iAmSure id="iamsure"}}
-    <label for="iamsure">Delete this user?</label>
-    <button {{action 'deleteMe'}} class="button black">Yes, delete</button>
-  </div>
+{{#if isEditing}}
+  <h3>Edit User</h3>
+  {{input type="text" value=name}}
+  <label for="email">Email:</label>
+  {{input type="email" value=email}}
+  <p>
+    <button {{action doEditPerson}} class="button blue">Save</button>
+    <button {{action cancelEditPerson}} class="button black">Nevermind</button>
+  </p>
+{{/if}}
+{{#if isMe}}
+  {{#if is_admin}}
+    <h3>Administrator Options</h3>
+    <div class="adminarea deleteme">
+      {{input type="checkbox" checked=iAmSure id="iamsure"}}
+      <label for="iamsure">Delete this user?</label>
+      <button {{action 'deleteMe'}} class="button black">Delete</button>
+    </div>
+  {{/if}}
 {{/if}}

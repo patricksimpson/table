@@ -4,4 +4,5 @@ App.Person = FP.Model.extend
   email: FP.attr 'string'
   created_at: FP.attr 'date'
   is_admin: FP.attr 'boolean'
-  games: FP.hasMany("games", {embedded: false, as: "games"})
+  wins: FP.attr 'number'
+  losses: FP.attr 'number'
