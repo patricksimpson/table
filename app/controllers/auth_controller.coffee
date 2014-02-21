@@ -10,8 +10,7 @@ App.AuthController = Ember.Controller.extend
     )
   ).on('init')
   pickUser: (user) ->
-    @set('user', user)
-    @set('userId', user.id)
+    console.log user
     @get('store').fetch('person', user.id).then ((person) =>
       person.setProperties(
         name: user.name
@@ -19,8 +18,6 @@ App.AuthController = Ember.Controller.extend
       )
       person.save()
       @set('person', person)
-      @set('isAuthed', true)
-      @set('controllers.person.isLoggedIn', true)
     ), (error) =>
       newPerson = @get('store').createRecord("person",
         id: user.id
@@ -32,15 +29,10 @@ App.AuthController = Ember.Controller.extend
       )
       newPerson.save().then =>
         @set('person', person)
-      @set('isAuthed', true)
-      @set('controllers.person.isLoggedIn', true)
 
   login: ->
     @authClient.login('twitter', { rememberMe: true } )
     
   logout: ->
     @authClient.logout()
-    @set('isAuthed', false)
-    @set('controllers.person.isLoggedIn', false)
     @set('person', undefined)
-    @set('userId', 0)

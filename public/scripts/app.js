@@ -185,17 +185,14 @@ App.AuthController = Ember.Controller.extend({
   }).on('init'),
   pickUser: function(user) {
     var _this = this;
-    this.set('user', user);
-    this.set('userId', user.id);
+    console.log(user);
     return this.get('store').fetch('person', user.id).then((function(person) {
       person.setProperties({
         name: user.name,
         twitter: user.username
       });
       person.save();
-      _this.set('person', person);
-      _this.set('isAuthed', true);
-      return _this.set('controllers.person.isLoggedIn', true);
+      return _this.set('person', person);
     }), function(error) {
       var newPerson;
       newPerson = _this.get('store').createRecord("person", {
@@ -206,11 +203,9 @@ App.AuthController = Ember.Controller.extend({
         is_admin: false,
         created_at: new Date()
       });
-      newPerson.save().then(function() {
+      return newPerson.save().then(function() {
         return _this.set('person', person);
       });
-      _this.set('isAuthed', true);
-      return _this.set('controllers.person.isLoggedIn', true);
     });
   },
   login: function() {
@@ -220,10 +215,7 @@ App.AuthController = Ember.Controller.extend({
   },
   logout: function() {
     this.authClient.logout();
-    this.set('isAuthed', false);
-    this.set('controllers.person.isLoggedIn', false);
-    this.set('person', void 0);
-    return this.set('userId', 0);
+    return this.set('person', void 0);
   }
 });
 });
@@ -289,18 +281,15 @@ App.PersonController = Ember.ObjectController.extend({
     return 1;
   }).property('games'),
   needs: ['auth', 'wait'],
+  authedPerson: Ember.computed.alias('controllers.auth.person'),
   iAmSure: false,
   isEditing: false,
-  isLoggedIn: false,
-  isWaiting: false,
-  loggedIn: (function() {
-    if (this.loggedIn) {
-      this.set('isMe', this.get('id') === this.get('controllers.auth.userId'));
-    } else {
-      this.set('isMe', false);
-    }
+  isWaiting: (function() {
     return this.get('controllers.wait').isWait(this.get('model'));
-  }).observes('isLoggedIn'),
+  }).property('authedPerson'),
+  isMe: (function() {
+    return this.get('id') === this.get('authedPerson.id');
+  }).property('authedPerson'),
   actions: {
     deleteMe: function() {
       var person, yousure;
@@ -504,7 +493,7 @@ module.exports = App.WaitRoute = Ember.Route.extend;
 module.exports = Ember.TEMPLATES['application'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashTypes, hashContexts, options, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
+  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
 
 function program1(depth0,data) {
   
@@ -532,26 +521,52 @@ function program3(depth0,data) {
   return buffer;
   }
 
+function program5(depth0,data) {
+  
+  var buffer = '', stack1, hashTypes, hashContexts;
+  data.buffer.push("\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers.each.call(depth0, "wait", {hash:{},inverse:self.noop,fn:self.program(6, program6, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n  ");
+  return buffer;
+  }
+function program6(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n    <p>\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "person.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" is waiting to play.\n    </p>\n  ");
+  return buffer;
+  }
+
+function program8(depth0,data) {
+  
+  
+  data.buffer.push("\n    <p>No one waiting.</p>\n  ");
+  }
+
   data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<div class=\"main\">\n  <header class=\"banner\">\n    <nav>\n      <ul class=\"banner--navigation\">\n        <li class=\"banner--navigation--item\"><a href=\"#/\">Table Listing</a></li>\n        <li class=\"banner--navigation--item\"><a href=\"#/games\">Game History</a></li>\n        <li class=\"banner--navigation--item banner--navigation--login\">\n          ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "auth.isAuthed", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n          </li>\n      </ul>\n    </nav>\n  </header>\n\n  People on table: ");
+  data.buffer.push("\n          </li>\n      </ul>\n    </nav>\n  </header>\n  <h2>SparkTable (");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "people.length", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n  <div class=\"content\">\n    ");
+  data.buffer.push(")</h2>\n  <div class=\"waiting\">\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "wait", {hash:{},inverse:self.program(8, program8, data),fn:self.program(5, program5, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n  </div>\n  <div class=\"content\">\n    ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n  </div>\n  <h3>Waitlist</h3>\n  <div class=\"waitlist\">\n    ");
-  hashContexts = {'people': depth0};
-  hashTypes = {'people': "ID"};
-  options = {hash:{
-    'people': ("wait")
-  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  data.buffer.push(escapeExpression(((stack1 = helpers['people-list'] || (depth0 && depth0['people-list'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "people-list", options))));
   data.buffer.push("\n  </div>\n</div>\n<footer class=\"footer\">\nTable - 2014 - by Patrick Simpson \n</footer>\n");
   return buffer;
   

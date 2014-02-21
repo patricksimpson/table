@@ -4,17 +4,15 @@ App.PersonController = Ember.ObjectController.extend
    1
   ).property('games')
   needs: ['auth','wait']
+  authedPerson: Ember.computed.alias('controllers.auth.person')
   iAmSure: false
   isEditing: false
-  isLoggedIn: false
-  isWaiting: false
-  loggedIn: (->
-    if @loggedIn
-      @set('isMe', @get('id') == @get('controllers.auth.userId'))
-    else
-      @set('isMe', false)
+  isWaiting: (->
     @get('controllers.wait').isWait(@get('model'))
-  ).observes('isLoggedIn')
+  ).property('authedPerson')
+  isMe: (->
+    @get('id') == @get('authedPerson.id')
+  ).property('authedPerson')
   actions:
     deleteMe: ->
       yousure = @get('iAmSure')
