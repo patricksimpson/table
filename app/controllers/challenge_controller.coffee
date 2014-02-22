@@ -51,4 +51,4 @@ App.ChallengeController = Ember.ArrayController.extend
       home: home.get('twitter')
       away: away.get('twitter')
     )
-    challengeRequest.save()
+    # challengeRequest.save()

@@ -296,11 +296,10 @@ App.ChallengeController = Ember.ArrayController.extend({
       created_at: new Date()
     });
     newChallenge.save();
-    challengeRequest = this.store.createRecord("challengeRequest", {
+    return challengeRequest = this.store.createRecord("challengeRequest", {
       home: home.get('twitter'),
       away: away.get('twitter')
     });
-    return challengeRequest.save();
   }
 });
 });
@@ -415,7 +414,8 @@ App.PersonController = Ember.ObjectController.extend({
       return person.save();
     },
     challengeRequest: function() {
-      return this.get('controllers.challenge').addChallenge(this.get('authedPerson'), this.get('model'));
+      this.get('controllers.challenge').addChallenge(this.get('authedPerson'), this.get('model'));
+      return this.set('isChallenged', true);
     }
   }
 });

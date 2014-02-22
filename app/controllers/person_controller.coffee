@@ -43,3 +43,4 @@ App.PersonController = Ember.ObjectController.extend
       person.save()
     challengeRequest: ->
       @get('controllers.challenge').addChallenge(@get('authedPerson'), @get('model'))
+      @set('isChallenged', true)
