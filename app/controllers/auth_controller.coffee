@@ -17,7 +17,7 @@ App.AuthController = Ember.Controller.extend
         twitter: user.username
       )
       person.save()
-      @set('isAdmin', person.get('is_admin')) 
+      @set('isAdmin', person.get('is_admin'))
       @set('person', person)
     ), (error) =>
       newPerson = @get('store').createRecord("person",

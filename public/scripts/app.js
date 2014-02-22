@@ -225,6 +225,55 @@ App.AuthController = Ember.Controller.extend({
 });
 });
 
+;require.register("controllers/challenge_controller", function(exports, require, module) {
+App.ChallengeController = Ember.ArrayController.extend({
+  needs: ['person'],
+  addChallenge: function(home, away) {
+    var _this = this;
+    if (home.get('id') === away.get('id')) {
+      console.log("you cannot do that!");
+      return;
+    }
+    return this.get('store').fetch('challenge').then((function(challenges) {
+      var awayPerson, challenge, homePerson, _i, _len, _ref, _results;
+      if (challenges.content.length > 0) {
+        _ref = challenges.content;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          challenge = _ref[_i];
+          homePerson = challenge.get('home');
+          awayPerson = challenge.get('away');
+          if (home.get('id') !== homePerson.get('id') && away.get('id') !== awayPerson.get('id')) {
+            _results.push(_this.createChallenge(home, away));
+          } else {
+            _results.push(console.log("already challenged!"));
+          }
+        }
+        return _results;
+      } else {
+        return _this.createChallenge(home, away);
+      }
+    }), function(error) {
+      return _this.createChallenge(home, away);
+    });
+  },
+  createChallenge: function(home, away) {
+    var challengeRequest, newChallenge;
+    newChallenge = this.store.createRecord("challenge", {
+      home: home,
+      away: away,
+      created_at: new Date()
+    });
+    newChallenge.save();
+    challengeRequest = this.store.createRecord("challengeRequest", {
+      home: home.get('twitter'),
+      away: away.get('twitter')
+    });
+    return challengeRequest.save();
+  }
+});
+});
+
 ;require.register("controllers/people_controller", function(exports, require, module) {
 module.exports = App.PeopleController = Ember.ArrayController.extend({
   needs: ['auth'],
@@ -286,7 +335,7 @@ App.PersonController = Ember.ObjectController.extend({
   wins: (function() {
     return 1;
   }).property('games'),
-  needs: ['auth', 'wait'],
+  needs: ['auth', 'challenge'],
   authedPerson: Ember.computed.alias('controllers.auth.person'),
   iAmSure: false,
   isEditing: false,
@@ -331,6 +380,9 @@ App.PersonController = Ember.ObjectController.extend({
         is_waiting: false
       });
       return person.save();
+    },
+    challengeRequest: function() {
+      return this.get('controllers.challenge').addChallenge(this.get('authedPerson'), this.get('model'));
     }
   }
 });
@@ -420,6 +472,26 @@ module.exports = Ember.Application.initializer({
     });
     return application.inject('controller', 'env', 'environment:main');
   }
+});
+});
+
+;require.register("models/challenge", function(exports, require, module) {
+App.Challenge = FP.Model.extend({
+  home: FP.hasOne("person", {
+    embedded: false
+  }),
+  away: FP.hasOne("person", {
+    embedded: false
+  }),
+  created_at: FP.attr('date'),
+  message: FP.attr('string')
+});
+});
+
+;require.register("models/challengeRequest", function(exports, require, module) {
+App.ChallengeRequest = FP.Model.extend({
+  home: FP.attr('string'),
+  away: FP.attr('string')
 });
 });
 

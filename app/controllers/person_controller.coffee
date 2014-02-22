@@ -3,7 +3,7 @@ App.PersonController = Ember.ObjectController.extend
     #@get('name')
    1
   ).property('games')
-  needs: ['auth','wait']
+  needs: ['auth','challenge']
   authedPerson: Ember.computed.alias('controllers.auth.person')
   iAmSure: false
   isEditing: false
@@ -39,3 +39,5 @@ App.PersonController = Ember.ObjectController.extend
         is_waiting: false
       )
       person.save()
+    challengeRequest: ->
+      @get('controllers.challenge').addChallenge(@get('authedPerson'), @get('model'))
