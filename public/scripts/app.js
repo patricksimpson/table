@@ -177,6 +177,7 @@ App.AuthController = Ember.Controller.extend({
     var slRef,
       _this = this;
     slRef = new Firebase('https://glaring-fire-8110.firebaseio.com');
+    console.log("run");
     return this.authClient = new FirebaseSimpleLogin(slRef, function(err, user) {
       if (!err && user) {
         return _this.pickUser(user);
@@ -288,8 +289,10 @@ App.PersonController = Ember.ObjectController.extend({
     return this.get('controllers.wait').isWait(this.get('model'));
   }).property('authedPerson'),
   isMe: (function() {
+    console.log(this.get('id'));
+    console.log(this.get('authedPerson.id'));
     return this.get('id') === this.get('authedPerson.id');
-  }).property('authedPerson'),
+  }).property('content', 'authedPerson'),
   actions: {
     deleteMe: function() {
       var person, yousure;
@@ -501,7 +504,7 @@ function program1(depth0,data) {
   data.buffer.push("\n            Logged in as ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "auth.user.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "auth.person.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("\n            <button ");
   hashTypes = {};
   hashContexts = {};
@@ -552,7 +555,7 @@ function program8(depth0,data) {
   data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<div class=\"main\">\n  <header class=\"banner\">\n    <nav>\n      <ul class=\"banner--navigation\">\n        <li class=\"banner--navigation--item\"><a href=\"#/\">Table Listing</a></li>\n        <li class=\"banner--navigation--item\"><a href=\"#/games\">Game History</a></li>\n        <li class=\"banner--navigation--item banner--navigation--login\">\n          ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "auth.isAuthed", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "auth.person", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n          </li>\n      </ul>\n    </nav>\n  </header>\n  <h2>SparkTable (");
   hashTypes = {};

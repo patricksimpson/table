@@ -4,6 +4,7 @@ App.AuthController = Ember.Controller.extend
   userId: 0
   setupAuth:( ->
     slRef = new Firebase('https://glaring-fire-8110.firebaseio.com')
+    console.log("run")
     @authClient = new FirebaseSimpleLogin(slRef, (err, user) =>
       if !err && user
         @pickUser(user)

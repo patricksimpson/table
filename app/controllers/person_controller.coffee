@@ -11,8 +11,10 @@ App.PersonController = Ember.ObjectController.extend
     @get('controllers.wait').isWait(@get('model'))
   ).property('authedPerson')
   isMe: (->
+    console.log @get('id')
+    console.log @get('authedPerson.id')
     @get('id') == @get('authedPerson.id')
-  ).property('authedPerson')
+  ).property('content', 'authedPerson')
   actions:
     deleteMe: ->
       yousure = @get('iAmSure')

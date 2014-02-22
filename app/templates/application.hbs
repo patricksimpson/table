@@ -8,8 +8,8 @@
         <li class="banner--navigation--item"><a href="#/">Table Listing</a></li>
         <li class="banner--navigation--item"><a href="#/games">Game History</a></li>
         <li class="banner--navigation--item banner--navigation--login">
-          {{#if auth.isAuthed}}
-            Logged in as {{auth.user.name}}
+          {{#if auth.person}}
+            Logged in as {{auth.person.name}}
             <button {{action "logout"}} class="button grey">Logout</button>
           {{else}}
           <button {{action "login"}} class="button grey">Login or Signup</button>
