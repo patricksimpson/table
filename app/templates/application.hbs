@@ -19,17 +19,14 @@
     </nav>
   </header>
   <h2>SparkTable ({{people.length}})</h2>
-  <div class="waiting">
-  {{#if wait}}
-  {{#each wait}}
-    <p>
-    {{person.name}} is waiting to play.
-    </p>
+  {{#each people}}
+    {{#if is_waiting}}
+      {{name}}
+    {{/if}}
   {{/each}}
-  {{else}}
-    <p>No one waiting.</p>
-  {{/if}}
-  </div>
+  {{#each waitingList}}
+    Person,
+  {{/each}}
   <div class="content">
     {{outlet}}
   </div>

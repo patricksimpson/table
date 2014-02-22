@@ -6,3 +6,6 @@ App.ApplicationController = Ember.Controller.extend
       @get('controllers.auth').login()
     logout: ->
       @get('controllers.auth').logout()
+  waitingList: (->
+    console.log "people!"
+  ).property('content', 'people')

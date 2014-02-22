@@ -164,7 +164,10 @@ App.ApplicationController = Ember.Controller.extend({
     logout: function() {
       return this.get('controllers.auth').logout();
     }
-  }
+  },
+  waitingList: (function() {
+    return console.log("people!");
+  }).property('content', 'people')
 });
 });
 
@@ -173,11 +176,11 @@ App.AuthController = Ember.Controller.extend({
   needs: ['people', 'person'],
   isAuthed: false,
   userId: 0,
+  isAdmin: false,
   setupAuth: (function() {
     var slRef,
       _this = this;
     slRef = new Firebase('https://glaring-fire-8110.firebaseio.com');
-    console.log("run");
     return this.authClient = new FirebaseSimpleLogin(slRef, function(err, user) {
       if (!err && user) {
         return _this.pickUser(user);
@@ -186,13 +189,13 @@ App.AuthController = Ember.Controller.extend({
   }).on('init'),
   pickUser: function(user) {
     var _this = this;
-    console.log(user);
     return this.get('store').fetch('person', user.id).then((function(person) {
       person.setProperties({
         name: user.name,
         twitter: user.username
       });
       person.save();
+      _this.set('isAdmin', person.get('is_admin'));
       return _this.set('person', person);
     }), function(error) {
       var newPerson;
@@ -201,6 +204,7 @@ App.AuthController = Ember.Controller.extend({
         name: user.name,
         twitter: user.username,
         email: '',
+        is_waiting: false,
         is_admin: false,
         created_at: new Date()
       });
@@ -230,6 +234,7 @@ module.exports = App.PeopleController = Ember.ArrayController.extend({
   personEmail: null,
   people: (function() {
     var currentPerson;
+    this.set('isWaiting', false);
     currentPerson = this.get('person');
     return this.get('content').map(function(person) {
       person.set('isMe', person.get('id') === (currentPerson != null ? currentPerson.get('id') : void 0));
@@ -285,12 +290,8 @@ App.PersonController = Ember.ObjectController.extend({
   authedPerson: Ember.computed.alias('controllers.auth.person'),
   iAmSure: false,
   isEditing: false,
-  isWaiting: (function() {
-    return this.get('controllers.wait').isWait(this.get('model'));
-  }).property('authedPerson'),
+  isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin'),
   isMe: (function() {
-    console.log(this.get('id'));
-    console.log(this.get('authedPerson.id'));
     return this.get('id') === this.get('authedPerson.id');
   }).property('content', 'authedPerson'),
   actions: {
@@ -316,12 +317,20 @@ App.PersonController = Ember.ObjectController.extend({
       return this.set('isEditing', false);
     },
     joinWaitingList: function() {
-      this.get('controllers.wait').addPerson(this.get('model'));
-      return this.set('isWaiting', true);
+      var person;
+      person = this.get('model');
+      person.setProperties({
+        is_waiting: true
+      });
+      return person.save();
     },
     leaveWaitingList: function() {
-      this.get('controllers.wait').removePerson(this.get('model'));
-      return this.set('isWaiting', false);
+      var person;
+      person = this.get('model');
+      person.setProperties({
+        is_waiting: false
+      });
+      return person.save();
     }
   }
 });
@@ -438,6 +447,7 @@ App.Person = FP.Model.extend({
   email: FP.attr('string'),
   created_at: FP.attr('date'),
   is_admin: FP.attr('boolean'),
+  is_waiting: FP.attr('boolean'),
   wins: FP.attr('number'),
   losses: FP.attr('number')
 });
@@ -462,8 +472,7 @@ App.Wait = FP.Model.extend({
 ;require.register("routes/application", function(exports, require, module) {
 module.exports = App.ApplicationRoute = Ember.Route.extend({
   setupController: function(controller, model) {
-    controller.set('people', this.get('store').findAll('person'));
-    return controller.set('wait', this.get('store').findAll('wait'));
+    return controller.set('people', this.get('store').findAll('person'));
   }
 });
 });
@@ -527,10 +536,10 @@ function program3(depth0,data) {
 function program5(depth0,data) {
   
   var buffer = '', stack1, hashTypes, hashContexts;
-  data.buffer.push("\n  ");
+  data.buffer.push("\n    ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "wait", {hash:{},inverse:self.noop,fn:self.program(6, program6, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "is_waiting", {hash:{},inverse:self.noop,fn:self.program(6, program6, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  ");
   return buffer;
@@ -538,18 +547,18 @@ function program5(depth0,data) {
 function program6(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n    <p>\n    ");
+  data.buffer.push("\n      ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "person.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" is waiting to play.\n    </p>\n  ");
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n    ");
   return buffer;
   }
 
 function program8(depth0,data) {
   
   
-  data.buffer.push("\n    <p>No one waiting.</p>\n  ");
+  data.buffer.push("\n    Person,\n  ");
   }
 
   data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<div class=\"main\">\n  <header class=\"banner\">\n    <nav>\n      <ul class=\"banner--navigation\">\n        <li class=\"banner--navigation--item\"><a href=\"#/\">Table Listing</a></li>\n        <li class=\"banner--navigation--item\"><a href=\"#/games\">Game History</a></li>\n        <li class=\"banner--navigation--item banner--navigation--login\">\n          ");
@@ -561,12 +570,17 @@ function program8(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "people.length", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(")</h2>\n  <div class=\"waiting\">\n  ");
+  data.buffer.push(")</h2>\n  ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "wait", {hash:{},inverse:self.program(8, program8, data),fn:self.program(5, program5, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.each.call(depth0, "people", {hash:{},inverse:self.noop,fn:self.program(5, program5, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n  </div>\n  <div class=\"content\">\n    ");
+  data.buffer.push("\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers.each.call(depth0, "waitingList", {hash:{},inverse:self.noop,fn:self.program(8, program8, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n  <div class=\"content\">\n    ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -658,11 +672,17 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
+  
+  data.buffer.push("\n  Someone is waiting\n");
+  }
+
+function program3(depth0,data) {
+  
   var buffer = '', stack1, hashTypes, hashContexts, options;
   data.buffer.push("\n<h2>Add Person</h2>\n");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "errors", {hash:{},inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.each.call(depth0, "errors", {hash:{},inverse:self.noop,fn:self.program(4, program4, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  <form ");
   hashContexts = {'on': depth0};
@@ -697,7 +717,7 @@ function program1(depth0,data) {
   data.buffer.push(" class=\"button black\">Nevermind</button>\n  </div>\n  </form>\n  \n");
   return buffer;
   }
-function program2(depth0,data) {
+function program4(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
   data.buffer.push("<p class=\"error\">");
@@ -708,7 +728,7 @@ function program2(depth0,data) {
   return buffer;
   }
 
-function program4(depth0,data) {
+function program6(depth0,data) {
   
   var buffer = '', stack1, hashContexts, hashTypes, options;
   data.buffer.push("\n  <h2>Leaderboard</h2>\n  ");
@@ -724,7 +744,12 @@ function program4(depth0,data) {
 
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isAdding", {hash:{},inverse:self.program(4, program4, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "isWaiting", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "isAdding", {hash:{},inverse:self.program(6, program6, data),fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n");
   return buffer;
@@ -766,7 +791,7 @@ function program5(depth0,data) {
   data.buffer.push("\n    ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.unless.call(depth0, "isWaiting", {hash:{},inverse:self.program(8, program8, data),fn:self.program(6, program6, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.unless.call(depth0, "is_waiting", {hash:{},inverse:self.program(8, program8, data),fn:self.program(6, program6, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  ");
   return buffer;
@@ -837,19 +862,8 @@ function program12(depth0,data) {
 
 function program14(depth0,data) {
   
-  var buffer = '', stack1, hashTypes, hashContexts;
-  data.buffer.push("\n  ");
-  hashTypes = {};
-  hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "is_admin", {hash:{},inverse:self.noop,fn:self.program(15, program15, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n");
-  return buffer;
-  }
-function program15(depth0,data) {
-  
   var buffer = '', stack1, hashContexts, hashTypes, options;
-  data.buffer.push("\n    <h3>Administrator Options</h3>\n    <div class=\"adminarea deleteme\">\n      ");
+  data.buffer.push("\n  <h3>Administrator Options</h3>\n  <div class=\"adminarea deleteme\">\n    ");
   hashContexts = {'type': depth0,'checked': depth0,'id': depth0};
   hashTypes = {'type': "STRING",'checked': "ID",'id': "STRING"};
   options = {hash:{
@@ -858,11 +872,11 @@ function program15(depth0,data) {
     'id': ("iamsure")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n      <label for=\"iamsure\">Delete this user?</label>\n      <button ");
+  data.buffer.push("\n    <label for=\"iamsure\">Delete this user?</label>\n    <button ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "deleteMe", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"button black\">Delete</button>\n    </div>\n  ");
+  data.buffer.push(" class=\"button black\">Delete</button>\n  </div>\n");
   return buffer;
   }
 
@@ -905,7 +919,7 @@ function program15(depth0,data) {
   data.buffer.push("\n");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isMe", {hash:{},inverse:self.noop,fn:self.program(14, program14, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "isAuthAdmin", {hash:{},inverse:self.noop,fn:self.program(14, program14, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n");
   return buffer;

@@ -7,12 +7,8 @@ App.PersonController = Ember.ObjectController.extend
   authedPerson: Ember.computed.alias('controllers.auth.person')
   iAmSure: false
   isEditing: false
-  isWaiting: (->
-    @get('controllers.wait').isWait(@get('model'))
-  ).property('authedPerson')
+  isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin')
   isMe: (->
-    console.log @get('id')
-    console.log @get('authedPerson.id')
     @get('id') == @get('authedPerson.id')
   ).property('content', 'authedPerson')
   actions:
@@ -32,8 +28,14 @@ App.PersonController = Ember.ObjectController.extend
     cancelEditPerson: ->
       @set('isEditing', false)
     joinWaitingList: ->
-      @get('controllers.wait').addPerson(@get('model'))
-      @set('isWaiting', true)
+      person = @get('model')
+      person.setProperties(
+        is_waiting: true
+      )
+      person.save()
     leaveWaitingList: ->
-      @get('controllers.wait').removePerson(@get('model'))
-      @set('isWaiting', false)
+      person = @get('model')
+      person.setProperties(
+        is_waiting: false
+      )
+      person.save()

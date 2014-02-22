@@ -3,7 +3,7 @@
   {{#unless isMe}}
     <button {{action 'challengeRequest'}} class="button blue">Challenge!</button>
   {{else}}
-    {{#unless isWaiting}}
+    {{#unless is_waiting}}
       <button {{action 'joinWaitingList'}} class="button green">Join Queue</button>
     {{else}}
       <button {{action 'leaveWaitingList'}} class="button red">Leave Queue</button>
@@ -28,13 +28,11 @@
     <button {{action cancelEditPerson}} class="button black">Nevermind</button>
   </p>
 {{/if}}
-{{#if isMe}}
-  {{#if is_admin}}
-    <h3>Administrator Options</h3>
-    <div class="adminarea deleteme">
-      {{input type="checkbox" checked=iAmSure id="iamsure"}}
-      <label for="iamsure">Delete this user?</label>
-      <button {{action 'deleteMe'}} class="button black">Delete</button>
-    </div>
-  {{/if}}
+{{#if isAuthAdmin}}
+  <h3>Administrator Options</h3>
+  <div class="adminarea deleteme">
+    {{input type="checkbox" checked=iAmSure id="iamsure"}}
+    <label for="iamsure">Delete this user?</label>
+    <button {{action 'deleteMe'}} class="button black">Delete</button>
+  </div>
 {{/if}}
