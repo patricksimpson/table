@@ -8,8 +8,10 @@ App.PersonController = Ember.ObjectController.extend
   iAmSure: false
   isEditing: false
   isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin')
+  isChallenged: false
   isMe: (->
-    @get('id') == @get('authedPerson.id')
+    @get('controllers.challenge').canChallenge(@get('authedPerson'), @get('model'))
+    return @get('id') == @get('authedPerson.id')
   ).property('content', 'authedPerson')
   actions:
     deleteMe: ->

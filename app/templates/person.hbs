@@ -1,7 +1,11 @@
 <div class="profile">
   <h2>{{name}}</h2>{{#if isMe}}<button {{action 'editPerson'}} class="button grey">Edit</button>{{/if}}
   {{#unless isMe}}
-    <button {{action 'challengeRequest'}} class="button blue">Challenge!</button>
+    {{#if isChallenged}}
+      You challenged {{name}}
+    {{else}}
+      <button {{action 'challengeRequest'}} class="button blue">Challenge!</button>
+    {{/if}}
   {{else}}
     {{#unless is_waiting}}
       <button {{action 'joinWaitingList'}} class="button green">Join Queue</button>

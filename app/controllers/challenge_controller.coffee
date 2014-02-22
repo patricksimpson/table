@@ -17,6 +17,29 @@ App.ChallengeController = Ember.ArrayController.extend
         @createChallenge(home, away)
     ), (error) =>
       @createChallenge(home, away)
+  canChallenge: (home, away) ->
+    console.log "hmm, lets find out..."
+    @get('store').fetch('challenge').then ((challenges) =>
+      if challenges.content.length > 0
+        for challenge in challenges.content
+          homePerson = challenge.get('home')
+          awayPerson = challenge.get('away')
+          if away.get('id') != awayPerson.get('id')
+            console.log "not equal"
+            @set('controllers.person.isChallenged', false)
+            return true
+          else
+            console.log "equal"
+            @set('controllers.person.isChallenged', true)
+            return false
+      else
+        console.log "no challenges found."
+        @set('controllers.person.isChallenged', false)
+    ), (error) =>
+      console.log error
+      console.log "Err?"
+      @set('controllers.person.isChallenged', false)
+
   createChallenge: (home, away) ->
     newChallenge = @store.createRecord("challenge",
       home: home
