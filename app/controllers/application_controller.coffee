@@ -1,5 +1,5 @@
 App.ApplicationController = Ember.Controller.extend
-  needs: ['auth']
+  needs: ['auth', 'challenge']
   authBinding: "controllers.auth"
   actions:
     login: ->
@@ -9,3 +9,6 @@ App.ApplicationController = Ember.Controller.extend
   waitingList: (->
     console.log "people!"
   ).property('content', 'people')
+  challengeBy: (->
+    console.log "a challenge was found"
+  ).property('content', 'challenges')

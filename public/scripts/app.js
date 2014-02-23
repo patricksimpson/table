@@ -155,7 +155,7 @@ module.exports = App.Router.map(function() {
 
 ;require.register("controllers/application_controller", function(exports, require, module) {
 App.ApplicationController = Ember.Controller.extend({
-  needs: ['auth'],
+  needs: ['auth', 'challenge'],
   authBinding: "controllers.auth",
   actions: {
     login: function() {
@@ -167,7 +167,10 @@ App.ApplicationController = Ember.Controller.extend({
   },
   waitingList: (function() {
     return console.log("people!");
-  }).property('content', 'people')
+  }).property('content', 'people'),
+  challengeBy: (function() {
+    return console.log("a challenge was found");
+  }).property('content', 'challenges')
 });
 });
 
@@ -228,6 +231,14 @@ App.AuthController = Ember.Controller.extend({
 ;require.register("controllers/challenge_controller", function(exports, require, module) {
 App.ChallengeController = Ember.ArrayController.extend({
   needs: ['person'],
+  challenges: [],
+  startup: (function() {
+    var _this = this;
+    this.set('challenges', []);
+    return this.get('store').fetch('challenge').then((function(challenges) {
+      return _this.set('challenges', challenges);
+    }));
+  }).on('init'),
   addChallenge: function(home, away) {
     var _this = this;
     if (home.get('id') === away.get('id')) {
@@ -259,7 +270,9 @@ App.ChallengeController = Ember.ArrayController.extend({
   },
   canChallenge: function(home, away) {
     var _this = this;
-    console.log("hmm, lets find out...");
+    if (home === void 0 || away === void 0) {
+      return;
+    }
     return this.get('store').fetch('challenge').then((function(challenges) {
       var awayPerson, challenge, homePerson, _i, _len, _ref;
       if (challenges.content.length > 0) {
@@ -268,23 +281,18 @@ App.ChallengeController = Ember.ArrayController.extend({
           challenge = _ref[_i];
           homePerson = challenge.get('home');
           awayPerson = challenge.get('away');
-          if (away.get('id') !== awayPerson.get('id')) {
-            console.log("not equal");
+          if (away.get('id') !== awayPerson.get('id') || home.get('id') !== homePerson.get('id')) {
             _this.set('controllers.person.isChallenged', false);
-            return true;
           } else {
-            console.log("equal");
             _this.set('controllers.person.isChallenged', true);
-            return false;
+            return;
           }
         }
       } else {
-        console.log("no challenges found.");
         return _this.set('controllers.person.isChallenged', false);
       }
     }), function(error) {
       console.log(error);
-      console.log("Err?");
       return _this.set('controllers.person.isChallenged', false);
     });
   },
@@ -306,20 +314,39 @@ App.ChallengeController = Ember.ArrayController.extend({
 
 ;require.register("controllers/people_controller", function(exports, require, module) {
 module.exports = App.PeopleController = Ember.ArrayController.extend({
-  needs: ['auth'],
+  needs: ['auth', 'challenge'],
   person: Ember.computed.alias('controllers.auth.person'),
+  challenges: Ember.computed.alias('controllers.challenge.challenges'),
   errors: [],
   personName: null,
   personEmail: null,
   people: (function() {
-    var currentPerson;
+    var currentPerson,
+      _this = this;
     this.set('isWaiting', false);
     currentPerson = this.get('person');
+    if (currentPerson != null) {
+      this.isChallenged(currentPerson);
+    }
     return this.get('content').map(function(person) {
-      person.set('isMe', person.get('id') === (currentPerson != null ? currentPerson.get('id') : void 0));
+      var isMe;
+      isMe = person.get('id') === (currentPerson != null ? currentPerson.get('id') : void 0);
+      person.set('isMe', isMe);
       return person;
     });
-  }).property('content.@each', 'person'),
+  }).property('content.@each', 'challenges', 'person'),
+  isChallenged: function(person) {
+    var challenges,
+      _this = this;
+    challenges = this.get('challenges');
+    return challenges.map(function(challenge) {
+      if (challenge.get('away.id') === person.get('id')) {
+        person.set('challengedBy', challenge.get('home'));
+        person.set('isChallenged', true);
+        return _this.set('person', person);
+      }
+    });
+  },
   actions: {
     addPerson: function() {
       var errors, person, personEmail, personName;
@@ -582,6 +609,14 @@ module.exports = App.ApplicationRoute = Ember.Route.extend({
 });
 });
 
+;require.register("routes/challenge", function(exports, require, module) {
+module.exports = App.ChallengeRoute = Ember.Route.extend({
+  model: function() {
+    return this.get('store').findAll('challenge');
+  }
+});
+});
+
 ;require.register("routes/index", function(exports, require, module) {
 
 });
@@ -640,30 +675,47 @@ function program3(depth0,data) {
 
 function program5(depth0,data) {
   
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n    You're challenged by ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "auth.person.challengedBy.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n    <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "acceptChallenge", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button blue\">Accept</button>\n    <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "declineChallenge", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button black\">Decline</button>\n  ");
+  return buffer;
+  }
+
+function program7(depth0,data) {
+  
   var buffer = '', stack1, hashTypes, hashContexts;
   data.buffer.push("\n    ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "is_waiting", {hash:{},inverse:self.noop,fn:self.program(6, program6, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "is_waiting", {hash:{},inverse:self.noop,fn:self.program(8, program8, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  ");
   return buffer;
   }
-function program6(depth0,data) {
+function program8(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n      ");
+  data.buffer.push("\n      <p>\n      ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n    ");
+  data.buffer.push(" is looking to play. <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "joinWaitList", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button green\">Join</button>\n      </p>\n    ");
   return buffer;
-  }
-
-function program8(depth0,data) {
-  
-  
-  data.buffer.push("\n    Person,\n  ");
   }
 
   data.buffer.push("<header class=\"hero\">\n  <h1 class=\"hero--text\">Table</h1>\n</header>\n<div class=\"main\">\n  <header class=\"banner\">\n    <nav>\n      <ul class=\"banner--navigation\">\n        <li class=\"banner--navigation--item\"><a href=\"#/\">Table Listing</a></li>\n        <li class=\"banner--navigation--item\"><a href=\"#/games\">Game History</a></li>\n        <li class=\"banner--navigation--item banner--navigation--login\">\n          ");
@@ -671,19 +723,19 @@ function program8(depth0,data) {
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "auth.person", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n          </li>\n      </ul>\n    </nav>\n  </header>\n  <h2>SparkTable (");
+  data.buffer.push("\n          </li>\n      </ul>\n    </nav>\n  </header>\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "auth.person.isChallenged", {hash:{},inverse:self.noop,fn:self.program(5, program5, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n  <h2>SparkTable (");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "people.length", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push(")</h2>\n  ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "people", {hash:{},inverse:self.noop,fn:self.program(5, program5, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n  ");
-  hashTypes = {};
-  hashContexts = {};
-  stack1 = helpers.each.call(depth0, "waitingList", {hash:{},inverse:self.noop,fn:self.program(8, program8, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.each.call(depth0, "people", {hash:{},inverse:self.noop,fn:self.program(7, program7, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  <div class=\"content\">\n    ");
   hashTypes = {};
@@ -777,8 +829,17 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
-  
-  data.buffer.push("\n  Someone is waiting\n");
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n  <p>\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "home.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" has challenged ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "away.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" \n  </p>\n");
+  return buffer;
   }
 
 function program3(depth0,data) {
@@ -849,7 +910,7 @@ function program6(depth0,data) {
 
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isWaiting", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.each.call(depth0, "challenges", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n");
   hashTypes = {};

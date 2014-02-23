@@ -1,6 +1,8 @@
-{{#if isWaiting}}
-  Someone is waiting
-{{/if}}
+{{#each challenges}}
+  <p>
+    {{home.name}} has challenged {{away.name}} 
+  </p>
+{{/each}}
 {{#if isAdding}}
 <h2>Add Person</h2>
 {{#each errors}}<p class="error">{{this}}</p>{{/each}}

@@ -1,16 +1,27 @@
 module.exports = App.PeopleController = Ember.ArrayController.extend
-  needs: ['auth']
+  needs: ['auth', 'challenge']
   person: Ember.computed.alias('controllers.auth.person')
+  challenges: Ember.computed.alias('controllers.challenge.challenges')
   errors: []
   personName: null
   personEmail: null
   people: (->
     @set('isWaiting', false)
     currentPerson = @get('person')
-    @get('content').map (person) ->
-      person.set('isMe', person.get('id') == currentPerson?.get('id'))
+    if currentPerson?
+      @isChallenged(currentPerson)
+    @get('content').map (person) =>
+      isMe = ( person.get('id') == currentPerson?.get('id') )
+      person.set('isMe', isMe)
       person
-  ).property('content.@each', 'person')
+  ).property('content.@each', 'challenges', 'person')
+  isChallenged: (person) ->
+    challenges = @get('challenges')
+    challenges.map (challenge) =>
+      if challenge.get('away.id') == person.get('id')
+        person.set('challengedBy', challenge.get('home'))
+        person.set('isChallenged', true)
+        @set('person', person)
   actions:
     addPerson: ->
       personName = @get('personName')

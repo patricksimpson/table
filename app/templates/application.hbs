@@ -18,14 +18,18 @@
       </ul>
     </nav>
   </header>
+  {{#if auth.person.isChallenged}}
+    You're challenged by {{auth.person.challengedBy.name}}
+    <button {{action 'acceptChallenge'}} class="button blue">Accept</button>
+    <button {{action 'declineChallenge'}} class="button black">Decline</button>
+  {{/if}}
   <h2>SparkTable ({{people.length}})</h2>
   {{#each people}}
     {{#if is_waiting}}
-      {{name}}
+      <p>
+      {{name}} is looking to play. <button {{action 'joinWaitList'}} class="button green">Join</button>
+      </p>
     {{/if}}
-  {{/each}}
-  {{#each waitingList}}
-    Person,
   {{/each}}
   <div class="content">
     {{outlet}}
