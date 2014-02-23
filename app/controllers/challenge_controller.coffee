@@ -2,11 +2,14 @@ App.ChallengeController = Ember.ArrayController.extend
   needs: ['person']
   challenges: []
   startup: (->
+    @get('setChallenged')
+  ).on('init')
+  setChallenged: (->
     @set('challenges', [])
     @get('store').fetch('challenge').then ((challenges) =>
       @set('challenges', challenges)
     )
-  ).on('init')
+  ).property('content')
   addChallenge: (home, away) ->
     if home.get('id') == away.get('id')
       console.log "you cannot do that!"
@@ -54,4 +57,3 @@ App.ChallengeController = Ember.ArrayController.extend
       home: home.get('twitter')
       away: away.get('twitter')
     )
-    # challengeRequest.save()

@@ -42,5 +42,17 @@ App.PersonController = Ember.ObjectController.extend
       )
       person.save()
     challengeRequest: ->
-      @get('controllers.challenge').addChallenge(@get('authedPerson'), @get('model'))
+      # @get('controllers.challenge').addChallenge(@get('authedPerson'), @get('model'))
+      homePerson = @get('authedPerson')
+      awayPerson = @get('model')
+      challenge = @get('store').createRecord('challenge',
+        home: homePerson
+        away: awayPerson
+        created_at: new Date()
+      )
+      awayPerson.get('challenges').addObject challenge
+      homePerson.get('challenges').addObject challenge
+      challenge.save()
+      awayPerson.save()
+      homePerson.save()
       @set('isChallenged', true)

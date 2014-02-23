@@ -163,14 +163,17 @@ App.ApplicationController = Ember.Controller.extend({
     },
     logout: function() {
       return this.get('controllers.auth').logout();
+    },
+    acceptChallenge: function() {
+      return console.log("challengeAccepted");
+    },
+    declineChallenge: function() {
+      return console.log("Declined Challenge");
     }
   },
   waitingList: (function() {
     return console.log("people!");
-  }).property('content', 'people'),
-  challengeBy: (function() {
-    return console.log("a challenge was found");
-  }).property('content', 'challenges')
+  }).property('content', 'people')
 });
 });
 
@@ -233,12 +236,15 @@ App.ChallengeController = Ember.ArrayController.extend({
   needs: ['person'],
   challenges: [],
   startup: (function() {
+    return this.get('setChallenged');
+  }).on('init'),
+  setChallenged: (function() {
     var _this = this;
     this.set('challenges', []);
     return this.get('store').fetch('challenge').then((function(challenges) {
       return _this.set('challenges', challenges);
     }));
-  }).on('init'),
+  }).property('content'),
   addChallenge: function(home, away) {
     var _this = this;
     if (home.get('id') === away.get('id')) {
@@ -441,7 +447,19 @@ App.PersonController = Ember.ObjectController.extend({
       return person.save();
     },
     challengeRequest: function() {
-      this.get('controllers.challenge').addChallenge(this.get('authedPerson'), this.get('model'));
+      var awayPerson, challenge, homePerson;
+      homePerson = this.get('authedPerson');
+      awayPerson = this.get('model');
+      challenge = this.get('store').createRecord('challenge', {
+        home: homePerson,
+        away: awayPerson,
+        created_at: new Date()
+      });
+      awayPerson.get('challenges').addObject(challenge);
+      homePerson.get('challenges').addObject(challenge);
+      challenge.save();
+      awayPerson.save();
+      homePerson.save();
       return this.set('isChallenged', true);
     }
   }
@@ -581,7 +599,10 @@ App.Person = FP.Model.extend({
   is_admin: FP.attr('boolean'),
   is_waiting: FP.attr('boolean'),
   wins: FP.attr('number'),
-  losses: FP.attr('number')
+  losses: FP.attr('number'),
+  challenges: FP.hasMany('challenge', {
+    embedded: false
+  })
 });
 });
 
