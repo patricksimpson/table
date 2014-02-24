@@ -6,10 +6,12 @@ App.ApplicationController = Ember.Controller.extend
       @get('controllers.auth').login()
     logout: ->
       @get('controllers.auth').logout()
-    acceptChallenge: ->
-      console.log "challengeAccepted"
-    declineChallenge: ->
-      console.log "Declined Challenge"
+    acceptChallenge: (theChallenge) ->
+      challenge = @get('controllers.challenge')
+      challenge.acceptChallenge(theChallenge)
+    declineChallenge: (theChallenge) ->
+      challenge = @get('controllers.challenge')
+      challenge.declineChallenge(theChallenge)
   waitingList: (->
     console.log "people!"
   ).property('content', 'people')

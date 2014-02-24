@@ -1,7 +1,6 @@
 module.exports = App.PeopleController = Ember.ArrayController.extend
   needs: ['auth', 'challenge']
   person: Ember.computed.alias('controllers.auth.person')
-  challenges: Ember.computed.alias('controllers.challenge.challenges')
   errors: []
   personName: null
   personEmail: null
@@ -9,20 +8,18 @@ module.exports = App.PeopleController = Ember.ArrayController.extend
     @set('isWaiting', false)
     currentPerson = @get('person')
     if currentPerson?
-      challenges = currentPerson.get("challenges")
+      challenges = currentPerson.get("challenges_away")
       for challengeRequests in challenges.toArray()
         challenge = challengeRequests.content
         homePerson = challenge.get("home")
         awayPerson = challenge.get("away")
-        console.log homePerson.get("name")
-        console.log awayPerson.get("name")
     @get('content').map (person) =>
       isMe = ( person.get('id') == currentPerson?.get('id') )
       person.set('isMe', isMe)
       person
   ).property('content.@each', 'person')
   isChallenged: (person) ->
-    challenges = @get('challenges')
+    challenges = @get('challenges_away')
     challenges.map (challenge) =>
       if challenge.get('away.id') == person.get('id')
         person.set('challengedBy', challenge.get('home'))

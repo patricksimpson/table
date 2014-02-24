@@ -7,4 +7,5 @@ App.Person = FP.Model.extend
   is_waiting: FP.attr 'boolean'
   wins: FP.attr 'number'
   losses: FP.attr 'number'
-  challenges: FP.hasMany('challenge', {embedded: false})
+  challenges_away: FP.hasMany('challenge', {embedded: false})
+  challenges_home: FP.hasMany('challenge', {embedded: false})

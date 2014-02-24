@@ -12,22 +12,29 @@
             Logged in as {{auth.person.name}}
             <button {{action "logout"}} class="button grey">Logout</button>
           {{else}}
-          <button {{action "login"}} class="button grey">Login or Signup</button>
+            <button {{action "login"}} class="button grey">Login or Signup</button>
           {{/if}}
           </li>
       </ul>
     </nav>
   </header>
-  {{#if auth.person.isChallenged}}
-    You're challenged by {{auth.person.challengedBy.name}}
-    <button {{action 'acceptChallenge'}} class="button blue">Accept</button>
-    <button {{action 'declineChallenge'}} class="button black">Decline</button>
-  {{/if}}
+  <ul>
+  {{#each auth.person.challenges_away}}
+   <li> 
+    You're challenged by {{home.name}}
+    <button {{action 'acceptChallenge' this}} class="button blue">Accept</button>
+    <button {{action 'declineChallenge' this}} class="button black">Decline</button>
+    </li>
+  {{/each}}
+  </ul>
   <h2>SparkTable ({{people.length}})</h2>
   {{#each people}}
     {{#if is_waiting}}
       <p>
-      {{name}} is looking to play. <button {{action 'joinWaitList'}} class="button green">Join</button>
+      {{name}} is looking to play. 
+      {{#if auth.person}} 
+        <button {{action 'joinWaitList'}} class="button green">Join</button>
+      {{/if}}
       </p>
     {{/if}}
   {{/each}}

@@ -4,13 +4,12 @@ App.PersonController = Ember.ObjectController.extend
    1
   ).property('games')
   needs: ['auth','challenge']
+  challenge: Ember.computed.alias('controllers.challenge')
   authedPerson: Ember.computed.alias('controllers.auth.person')
+  isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin')
   iAmSure: false
   isEditing: false
-  isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin')
-  isChallenged: false
   isMe: (->
-    @get('controllers.challenge').canChallenge(@get('authedPerson'), @get('model'))
     return @get('id') == @get('authedPerson.id')
   ).property('content', 'authedPerson')
   actions:
@@ -42,17 +41,5 @@ App.PersonController = Ember.ObjectController.extend
       )
       person.save()
     challengeRequest: ->
-      # @get('controllers.challenge').addChallenge(@get('authedPerson'), @get('model'))
-      homePerson = @get('authedPerson')
-      awayPerson = @get('model')
-      challenge = @get('store').createRecord('challenge',
-        home: homePerson
-        away: awayPerson
-        created_at: new Date()
-      )
-      awayPerson.get('challenges').addObject challenge
-      homePerson.get('challenges').addObject challenge
-      challenge.save()
-      awayPerson.save()
-      homePerson.save()
-      @set('isChallenged', true)
+      @get('controllers.challenge').createChallenge(@get('authedPerson'), @get('model'))
+
