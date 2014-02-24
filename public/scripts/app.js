@@ -241,10 +241,10 @@ App.ChallengeController = Ember.ArrayController.extend({
   declineChallenge: function(challenge) {
     var awayPerson, homePerson;
     awayPerson = challenge.get('away');
-    awayPerson.get('challenges_away').removeObject(challenge);
+    awayPerson.get('challenges').removeObject(challenge);
     awayPerson.save();
     homePerson = challenge.get('home');
-    homePerson.get('challenges_home').removeObject(challenge);
+    homePerson.get('challenges').removeObject(challenge);
     homePerson.save();
     return challenge["delete"]();
   },
@@ -255,8 +255,8 @@ App.ChallengeController = Ember.ArrayController.extend({
       away: awayPerson,
       created_at: new Date()
     });
-    awayPerson.get('challenges_away').addObject(challenge);
-    homePerson.get('challenges_home').addObject(challenge);
+    awayPerson.get('challenges').addObject(challenge);
+    homePerson.get('challenges').addObject(challenge);
     challenge.save();
     awayPerson.save();
     return homePerson.save();
@@ -538,10 +538,7 @@ App.Person = FP.Model.extend({
   is_waiting: FP.attr('boolean'),
   wins: FP.attr('number'),
   losses: FP.attr('number'),
-  challenges_away: FP.hasMany('challenge', {
-    embedded: false
-  }),
-  challenges_home: FP.hasMany('challenge', {
+  challenges: FP.hasMany('challenge', {
     embedded: false
   })
 });
@@ -699,7 +696,7 @@ function program9(depth0,data) {
   data.buffer.push("\n          </li>\n      </ul>\n    </nav>\n  </header>\n  <ul>\n  ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "auth.person.challenges_away", {hash:{},inverse:self.noop,fn:self.program(5, program5, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.each.call(depth0, "auth.person.challenges", {hash:{},inverse:self.noop,fn:self.program(5, program5, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  </ul>\n  <h2>SparkTable (");
   hashTypes = {};

@@ -3,11 +3,11 @@ App.ChallengeController = Ember.ArrayController.extend
   declineChallenge: (challenge) ->
     
     awayPerson = challenge.get('away')
-    awayPerson.get('challenges_away').removeObject challenge
+    awayPerson.get('challenges').removeObject challenge
     awayPerson.save()
 
     homePerson = challenge.get('home')
-    homePerson.get('challenges_home').removeObject challenge
+    homePerson.get('challenges').removeObject challenge
     homePerson.save()
 
     challenge.delete()
@@ -18,8 +18,8 @@ App.ChallengeController = Ember.ArrayController.extend
       away: awayPerson
       created_at: new Date()
     )
-    awayPerson.get('challenges_away').addObject challenge
-    homePerson.get('challenges_home').addObject challenge
+    awayPerson.get('challenges').addObject challenge
+    homePerson.get('challenges').addObject challenge
     challenge.save()
     awayPerson.save()
     homePerson.save()

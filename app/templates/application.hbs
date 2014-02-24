@@ -19,7 +19,7 @@
     </nav>
   </header>
   <ul>
-  {{#each auth.person.challenges_away}}
+  {{#each auth.person.challenges}}
    <li> 
     You're challenged by {{home.name}}
     <button {{action 'acceptChallenge' this}} class="button blue">Accept</button>
