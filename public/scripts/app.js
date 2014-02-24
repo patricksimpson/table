@@ -327,12 +327,21 @@ module.exports = App.PeopleController = Ember.ArrayController.extend({
   personName: null,
   personEmail: null,
   people: (function() {
-    var currentPerson,
+    var awayPerson, challenge, challengeRequests, challenges, currentPerson, homePerson, _i, _len, _ref,
       _this = this;
     this.set('isWaiting', false);
     currentPerson = this.get('person');
     if (currentPerson != null) {
-      this.isChallenged(currentPerson);
+      challenges = currentPerson.get("challenges");
+      _ref = challenges.toArray();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        challengeRequests = _ref[_i];
+        challenge = challengeRequests.content;
+        homePerson = challenge.get("home");
+        awayPerson = challenge.get("away");
+        console.log(homePerson.get("name"));
+        console.log(awayPerson.get("name"));
+      }
     }
     return this.get('content').map(function(person) {
       var isMe;
@@ -340,7 +349,7 @@ module.exports = App.PeopleController = Ember.ArrayController.extend({
       person.set('isMe', isMe);
       return person;
     });
-  }).property('content.@each', 'challenges', 'person'),
+  }).property('content.@each', 'person'),
   isChallenged: function(person) {
     var challenges,
       _this = this;

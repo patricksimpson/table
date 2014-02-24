@@ -9,12 +9,18 @@ module.exports = App.PeopleController = Ember.ArrayController.extend
     @set('isWaiting', false)
     currentPerson = @get('person')
     if currentPerson?
-      @isChallenged(currentPerson)
+      challenges = currentPerson.get("challenges")
+      for challengeRequests in challenges.toArray()
+        challenge = challengeRequests.content
+        homePerson = challenge.get("home")
+        awayPerson = challenge.get("away")
+        console.log homePerson.get("name")
+        console.log awayPerson.get("name")
     @get('content').map (person) =>
       isMe = ( person.get('id') == currentPerson?.get('id') )
       person.set('isMe', isMe)
       person
-  ).property('content.@each', 'challenges', 'person')
+  ).property('content.@each', 'person')
   isChallenged: (person) ->
     challenges = @get('challenges')
     challenges.map (challenge) =>
