@@ -34,13 +34,17 @@
   {{/each}}
   </ul>
   <h2>SparkTable ({{people.length}})</h2>
-  {{#each people}}
-    {{#if is_waiting}}
+  {{#each person in waits}}
+    {{#if person.is_waiting}}
       <p>
-      {{name}} is looking to play. 
-      {{#if auth.person}} 
-        <button {{action 'joinWaitList'}} class="button green">Join</button>
-      {{/if}}
+      {{#unless person.isMe}}
+        {{person.name}} is looking to play. 
+        {{#if auth.person.name}} 
+          <button {{action 'challengeRequest' this}} class="button green">Join</button>
+        {{/if}}
+      {{else}}
+        Waiting for challenges...
+      {{/unless}}
       </p>
     {{/if}}
   {{/each}}

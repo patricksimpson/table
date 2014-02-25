@@ -5,6 +5,7 @@ App.Person = FP.Model.extend
   created_at: FP.attr 'date'
   is_admin: FP.attr 'boolean'
   is_waiting: FP.attr 'boolean'
+  waiting_time: FP.attr 'date'
   wins: FP.attr 'number'
   losses: FP.attr 'number'
   challenges: FP.hasMany('challenge', {embedded: false})

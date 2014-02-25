@@ -9,6 +9,21 @@ App.PersonController = Ember.ObjectController.extend
   isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin')
   iAmSure: false
   isEditing: false
+  isChallenged: (->
+    person = @get('model')
+    challenges = person.get('challenges')
+    for challenge in challenges.toArray()
+      request = challenge.content
+      if request == undefined
+        request = challenge
+      if request == undefined
+        return
+      away_id = request.get('away.id')
+      person_id = person.get('id')
+      if person_id == away_id
+        return true
+    return false
+  ).property('content', 'authedPerson.content.challenges.@each', 'challenges.content.@each')
   challengeDeclined: (->
     changed = false
     debugger
@@ -42,12 +57,14 @@ App.PersonController = Ember.ObjectController.extend
       person = @get('model')
       person.setProperties(
         is_waiting: true
+        waiting_time: new Date()
       )
       person.save()
     leaveWaitingList: ->
       person = @get('model')
       person.setProperties(
         is_waiting: false
+        waiting_time: null
       )
       person.save()
     challengeRequest: ->

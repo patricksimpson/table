@@ -5,15 +5,7 @@ module.exports = App.PeopleController = Ember.ArrayController.extend
   personName: null
   personEmail: null
   people: (->
-    @set('isWaiting', false)
     currentPerson = @get('person')
-    if currentPerson?
-      challenges = currentPerson.get("challenges")
-      if challenges?
-        for challengeRequests in challenges.toArray()
-          challenge = challengeRequests.content
-          homePerson = challenge.get("home")
-          awayPerson = challenge.get("away")
     @get('content').map (person) =>
       isMe = ( person.get('id') == currentPerson?.get('id') )
       person.set('isMe', isMe)
