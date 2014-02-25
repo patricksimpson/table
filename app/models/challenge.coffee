@@ -3,3 +3,4 @@ App.Challenge = FP.Model.extend
   away: FP.hasOne("person", {embedded: false})
   created_at: FP.attr 'date'
   message: FP.attr 'string'
+  declined: FP.attr 'boolean'

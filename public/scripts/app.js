@@ -243,23 +243,26 @@ App.ChallengeController = Ember.ArrayController.extend({
     awayPerson = challenge.get('away');
     awayPerson.get('challenges').removeObject(challenge);
     awayPerson.save();
+    challenge.setProperties({
+      declined: true
+    });
+    challenge.save();
     homePerson = challenge.get('home');
-    homePerson.get('challenges').removeObject(challenge);
-    homePerson.save();
-    return challenge["delete"]();
+    homePerson.get('responses').addObject(challenge);
+    return homePerson.save();
   },
   createChallenge: function(homePerson, awayPerson) {
-    var challenge;
+    var challenge,
+      _this = this;
     challenge = this.get('store').createRecord('challenge', {
       home: homePerson,
       away: awayPerson,
       created_at: new Date()
     });
-    awayPerson.get('challenges').addObject(challenge);
-    homePerson.get('challenges').addObject(challenge);
-    challenge.save();
-    awayPerson.save();
-    return homePerson.save();
+    return challenge.save().then(function(challenge) {
+      awayPerson.get('challenges').addObject(challenge);
+      return awayPerson.save();
+    });
   }
 });
 });
@@ -277,13 +280,15 @@ module.exports = App.PeopleController = Ember.ArrayController.extend({
     this.set('isWaiting', false);
     currentPerson = this.get('person');
     if (currentPerson != null) {
-      challenges = currentPerson.get("challenges_away");
-      _ref = challenges.toArray();
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        challengeRequests = _ref[_i];
-        challenge = challengeRequests.content;
-        homePerson = challenge.get("home");
-        awayPerson = challenge.get("away");
+      challenges = currentPerson.get("challenges");
+      if (challenges != null) {
+        _ref = challenges.toArray();
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          challengeRequests = _ref[_i];
+          challenge = challengeRequests.content;
+          homePerson = challenge.get("home");
+          awayPerson = challenge.get("away");
+        }
       }
     }
     return this.get('content').map(function(person) {
@@ -351,11 +356,27 @@ App.PersonController = Ember.ObjectController.extend({
     return 1;
   }).property('games'),
   needs: ['auth', 'challenge'],
-  challenge: Ember.computed.alias('controllers.challenge'),
+  challenge: Ember.computed.alias('controllers.challenge.content'),
   authedPerson: Ember.computed.alias('controllers.auth.person'),
   isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin'),
   iAmSure: false,
   isEditing: false,
+  challengeDeclined: (function() {
+    var challenge, changed, _i, _len, _ref;
+    changed = false;
+    debugger;
+    _ref = this.get('responses');
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      challenge = _ref[_i];
+      if (challenge.get('declined')) {
+        this.get('challenges').removeObject(challenge);
+        changed = true;
+      }
+    }
+    if (changed) {
+      return this.save();
+    }
+  }).property('content', 'challenge'),
   isMe: (function() {
     return this.get('id') === this.get('authedPerson.id');
   }).property('content', 'authedPerson'),
@@ -500,7 +521,8 @@ App.Challenge = FP.Model.extend({
     embedded: false
   }),
   created_at: FP.attr('date'),
-  message: FP.attr('string')
+  message: FP.attr('string'),
+  declined: FP.attr('boolean')
 });
 });
 
@@ -540,6 +562,9 @@ App.Person = FP.Model.extend({
   losses: FP.attr('number'),
   challenges: FP.hasMany('challenge', {
     embedded: false
+  }),
+  responses: FP.hasMany('challenge', {
+    embedded: false
   })
 });
 });
@@ -571,7 +596,7 @@ module.exports = App.ApplicationRoute = Ember.Route.extend({
 ;require.register("routes/challenge", function(exports, require, module) {
 module.exports = App.ChallengeRoute = Ember.Route.extend({
   model: function() {
-    return this.get('store').findAll('challenge');
+    return this.store.fetch('challenge');
   }
 });
 });
