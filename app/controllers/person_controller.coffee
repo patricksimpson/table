@@ -4,7 +4,7 @@ App.PersonController = Ember.ObjectController.extend
    1
   ).property('games')
   needs: ['auth','challenge']
-  challenge: Ember.computed.alias('controllers.challenge.content')
+  challenge: Ember.computed.alias('controllers.challenge')
   authedPerson: Ember.computed.alias('controllers.auth.person')
   isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin')
   iAmSure: false
@@ -18,7 +18,7 @@ App.PersonController = Ember.ObjectController.extend
         changed = true
     if changed
       @.save()
-  ).property('content','challenge')
+  ).property('content')
   isMe: (->
     return @get('id') == @get('authedPerson.id')
   ).property('content', 'authedPerson')

@@ -26,6 +26,12 @@
     <button {{action 'declineChallenge' this}} class="button black">Decline</button>
     </li>
   {{/each}}
+  {{#each auth.person.responses}}
+   <li> 
+    Challenge declined by {{away.name}}
+    <button {{action 'removeResponse' this}} class="button black">Ok</button>
+    </li>
+  {{/each}}
   </ul>
   <h2>SparkTable ({{people.length}})</h2>
   {{#each people}}

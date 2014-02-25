@@ -12,6 +12,9 @@ App.ApplicationController = Ember.Controller.extend
     declineChallenge: (theChallenge) ->
       challenge = @get('controllers.challenge')
       challenge.declineChallenge(theChallenge)
+    removeResponse: (theChallenge) ->
+      challenge = @get('controllers.challenge')
+      challenge.removeResponse(theChallenge)
   waitingList: (->
     console.log "people!"
   ).property('content', 'people')
