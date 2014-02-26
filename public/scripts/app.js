@@ -157,6 +157,26 @@ module.exports = App.Router.map(function() {
 App.ApplicationController = Ember.Controller.extend({
   needs: ['auth', 'challenge', 'people', 'person', 'wait'],
   authBinding: "controllers.auth",
+  authedPerson: "controllers.auth.person",
+  person: "controllers.person",
+  waitingList: (function() {
+    var _this = this;
+    return this.get('waits').map(function(wait) {
+      var auth_id, person;
+      wait.set('updatetime', new Date());
+      wait.get('person');
+      person = wait.get('person');
+      auth_id = _this.get('controllers.auth.person.id');
+      if (auth_id) {
+        if (auth_id === person.get('id')) {
+          wait.set('isMe', true);
+        }
+      } else {
+        wait.set('isMe', false);
+      }
+      return wait;
+    });
+  }).property('controllers.people.people', 'person', 'controllers.auth.person'),
   actions: {
     login: function() {
       return this.get('controllers.auth').login();
@@ -383,7 +403,6 @@ App.PersonController = Ember.ObjectController.extend({
   challengeDeclined: (function() {
     var challenge, changed, _i, _len, _ref;
     changed = false;
-    debugger;
     _ref = this.get('responses');
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       challenge = _ref[_i];
@@ -416,7 +435,7 @@ App.PersonController = Ember.ObjectController.extend({
       return this.set('isEditing', true);
     },
     doEditPerson: function() {
-      return console.log("save");
+      return console.log("savin");
     },
     cancelEditPerson: function() {
       return this.set('isEditing', false);
@@ -631,7 +650,16 @@ module.exports = App.PersonRoute = Ember.Route.extend({
 });
 
 ;require.register("routes/wait", function(exports, require, module) {
-module.exports = App.WaitRoute = Ember.Route.extend;
+module.exports = App.WaitRoute = Ember.Route.extend({
+  mode: function() {
+    return this.store.fetch('waits');
+  },
+  renderTemplate: function() {
+    return this.render({
+      outlet: waits
+    });
+  }
+});
 });
 
 ;require.register("templates/application", function(exports, require, module) {
@@ -717,7 +745,7 @@ function program10(depth0,data) {
   data.buffer.push("\n      <p>\n      ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.unless.call(depth0, "wait.person.isMe", {hash:{},inverse:self.program(14, program14, data),fn:self.program(11, program11, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.unless.call(depth0, "wait.isMe", {hash:{},inverse:self.program(14, program14, data),fn:self.program(11, program11, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n      </p>\n    ");
   return buffer;
@@ -776,7 +804,7 @@ function program14(depth0,data) {
   data.buffer.push(")</h2>\n  ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "wait", "in", "waits", {hash:{},inverse:self.noop,fn:self.program(9, program9, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.each.call(depth0, "wait", "in", "waitingList", {hash:{},inverse:self.noop,fn:self.program(9, program9, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  <div class=\"content\">\n    ");
   hashTypes = {};

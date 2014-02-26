@@ -27,7 +27,6 @@ App.PersonController = Ember.ObjectController.extend
   ).property('content', 'authedPerson.content.challenges.@each', 'challenges.content.@each')
   challengeDeclined: (->
     changed = false
-    debugger
     for challenge in @get('responses')
       if challenge.get('declined')
         @get('challenges').removeObject challenge
@@ -51,7 +50,7 @@ App.PersonController = Ember.ObjectController.extend
     editPerson: ->
       @set('isEditing', true)
     doEditPerson: ->
-      console.log "save"
+      console.log "savin"
     cancelEditPerson: ->
       @set('isEditing', false)
     joinWaitingList: ->
