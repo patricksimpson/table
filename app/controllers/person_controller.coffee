@@ -3,10 +3,11 @@ App.PersonController = Ember.ObjectController.extend
     #@get('name')
    1
   ).property('games')
-  needs: ['auth','challenge']
+  needs: ['auth','challenge', 'wait']
   challenge: Ember.computed.alias('controllers.challenge')
   authedPerson: Ember.computed.alias('controllers.auth.person')
   isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin')
+  wait: Ember.computed.alias('controllers.wait')
   iAmSure: false
   isEditing: false
   isChallenged: (->
@@ -55,11 +56,14 @@ App.PersonController = Ember.ObjectController.extend
       @set('isEditing', false)
     joinWaitingList: ->
       person = @get('model')
+      if person.get('is_waiting')
+        return
       person.setProperties(
         is_waiting: true
         waiting_time: new Date()
       )
       person.save()
+      @wait.addPerson(person)
     leaveWaitingList: ->
       person = @get('model')
       person.setProperties(
@@ -67,6 +71,7 @@ App.PersonController = Ember.ObjectController.extend
         waiting_time: null
       )
       person.save()
+      @wait.removePerson(person)
     challengeRequest: ->
       @get('controllers.challenge').createChallenge(@get('authedPerson'), @get('model'))
 

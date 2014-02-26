@@ -157,43 +157,6 @@ module.exports = App.Router.map(function() {
 App.ApplicationController = Ember.Controller.extend({
   needs: ['auth', 'challenge', 'people', 'person'],
   authBinding: "controllers.auth",
-  setupWaiting: (function() {
-    this.updateWaitingList();
-    return console.log("setting up..");
-  }).on('init'),
-  waits: (function() {
-    console.log("waiting list change?");
-    this.updateWaitingList();
-    return this.get('waitingList');
-  }).property('content', 'controllers.people.content.@each'),
-  updateWaitingList: function() {
-    var _this = this;
-    console.log("GET WAITING LIST");
-    this.set('waitingList', []);
-    return this.get('store').fetch('person').then(function(people) {
-      var person, waitingList, _i, _len, _ref;
-      waitingList = [];
-      _ref = people.content;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        person = _ref[_i];
-        if (person.get('is_waiting')) {
-          console.log(person.get('name') + " is waiting.............");
-          waitingList.push(person);
-        }
-      }
-      waitingList.sort(function(a, b) {
-        console.log("sort");
-        if (a.get('waiting_time').getTime() > b.get('waiting_time').getTime()) {
-          return 1;
-        }
-        if (a.get('waiting_time').getTime() < b.get('waiting_time').getTime()) {
-          return -1;
-        }
-        return 0;
-      });
-      return _this.set('waitingList', waitingList);
-    });
-  },
   actions: {
     login: function() {
       return this.get('controllers.auth').login();
@@ -388,10 +351,11 @@ App.PersonController = Ember.ObjectController.extend({
   wins: (function() {
     return 1;
   }).property('games'),
-  needs: ['auth', 'challenge'],
+  needs: ['auth', 'challenge', 'wait'],
   challenge: Ember.computed.alias('controllers.challenge'),
   authedPerson: Ember.computed.alias('controllers.auth.person'),
   isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin'),
+  wait: Ember.computed.alias('controllers.wait'),
   iAmSure: false,
   isEditing: false,
   isChallenged: (function() {
@@ -460,11 +424,15 @@ App.PersonController = Ember.ObjectController.extend({
     joinWaitingList: function() {
       var person;
       person = this.get('model');
+      if (person.get('is_waiting')) {
+        return;
+      }
       person.setProperties({
         is_waiting: true,
         waiting_time: new Date()
       });
-      return person.save();
+      person.save();
+      return this.wait.addPerson(person);
     },
     leaveWaitingList: function() {
       var person;
@@ -473,7 +441,8 @@ App.PersonController = Ember.ObjectController.extend({
         is_waiting: false,
         waiting_time: null
       });
-      return person.save();
+      person.save();
+      return this.wait.removePerson(person);
     },
     challengeRequest: function() {
       return this.get('controllers.challenge').createChallenge(this.get('authedPerson'), this.get('model'));
@@ -486,24 +455,12 @@ App.PersonController = Ember.ObjectController.extend({
 App.WaitController = Ember.ArrayController.extend({
   needs: ['person'],
   addPerson: function(appendPerson) {
-    if (this.isWait(appendPerson)) {
-      return this.doAddPerson(appendPerson);
-    }
-  },
-  isWait: function(person) {
-    var _this = this;
-    return this.get('store').fetch('wait').then((function(wait) {
-      var n, _i, _len, _ref;
-      _ref = wait.content;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        n = _ref[_i];
-        if (n.get('person').get('id') === person.get('id')) {
-          _this.set('controllers.person.isWaiting', true);
-          return true;
-        }
-      }
-      return false;
-    }));
+    var newWait;
+    newWait = this.get('store').createRecord("wait", {
+      person: appendPerson,
+      created_at: new Date()
+    });
+    return newWait.save();
   },
   removePerson: function(person) {
     var _this = this;
@@ -519,13 +476,6 @@ App.WaitController = Ember.ArrayController.extend({
       }
       return false;
     }));
-  },
-  doAddPerson: function(appendPerson) {
-    var newWait;
-    newWait = this.get('store').createRecord("wait", {
-      person: appendPerson
-    });
-    return newWait.save();
   }
 });
 });
@@ -646,7 +596,8 @@ App.Wait = FP.Model.extend({
 ;require.register("routes/application", function(exports, require, module) {
 module.exports = App.ApplicationRoute = Ember.Route.extend({
   setupController: function(controller, model) {
-    return controller.set('people', this.get('store').findAll('person'));
+    controller.set('people', this.get('store').findAll('person'));
+    return controller.set('waits', this.get('store').findAll('wait'));
   }
 });
 });
