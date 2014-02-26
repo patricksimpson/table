@@ -567,11 +567,36 @@ App.Game = FP.Model.extend({
   away: FP.hasOne("person", {
     embedded: false
   }),
-  complete: FP.attr('boolean'),
+  is_complete: FP.attr('boolean'),
+  is_pending: FP.attr('boolean'),
   created_at: FP.attr('date'),
   rounds: FP.hasMany("rounds", {
     embedded: true,
     as: "rounds"
+  })
+});
+});
+
+;require.register("models/gameComplete", function(exports, require, module) {
+App.GameComplete = FP.Model.extend({
+  games: FP.hasMany("game", {
+    embedded: false
+  })
+});
+});
+
+;require.register("models/gameCurrent", function(exports, require, module) {
+App.GamePending = FP.Model.extend({
+  games: FP.hasMany("game", {
+    embedded: false
+  })
+});
+});
+
+;require.register("models/gamePending", function(exports, require, module) {
+App.GameCurrent = FP.Model.extend({
+  game: FP.hasOne("game", {
+    embedded: false
   })
 });
 });
@@ -598,8 +623,8 @@ App.Person = FP.Model.extend({
 
 ;require.register("models/round", function(exports, require, module) {
 App.Round = FP.Model.extend({
-  score_home: FP.attr('number'),
-  score_away: FP.attr('number')
+  home_score: FP.attr('number'),
+  away_score: FP.attr('number')
 });
 });
 

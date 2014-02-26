@@ -1,3 +1,3 @@
 App.Round = FP.Model.extend
-  score_home: FP.attr 'number'
-  score_away: FP.attr 'number'
+  home_score: FP.attr 'number'
+  away_score: FP.attr 'number'
