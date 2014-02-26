@@ -1,5 +1,5 @@
 App.ApplicationController = Ember.Controller.extend
-  needs: ['auth', 'challenge', 'people', 'person']
+  needs: ['auth', 'challenge', 'people', 'person', 'wait']
   authBinding: "controllers.auth"
   actions:
     login: ->

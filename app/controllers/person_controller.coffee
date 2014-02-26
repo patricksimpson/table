@@ -63,7 +63,7 @@ App.PersonController = Ember.ObjectController.extend
         waiting_time: new Date()
       )
       person.save()
-      @wait.addPerson(person)
+      @get('wait').addPerson(person)
     leaveWaitingList: ->
       person = @get('model')
       person.setProperties(
@@ -71,7 +71,7 @@ App.PersonController = Ember.ObjectController.extend
         waiting_time: null
       )
       person.save()
-      @wait.removePerson(person)
+      @get('wait').removePerson(person)
     challengeRequest: ->
       @get('controllers.challenge').createChallenge(@get('authedPerson'), @get('model'))
 
