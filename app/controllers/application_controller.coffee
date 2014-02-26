@@ -1,9 +1,8 @@
 App.ApplicationController = Ember.Controller.extend
   needs: ['auth', 'challenge', 'people', 'person', 'wait']
   authBinding: "controllers.auth"
-  authedPerson: "controllers.auth.person"
-  person: "controllers.person"
   waitingList: (->
+    console.log "update waiting list..."
     @get('waits').map (wait) =>
       wait.set 'updatetime', new Date()
       wait.get('person')
@@ -15,12 +14,16 @@ App.ApplicationController = Ember.Controller.extend
       else
         wait.set 'isMe', false
       wait
-  ).property('controllers.people.people', 'person', 'controllers.auth.person')
+  ).property('waits.content.@each', 'controllers.person.content', 'controllers.auth.person')
   actions:
     login: ->
       @get('controllers.auth').login()
     logout: ->
       @get('controllers.auth').logout()
+    acceptGame: (home, away) ->
+      console.log home.get('name')
+      console.log away.get('name')
+      
     acceptChallenge: (theChallenge) ->
       challenge = @get('controllers.challenge')
       challenge.acceptChallenge(theChallenge)

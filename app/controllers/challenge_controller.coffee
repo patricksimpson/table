@@ -1,5 +1,6 @@
 App.ChallengeController = Ember.ArrayController.extend
-  needs: ['person']
+  needs: ['person', 'game']
+  game: Ember.computed.alias('controllers.game')
   declineChallenge: (challenge) ->
     
     awayPerson = challenge.get('away')
@@ -18,21 +19,23 @@ App.ChallengeController = Ember.ArrayController.extend
     homePerson = challenge.get('home')
     homePerson.get('responses').removeObject challenge
     homePerson.save()
-
     challenge.delete()
-
   createChallenge: (homePerson, awayPerson) ->
     challenge = @get('store').createRecord('challenge',
       home: homePerson
       away: awayPerson
       created_at: new Date()
     )
-    
     challenge.save().then (challenge) =>
       awayPerson.get('challenges').addObject challenge
       awayPerson.save()
-    #Commented out for now...
-    # challengeRequest = @store.createRecord("challengeRequest",
-    #   home: home.get('twitter')
-    #   away: away.get('twitter')
-    # )
+  acceptChallenge: (challenge) ->
+    home = challenge.get('home')
+    away = challenge.get('away')
+    
+    @get('game').addGame(home, away)
+    
+    away.get('challenges').removeObject challenge
+    away.save()
+    
+    challenge.delete()

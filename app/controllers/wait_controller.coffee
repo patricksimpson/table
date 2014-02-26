@@ -1,5 +1,5 @@
 App.WaitController = Ember.ArrayController.extend
-  needs: ['person']
+  needs: ['person', 'auth']
   addPerson: (appendPerson) ->
     newWait = @get('store').createRecord("wait",
       person: appendPerson

@@ -157,10 +157,9 @@ module.exports = App.Router.map(function() {
 App.ApplicationController = Ember.Controller.extend({
   needs: ['auth', 'challenge', 'people', 'person', 'wait'],
   authBinding: "controllers.auth",
-  authedPerson: "controllers.auth.person",
-  person: "controllers.person",
   waitingList: (function() {
     var _this = this;
+    console.log("update waiting list...");
     return this.get('waits').map(function(wait) {
       var auth_id, person;
       wait.set('updatetime', new Date());
@@ -176,13 +175,17 @@ App.ApplicationController = Ember.Controller.extend({
       }
       return wait;
     });
-  }).property('controllers.people.people', 'person', 'controllers.auth.person'),
+  }).property('waits.content.@each', 'controllers.person.content', 'controllers.auth.person'),
   actions: {
     login: function() {
       return this.get('controllers.auth').login();
     },
     logout: function() {
       return this.get('controllers.auth').logout();
+    },
+    acceptGame: function(home, away) {
+      console.log(home.get('name'));
+      return console.log(away.get('name'));
     },
     acceptChallenge: function(theChallenge) {
       var challenge;
@@ -259,7 +262,8 @@ App.AuthController = Ember.Controller.extend({
 
 ;require.register("controllers/challenge_controller", function(exports, require, module) {
 App.ChallengeController = Ember.ArrayController.extend({
-  needs: ['person'],
+  needs: ['person', 'game'],
+  game: Ember.computed.alias('controllers.game'),
   declineChallenge: function(challenge) {
     var awayPerson, homePerson;
     awayPerson = challenge.get('away');
@@ -292,6 +296,41 @@ App.ChallengeController = Ember.ArrayController.extend({
       awayPerson.get('challenges').addObject(challenge);
       return awayPerson.save();
     });
+  },
+  acceptChallenge: function(challenge) {
+    var away, home;
+    home = challenge.get('home');
+    away = challenge.get('away');
+    this.get('game').addGame(home, away);
+    away.get('challenges').removeObject(challenge);
+    away.save();
+    return challenge["delete"]();
+  }
+});
+});
+
+;require.register("controllers/game_controller", function(exports, require, module) {
+App.GameController = Ember.ObjectController.extend({
+  needs: ['person'],
+  addGame: function(home, away) {
+    var newGame, round;
+    newGame = this.get('store').createRecord("game", {
+      home: home,
+      away: away,
+      is_complete: false,
+      is_pending: true,
+      created_at: new Date()
+    });
+    round = this.get('store').createRecord("round", {
+      home_score: 0,
+      away_score: 0,
+      content: newGame
+    });
+    newGame.get('rounds').addObject(round);
+    return newGame.save();
+  },
+  removeGame: function(game) {
+    return game["delete"]();
   }
 });
 });
@@ -472,7 +511,7 @@ App.PersonController = Ember.ObjectController.extend({
 
 ;require.register("controllers/wait_controller", function(exports, require, module) {
 App.WaitController = Ember.ArrayController.extend({
-  needs: ['person'],
+  needs: ['person', 'auth'],
   addPerson: function(appendPerson) {
     var newWait;
     newWait = this.get('store').createRecord("wait", {
@@ -570,10 +609,7 @@ App.Game = FP.Model.extend({
   is_complete: FP.attr('boolean'),
   is_pending: FP.attr('boolean'),
   created_at: FP.attr('date'),
-  rounds: FP.hasMany("rounds", {
-    embedded: true,
-    as: "rounds"
-  })
+  rounds: FP.hasMany("rounds")
 });
 });
 
@@ -622,7 +658,7 @@ App.Person = FP.Model.extend({
 });
 
 ;require.register("models/round", function(exports, require, module) {
-App.Round = FP.Model.extend({
+App.Round = FP.MetaModel.extend({
   home_score: FP.attr('number'),
   away_score: FP.attr('number')
 });
@@ -676,13 +712,8 @@ module.exports = App.PersonRoute = Ember.Route.extend({
 
 ;require.register("routes/wait", function(exports, require, module) {
 module.exports = App.WaitRoute = Ember.Route.extend({
-  mode: function() {
-    return this.store.fetch('waits');
-  },
-  renderTemplate: function() {
-    return this.render({
-      outlet: waits
-    });
+  model: function() {
+    return this.get('store').findAll('wait');
   }
 });
 });
@@ -796,7 +827,7 @@ function program12(depth0,data) {
   data.buffer.push(" \n          <button ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers.action.call(depth0, "challengeRequest", "", {hash:{},contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "acceptGame", "wait.person", "auth.person", {hash:{},contexts:[depth0,depth0,depth0],types:["STRING","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push(" class=\"button green\">Join</button>\n        ");
   return buffer;
   }

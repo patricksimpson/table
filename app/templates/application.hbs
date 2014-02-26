@@ -40,7 +40,7 @@
       {{#unless wait.isMe}}
         {{wait.person.name}} is looking to play. 
         {{#if auth.person.name}} 
-          <button {{action 'challengeRequest' this}} class="button green">Join</button>
+          <button {{action 'acceptGame' wait.person auth.person}} class="button green">Join</button>
         {{/if}}
       {{else}}
         Waiting for challenges...
