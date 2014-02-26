@@ -155,8 +155,10 @@ module.exports = App.Router.map(function() {
 
 ;require.register("controllers/application_controller", function(exports, require, module) {
 App.ApplicationController = Ember.Controller.extend({
-  needs: ['auth', 'challenge', 'people', 'person', 'wait'],
+  needs: ['auth', 'challenge', 'people', 'person', 'wait', 'game'],
   authBinding: "controllers.auth",
+  waitList: Ember.computed.alias('controllers.wait'),
+  game: Ember.computed.alias('controllers.game'),
   waitingList: (function() {
     var _this = this;
     console.log("update waiting list...");
@@ -184,8 +186,10 @@ App.ApplicationController = Ember.Controller.extend({
       return this.get('controllers.auth').logout();
     },
     acceptGame: function(home, away) {
-      console.log(home.get('name'));
-      return console.log(away.get('name'));
+      this.get('game').addGame(home, away);
+      this.get('waitList').removePerson(home);
+      home.set('is_waiting', false);
+      return home.save();
     },
     acceptChallenge: function(theChallenge) {
       var challenge;
