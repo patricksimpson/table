@@ -29,6 +29,10 @@ App.ChallengeController = Ember.ArrayController.extend
     challenge.save().then (challenge) =>
       awayPerson.get('challenges').addObject challenge
       awayPerson.save()
+      # challengeRequest = @store.createRecord("challengeRequest",
+      #   home: home.get('twitter')
+      #   away: away.get('twitter')
+      # )
   acceptChallenge: (challenge) ->
     home = challenge.get('home')
     away = challenge.get('away')

@@ -4,7 +4,6 @@ App.ApplicationController = Ember.Controller.extend
   waitList: Ember.computed.alias('controllers.wait')
   game: Ember.computed.alias('controllers.game')
   waitingList: (->
-    console.log "update waiting list..."
     @get('waits').map (wait) =>
       wait.set 'updatetime', new Date()
       wait.get('person')

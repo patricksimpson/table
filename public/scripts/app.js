@@ -161,7 +161,6 @@ App.ApplicationController = Ember.Controller.extend({
   game: Ember.computed.alias('controllers.game'),
   waitingList: (function() {
     var _this = this;
-    console.log("update waiting list...");
     return this.get('waits').map(function(wait) {
       var auth_id, person;
       wait.set('updatetime', new Date());
