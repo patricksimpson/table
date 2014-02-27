@@ -151,7 +151,7 @@ module.exports = App.Router.map(function() {
     path: '/person/:person_id'
   });
   return this.resource("currentGame", {
-    path: '/game/current'
+    path: '/current/:currentGame_id'
   });
 });
 });
@@ -247,7 +247,7 @@ App.AuthController = Ember.Controller.extend({
         email: '',
         is_waiting: false,
         is_admin: false,
-        created_at: new Date()
+        createdAt: new Date()
       });
       return newPerson.save().then(function() {
         return _this.set('person', person);
@@ -296,7 +296,7 @@ App.ChallengeController = Ember.ArrayController.extend({
     challenge = this.get('store').createRecord('challenge', {
       home: homePerson,
       away: awayPerson,
-      created_at: new Date()
+      createdAt: new Date()
     });
     return challenge.save().then(function(challenge) {
       awayPerson.get('challenges').addObject(challenge);
@@ -316,8 +316,10 @@ App.ChallengeController = Ember.ArrayController.extend({
 });
 
 ;require.register("controllers/currentGame_controller", function(exports, require, module) {
-App.CurrentGameController = Ember.ArrayController.extend({
-  needs: ['person']
+App.CurrentGameController = Ember.ObjectController.extend({
+  needs: ['person', 'people'],
+  home_score: 0,
+  away_score: 0
 });
 });
 
@@ -325,19 +327,13 @@ App.CurrentGameController = Ember.ArrayController.extend({
 App.GameController = Ember.ObjectController.extend({
   needs: ['person'],
   addGame: function(home, away) {
-    var newGame, round;
+    var newGame;
     console.log("make me a game...");
     newGame = this.get('store').createRecord("pendingGame", {
       home: home,
       away: away,
-      created_at: new Date()
+      createdAt: new Date()
     });
-    console.log("savin");
-    round = this.get('store').createRecord("round", {
-      home_score: 0,
-      away_score: 0
-    });
-    newGame.get('rounds').addObject(round);
     newGame.save();
     return this.newGame(newGame);
   },
@@ -347,23 +343,28 @@ App.GameController = Ember.ObjectController.extend({
   newGame: function(game) {
     var _this = this;
     return this.get('store').fetch('currentGame').then((function(currentGame) {
-      console.log("IS THERE A CURRENT GAME?");
-      console.log(currentGame);
       if (currentGame.content.length < 1) {
         return _this.setCurrentGame(game);
       }
     }), function(error) {
-      console.log(error);
-      return console.log("mega fail");
+      return console.log(error);
     });
   },
   setCurrentGame: function(pendingGame) {
-    var currentGame;
+    debugger;
+    var currentGame, new_rounds;
+    new_rounds = [
+      {
+        home_score: 0,
+        away_score: 0
+      }
+    ];
     currentGame = this.get('store').createRecord('currentGame', {
       home: pendingGame.get('home'),
       away: pendingGame.get('away'),
-      created_at: pendingGame.get('created_at'),
-      started_at: new Date()
+      createdAt: pendingGame.get('createdAt'),
+      startedAt: new Date(),
+      rounds: new_rounds
     });
     currentGame.save();
     pendingGame["delete"]();
@@ -372,11 +373,7 @@ App.GameController = Ember.ObjectController.extend({
   startGame: function(currentGame) {
     var away, home;
     home = currentGame.get('home');
-    away = currentGame.get('away');
-    console.log(home.get('name'));
-    console.log("vs");
-    console.log(away.get('name'));
-    return console.log("has started");
+    return away = currentGame.get('away');
   },
   gameOver: function(game) {}
 });
@@ -563,7 +560,7 @@ App.WaitController = Ember.ArrayController.extend({
     var newWait;
     newWait = this.get('store').createRecord("wait", {
       person: appendPerson,
-      created_at: new Date()
+      createdAt: new Date()
     });
     return newWait.save();
   },
@@ -632,7 +629,7 @@ App.Challenge = FP.Model.extend({
   away: FP.hasOne("person", {
     embedded: false
   }),
-  created_at: FP.attr('date'),
+  createdAt: FP.attr('date'),
   message: FP.attr('string'),
   declined: FP.attr('boolean')
 });
@@ -665,10 +662,10 @@ App.Game = FP.Model.extend({
   away: FP.hasOne("person", {
     embedded: false
   }),
-  created_at: FP.attr('date'),
-  completed_at: FP.attr('date'),
-  started_at: FP.attr('date'),
-  rounds: FP.hasMany("rounds")
+  createdAt: FP.attr('date'),
+  completedAt: FP.attr('date'),
+  startedAt: FP.attr('date'),
+  rounds: FP.attr('hash')
 });
 });
 
@@ -683,7 +680,7 @@ App.Person = FP.Model.extend({
   name: FP.attr('string'),
   twitter: FP.attr('string'),
   email: FP.attr('string'),
-  created_at: FP.attr('date'),
+  createdAt: FP.attr('date'),
   is_admin: FP.attr('boolean'),
   is_waiting: FP.attr('boolean'),
   waiting_time: FP.attr('date'),
@@ -710,7 +707,7 @@ App.Wait = FP.Model.extend({
   person: FP.hasOne("person", {
     embedded: false
   }),
-  created_at: FP.attr('date')
+  createdAt: FP.attr('date')
 });
 });
 
@@ -735,8 +732,8 @@ module.exports = App.ChallengeRoute = Ember.Route.extend({
 
 ;require.register("routes/currentGame", function(exports, require, module) {
 module.exports = App.CurrentGameRoute = Ember.Route.extend({
-  model: function() {
-    return this.store.fetch('currentGame');
+  model: function(params) {
+    return this.store.fetch('currentGame', params.currentGame_id);
   }
 });
 });
@@ -819,8 +816,8 @@ function program5(depth0,data) {
   data.buffer.push("</span>\n        ");
   hashTypes = {};
   hashContexts = {};
-  options = {hash:{},inverse:self.noop,fn:self.program(6, program6, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "game", options) : helperMissing.call(depth0, "link-to", "game", options));
+  options = {hash:{},inverse:self.noop,fn:self.program(6, program6, data),contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "currentGame", "game", options) : helperMissing.call(depth0, "link-to", "currentGame", "game", options));
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("\n    ");
   return buffer;
@@ -1044,10 +1041,62 @@ function program6(depth0,data) {
 module.exports = Ember.TEMPLATES['currentGame'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
   
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n    <h3 class=\"gameview--header\">Game ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "index", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</h3>\n    <div class=\"actions actions--home\">\n      <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "addPointHome", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button green\">+</button>\n      <span class=\"score\">");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "home_score", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</span>\n      <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "subtractPointHome", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button red\">-</button>\n    </div> \n    <div class=\"actions actions--away\">\n      <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "addPointAway", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button green\">+</button>\n      <span class=\"score\">");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "away_score", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</span>\n      <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "subtractPointAway", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button red\">-</button>\n    </div>\n    <div class=\"gameview--end\">\n      <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "endRound", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button blue\">End Match</button>\n    </div>\n    ");
+  return buffer;
+  }
 
-
-  data.buffer.push("<h2>CURRENT GAME!</h2>\n\nSCORE\n");
+  data.buffer.push("<div class=\"gameview\">\n  <h2 class=\"gameview--main\">Current Match</h2>\n  <div class=\"gameview--current\">\n  <div class=\"player--content player--home\">\n    <span class=\"player--name\">");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "home.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</span>\n    <span class=\"overall--score\">0</span>\n  </div>\n  <div class=\"player--content player--away\">\n    <span class=\"overall--score\">0</span>\n    <span class=\"player--name\">");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "away.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</span>\n  </div>\n  <div class=\"gameview--actions\">\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers.each.call(depth0, "rounds", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n  </div>\n</div>\n");
+  return buffer;
   
 });
 });

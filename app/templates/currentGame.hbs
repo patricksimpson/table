@@ -1,3 +1,30 @@
-<h2>CURRENT GAME!</h2>
-
-SCORE
+<div class="gameview">
+  <h2 class="gameview--main">Current Match</h2>
+  <div class="gameview--current">
+  <div class="player--content player--home">
+    <span class="player--name">{{home.name}}</span>
+    <span class="overall--score">0</span>
+  </div>
+  <div class="player--content player--away">
+    <span class="overall--score">0</span>
+    <span class="player--name">{{away.name}}</span>
+  </div>
+  <div class="gameview--actions">
+    {{#each rounds}}
+    <h3 class="gameview--header">Game {{index}}</h3>
+    <div class="actions actions--home">
+      <button {{action addPointHome}} class="button green">+</button>
+      <span class="score">{{home_score}}</span>
+      <button {{action subtractPointHome}} class="button red">-</button>
+    </div> 
+    <div class="actions actions--away">
+      <button {{action addPointAway}} class="button green">+</button>
+      <span class="score">{{away_score}}</span>
+      <button {{action subtractPointAway}} class="button red">-</button>
+    </div>
+    <div class="gameview--end">
+      <button {{action endRound}} class="button blue">End Match</button>
+    </div>
+    {{/each}}
+  </div>
+</div>

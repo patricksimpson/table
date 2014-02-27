@@ -27,7 +27,7 @@ App.AuthController = Ember.Controller.extend
         email: ''
         is_waiting: false
         is_admin: false
-        created_at: new Date()
+        createdAt: new Date()
       )
       newPerson.save().then =>
         @set('person', person)

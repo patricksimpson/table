@@ -24,7 +24,7 @@ App.ChallengeController = Ember.ArrayController.extend
     challenge = @get('store').createRecord('challenge',
       home: homePerson
       away: awayPerson
-      created_at: new Date()
+      createdAt: new Date()
     )
     challenge.save().then (challenge) =>
       awayPerson.get('challenges').addObject challenge

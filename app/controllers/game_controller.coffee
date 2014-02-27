@@ -5,14 +5,8 @@ App.GameController = Ember.ObjectController.extend
     newGame = @get('store').createRecord("pendingGame",
       home: home
       away: away
-      created_at: new Date()
+      createdAt: new Date()
     )
-    console.log "savin"
-    round = @get('store').createRecord("round",
-      home_score: 0
-      away_score: 0
-    )
-    newGame.get('rounds').addObject(round)
     newGame.save()
     @newGame(newGame)
 
@@ -22,24 +16,30 @@ App.GameController = Ember.ObjectController.extend
   newGame: (game) ->
     # Check for a current game
     @get('store').fetch('currentGame').then ((currentGame) =>
-      console.log "IS THERE A CURRENT GAME?"
-      console.log currentGame
       if currentGame.content.length < 1
         @setCurrentGame(game)
     ), (error) =>
       console.log error
-      console.log "mega fail"
-
-
-
-
   setCurrentGame: (pendingGame) ->
+    debugger
+    new_rounds = [
+      {
+        home_score: 0
+        away_score: 0
+      }
+    ]
     currentGame = @get('store').createRecord('currentGame',
       home: pendingGame.get('home')
       away: pendingGame.get('away')
-      created_at: pendingGame.get('created_at')
-      started_at: new Date()
+      createdAt: pendingGame.get('createdAt')
+      startedAt: new Date()
+      rounds: new_rounds
     )
+    # round = @get('store').createRecord("round",
+    #   home_score: 0
+    #   away_score: 0
+    # )
+    #round.save()
     currentGame.save()
     pendingGame.delete()
     @startGame(currentGame)
@@ -48,11 +48,7 @@ App.GameController = Ember.ObjectController.extend
     #Notify players.
     home = currentGame.get('home')
     away = currentGame.get('away')
-    console.log home.get('name')
-    console.log "vs"
-    console.log away.get('name')
-    console.log "has started"
-    #Tweet
+   #Tweet
 
   gameOver: (game) ->
     # Move game to game completed.

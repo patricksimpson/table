@@ -3,7 +3,7 @@ App.WaitController = Ember.ArrayController.extend
   addPerson: (appendPerson) ->
     newWait = @get('store').createRecord("wait",
       person: appendPerson
-      created_at: new Date()
+      createdAt: new Date()
     )
     newWait.save()
   removePerson: (person) ->
