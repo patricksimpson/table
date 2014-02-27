@@ -13,6 +13,7 @@ App.PersonController = Ember.ObjectController.extend
   isChallenged: (->
     person = @get('model')
     challenges = person.get('challenges')
+    #This needs refactored. This toArray is a hack.
     for challenge in challenges.toArray()
       request = challenge.content
       if request == undefined

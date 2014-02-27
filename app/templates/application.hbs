@@ -18,6 +18,26 @@
       </ul>
     </nav>
   </header>
+  <h2>SparkTable ({{people.length}})</h2>
+  <div class="currentGame">
+    <h3>Current Game</h3>
+    {{#each game in currentGame }}
+      <div class="game">
+        <span class="player home">{{game.home.name}}</span>
+        <span class="vs">vs</span>
+        <span class="player away">{{game.away.name}}</span>
+        {{#link-to game}}View game{{/link-to}}
+    {{/each}}
+  </div>
+  <div class="pendingGames">
+    <h3>Pending Games</h3>
+    {{#each game in pendingGames}}
+      <div class="game">
+        <span class="player home">{{game.home.name}}</span>
+        <span class="vs">vs</span>
+        <span class="player away">{{game.away.name}}</span>
+    {{/each}}
+  <h3>Challenges</h3>
   <ul>
   {{#each auth.person.challenges}}
    <li> 
@@ -33,7 +53,7 @@
     </li>
   {{/each}}
   </ul>
-  <h2>SparkTable ({{people.length}})</h2>
+  <h3>Waiting for players (ping?)</h3>
   {{#each wait in waitingList}}
     {{#if wait.person.is_waiting}}
       <p>
