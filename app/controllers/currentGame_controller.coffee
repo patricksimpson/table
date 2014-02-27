@@ -23,6 +23,8 @@ App.CurrentGameController = Ember.ObjectController.extend
       round = rounds[rounds.length - 1]
       score = round.home_score
       score = score - 1
+      if score < 0
+        return
       updated_rounds = [
         {
           home_score: score
@@ -51,6 +53,8 @@ App.CurrentGameController = Ember.ObjectController.extend
       round = rounds[rounds.length - 1]
       score = round.away_score
       score = score - 1
+      if score < 0
+        return
       updated_rounds = [
         {
           home_score: round.home_score
