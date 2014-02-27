@@ -319,7 +319,73 @@ App.ChallengeController = Ember.ArrayController.extend({
 App.CurrentGameController = Ember.ObjectController.extend({
   needs: ['person', 'people'],
   home_score: 0,
-  away_score: 0
+  away_score: 0,
+  actions: {
+    addPointHome: function() {
+      var game, round, rounds, score, updated_rounds;
+      game = this.get('model');
+      rounds = game.get('rounds');
+      round = rounds[rounds.length - 1];
+      score = round.home_score;
+      score = score + 1;
+      updated_rounds = [
+        {
+          home_score: score,
+          away_score: round.away_score
+        }
+      ];
+      game.set('rounds', updated_rounds);
+      return game.save();
+    },
+    subtractPointHome: function() {
+      var game, round, rounds, score, updated_rounds;
+      game = this.get('model');
+      rounds = game.get('rounds');
+      round = rounds[rounds.length - 1];
+      score = round.home_score;
+      score = score - 1;
+      updated_rounds = [
+        {
+          home_score: score,
+          away_score: round.away_score
+        }
+      ];
+      game.set('rounds', updated_rounds);
+      return game.save();
+    },
+    addPointAway: function() {
+      var game, round, rounds, score, updated_rounds;
+      game = this.get('model');
+      rounds = game.get('rounds');
+      round = rounds[rounds.length - 1];
+      score = round.away_score;
+      score = score + 1;
+      updated_rounds = [
+        {
+          home_score: round.home_score,
+          away_score: score
+        }
+      ];
+      game.set('rounds', updated_rounds);
+      return game.save();
+    },
+    subtractPointAway: function() {
+      var game, round, rounds, score, updated_rounds;
+      game = this.get('model');
+      rounds = game.get('rounds');
+      round = rounds[rounds.length - 1];
+      score = round.away_score;
+      score = score - 1;
+      updated_rounds = [
+        {
+          home_score: round.home_score,
+          away_score: score
+        }
+      ];
+      game.set('rounds', updated_rounds);
+      return game.save();
+    }
+  }
 });
 });
 
@@ -1064,20 +1130,20 @@ function program1(depth0,data) {
   data.buffer.push(" class=\"button red\">-</button>\n    </div> \n    <div class=\"actions actions--away\">\n      <button ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers.action.call(depth0, "addPointAway", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"button green\">+</button>\n      <span class=\"score\">");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "subtractPointAway", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button red\">-</button>\n      <span class=\"score\">");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "away_score", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("</span>\n      <button ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers.action.call(depth0, "subtractPointAway", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"button red\">-</button>\n    </div>\n    <div class=\"gameview--end\">\n      <button ");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "addPointAway", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button green\">+</button>\n    </div>\n    <div class=\"gameview--end\">\n      <button ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "endRound", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"button blue\">End Match</button>\n    </div>\n    ");
+  data.buffer.push(" class=\"button blue\">End Round</button>\n    </div>\n    ");
   return buffer;
   }
 

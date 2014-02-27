@@ -18,12 +18,12 @@
       <button {{action subtractPointHome}} class="button red">-</button>
     </div> 
     <div class="actions actions--away">
-      <button {{action addPointAway}} class="button green">+</button>
-      <span class="score">{{away_score}}</span>
       <button {{action subtractPointAway}} class="button red">-</button>
+      <span class="score">{{away_score}}</span>
+      <button {{action addPointAway}} class="button green">+</button>
     </div>
     <div class="gameview--end">
-      <button {{action endRound}} class="button blue">End Match</button>
+      <button {{action endRound}} class="button blue">End Round</button>
     </div>
     {{/each}}
   </div>
