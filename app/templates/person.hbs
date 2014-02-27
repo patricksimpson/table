@@ -10,7 +10,7 @@
     {{/if}}
   {{else}}
     {{#if authedPerson}}
-      {{#unless is_waiting}}
+      {{#unless isWaiting}}
         <button {{action 'joinWaitingList'}} class="button green">Join Queue</button>
       {{else}}
         <button {{action 'leaveWaitingList'}} class="button red">Leave Queue</button>

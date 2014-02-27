@@ -21,7 +21,6 @@ App.GameController = Ember.ObjectController.extend
     ), (error) =>
       console.log error
   setCurrentGame: (pendingGame) ->
-    debugger
     new_rounds = [
       {
         home_score: 0

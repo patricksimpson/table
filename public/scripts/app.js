@@ -190,7 +190,7 @@ App.ApplicationController = Ember.Controller.extend({
     acceptGame: function(home, away) {
       this.get('game').addGame(home, away);
       this.get('waitList').removePerson(home);
-      home.set('is_waiting', false);
+      home.set('isWaiting', false);
       return home.save();
     },
     acceptChallenge: function(theChallenge) {
@@ -236,7 +236,7 @@ App.AuthController = Ember.Controller.extend({
         twitter: user.username
       });
       person.save();
-      _this.set('isAdmin', person.get('is_admin'));
+      _this.set('isAdmin', person.get('isAdmin'));
       return _this.set('person', person);
     }), function(error) {
       var newPerson;
@@ -245,8 +245,8 @@ App.AuthController = Ember.Controller.extend({
         name: user.name,
         twitter: user.username,
         email: '',
-        is_waiting: false,
-        is_admin: false,
+        isWaiting: false,
+        isAdmin: false,
         createdAt: new Date()
       });
       return newPerson.save().then(function() {
@@ -351,7 +351,6 @@ App.GameController = Ember.ObjectController.extend({
     });
   },
   setCurrentGame: function(pendingGame) {
-    debugger;
     var currentGame, new_rounds;
     new_rounds = [
       {
@@ -526,11 +525,11 @@ App.PersonController = Ember.ObjectController.extend({
     joinWaitingList: function() {
       var person;
       person = this.get('model');
-      if (person.get('is_waiting')) {
+      if (person.get('isWaiting')) {
         return;
       }
       person.setProperties({
-        is_waiting: true,
+        isWaiting: true,
         waiting_time: new Date()
       });
       person.save();
@@ -540,7 +539,7 @@ App.PersonController = Ember.ObjectController.extend({
       var person;
       person = this.get('model');
       person.setProperties({
-        is_waiting: false,
+        isWaiting: false,
         waiting_time: null
       });
       person.save();
@@ -681,8 +680,8 @@ App.Person = FP.Model.extend({
   twitter: FP.attr('string'),
   email: FP.attr('string'),
   createdAt: FP.attr('date'),
-  is_admin: FP.attr('boolean'),
-  is_waiting: FP.attr('boolean'),
+  isAdmin: FP.attr('boolean'),
+  isWaiting: FP.attr('boolean'),
   waiting_time: FP.attr('date'),
   wins: FP.attr('number'),
   losses: FP.attr('number'),
@@ -883,7 +882,7 @@ function program14(depth0,data) {
   data.buffer.push("\n    ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "wait.person.is_waiting", {hash:{},inverse:self.noop,fn:self.program(15, program15, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "wait.person.isWaiting", {hash:{},inverse:self.noop,fn:self.program(15, program15, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  ");
   return buffer;
@@ -1293,7 +1292,7 @@ function program10(depth0,data) {
   data.buffer.push("\n      ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.unless.call(depth0, "is_waiting", {hash:{},inverse:self.program(13, program13, data),fn:self.program(11, program11, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.unless.call(depth0, "isWaiting", {hash:{},inverse:self.program(13, program13, data),fn:self.program(11, program11, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n    ");
   return buffer;

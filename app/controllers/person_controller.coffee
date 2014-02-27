@@ -56,10 +56,10 @@ App.PersonController = Ember.ObjectController.extend
       @set('isEditing', false)
     joinWaitingList: ->
       person = @get('model')
-      if person.get('is_waiting')
+      if person.get('isWaiting')
         return
       person.setProperties(
-        is_waiting: true
+        isWaiting: true
         waiting_time: new Date()
       )
       person.save()
@@ -67,7 +67,7 @@ App.PersonController = Ember.ObjectController.extend
     leaveWaitingList: ->
       person = @get('model')
       person.setProperties(
-        is_waiting: false
+        isWaiting: false
         waiting_time: null
       )
       person.save()

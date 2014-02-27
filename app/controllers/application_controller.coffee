@@ -24,7 +24,7 @@ App.ApplicationController = Ember.Controller.extend
     acceptGame: (home, away) ->
       @get('game').addGame(home, away)
       @get('waitList').removePerson(home)
-      home.set('is_waiting', false)
+      home.set('isWaiting', false)
       home.save()
       
     acceptChallenge: (theChallenge) ->

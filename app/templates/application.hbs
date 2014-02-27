@@ -55,7 +55,7 @@
   </ul>
   <h3>Waiting for players (ping?)</h3>
   {{#each wait in waitingList}}
-    {{#if wait.person.is_waiting}}
+    {{#if wait.person.isWaiting}}
       <p>
       {{#unless wait.isMe}}
         {{wait.person.name}} is looking to play. 
