@@ -2,11 +2,21 @@ App.CurrentGameController = Ember.ObjectController.extend
   needs: ['person', 'people']
   home_score: 0
   away_score: 0
+  currentRound: 0
+  getCurrentRound: (game) ->
+    rounds = game.get('rounds')
+    @set('currentRound', rounds.length - 1)
+    rounds.pop()
+  updateRounds: (game, new_round) ->
+    rounds = game.get('rounds')
+    rounds.pop()
+    rounds.push(new_round)
+    game.set('rounds', rounds)
+    game.save()
   actions:
     addPointHome: ->
       game = @get('model')
-      rounds = game.get('rounds')
-      round = rounds[rounds.length - 1]
+      round = @getCurrentRound(game)
       score = round.home_score
       score = score + 1
       updated_rounds = [
@@ -15,6 +25,7 @@ App.CurrentGameController = Ember.ObjectController.extend
           away_score: round.away_score
         }
       ]
+      @updateRounds(game, updated_rounds)
       game.set('rounds', updated_rounds)
       game.save()
     subtractPointHome: ->
@@ -63,4 +74,3 @@ App.CurrentGameController = Ember.ObjectController.extend
       ]
       game.set('rounds', updated_rounds)
       game.save()
-
