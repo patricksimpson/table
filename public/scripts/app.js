@@ -321,89 +321,76 @@ App.CurrentGameController = Ember.ObjectController.extend({
   home_score: 0,
   away_score: 0,
   currentRound: 0,
-  getCurrentRound: function(game) {
-    var rounds;
-    rounds = game.get('rounds');
-    this.set('currentRound', rounds.length - 1);
-    return rounds.pop();
-  },
-  updateRounds: function(game, new_round) {
-    var rounds;
-    rounds = game.get('rounds');
-    rounds.pop();
-    rounds.push(new_round);
-    game.set('rounds', rounds);
-    return game.save();
-  },
   actions: {
     addPointHome: function() {
-      var game, round, score, updated_rounds;
+      var game, round, rounds, score, updated_rounds;
       game = this.get('model');
-      round = this.getCurrentRound(game);
+      rounds = game.get('rounds');
+      this.set('currentRound', rounds.length - 1);
+      round = rounds[this.get('currentRound')];
       score = round.home_score;
       score = score + 1;
-      updated_rounds = [
-        {
-          home_score: score,
-          away_score: round.away_score
-        }
-      ];
-      this.updateRounds(game, updated_rounds);
-      game.set('rounds', updated_rounds);
+      updated_rounds = {
+        home_score: score,
+        away_score: round.away_score
+      };
+      rounds[this.get('currentRound')] = updated_rounds;
+      game.set('rounds', rounds.toArray());
       return game.save();
     },
     subtractPointHome: function() {
       var game, round, rounds, score, updated_rounds;
       game = this.get('model');
       rounds = game.get('rounds');
-      round = rounds[rounds.length - 1];
+      this.set('currentRound', rounds.length - 1);
+      round = rounds[this.get('currentRound')];
       score = round.home_score;
+      round = rounds[rounds.length - 1];
       score = score - 1;
       if (score < 0) {
         return;
       }
-      updated_rounds = [
-        {
-          home_score: score,
-          away_score: round.away_score
-        }
-      ];
-      game.set('rounds', updated_rounds);
+      updated_rounds = {
+        home_score: score,
+        away_score: round.away_score
+      };
+      rounds[this.get('currentRound')] = updated_rounds;
+      game.set('rounds', rounds.toArray());
       return game.save();
     },
     addPointAway: function() {
       var game, round, rounds, score, updated_rounds;
       game = this.get('model');
       rounds = game.get('rounds');
-      round = rounds[rounds.length - 1];
+      this.set('currentRound', rounds.length - 1);
+      round = rounds[this.get('currentRound')];
       score = round.away_score;
       score = score + 1;
-      updated_rounds = [
-        {
-          home_score: round.home_score,
-          away_score: score
-        }
-      ];
-      game.set('rounds', updated_rounds);
+      updated_rounds = {
+        home_score: round.home_score,
+        away_score: score
+      };
+      rounds[this.get('currentRound')] = updated_rounds;
+      game.set('rounds', rounds.toArray());
       return game.save();
     },
     subtractPointAway: function() {
       var game, round, rounds, score, updated_rounds;
       game = this.get('model');
       rounds = game.get('rounds');
-      round = rounds[rounds.length - 1];
+      this.set('currentRound', rounds.length - 1);
+      round = rounds[this.get('currentRound')];
       score = round.away_score;
       score = score - 1;
       if (score < 0) {
         return;
       }
-      updated_rounds = [
-        {
-          home_score: round.home_score,
-          away_score: score
-        }
-      ];
-      game.set('rounds', updated_rounds);
+      updated_rounds = {
+        home_score: round.home_score,
+        away_score: score
+      };
+      rounds[this.get('currentRound')] = updated_rounds;
+      game.set('rounds', rounds.toArray());
       return game.save();
     }
   }
