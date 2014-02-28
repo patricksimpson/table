@@ -21,10 +21,10 @@ App.GameController = Ember.ObjectController.extend
     ), (error) =>
       console.log error
   setCurrentGame: (pendingGame) ->
-    new_rounds = [
+    newRounds = [
       {
-        home_score: 0
-        away_score: 0
+        homeScore: 0
+        awayScore: 0
       }
     ]
     currentGame = @get('store').createRecord('currentGame',
@@ -32,11 +32,13 @@ App.GameController = Ember.ObjectController.extend
       away: pendingGame.get('away')
       createdAt: pendingGame.get('createdAt')
       startedAt: new Date()
-      rounds: new_rounds
+      homeScore: 0
+      awayScore: 0
+      rounds: newRounds
     )
     # round = @get('store').createRecord("round",
-    #   home_score: 0
-    #   away_score: 0
+    #   homeScore: 0
+    #   awayScore: 0
     # )
     #round.save()
     currentGame.save()

@@ -1,7 +1,5 @@
 App.CurrentGameController = Ember.ObjectController.extend
   needs: ['person', 'people']
-  home_score: 0
-  away_score: 0
   currentRound: 0
   actions:
     addPointHome: ->
@@ -11,15 +9,15 @@ App.CurrentGameController = Ember.ObjectController.extend
       @set('currentRound', rounds.length - 1)
       round = rounds[@get('currentRound')]
       #Add pointz
-      score = round.home_score
+      score = round.homeScore
       score = score + 1
       #create new round object 
-      updated_rounds =
-        home_score: score
-        away_score: round.away_score
+      updatedRounds =
+        homeScore: score
+        awayScore: round.awayScore
 
       #set the round object, and save.
-      rounds[@get('currentRound')] = updated_rounds
+      rounds[@get('currentRound')] = updatedRounds
       game.set('rounds', rounds.toArray())
       game.save()
     subtractPointHome: ->
@@ -29,18 +27,18 @@ App.CurrentGameController = Ember.ObjectController.extend
       @set('currentRound', rounds.length - 1)
       round = rounds[@get('currentRound')]
       #Subtract score 
-      score = round.home_score
+      score = round.homeScore
       round = rounds[rounds.length - 1]
       score = score - 1
       if score < 0
         return
       #create new round object
-      updated_rounds =
-        home_score: score
-        away_score: round.away_score
+      updatedRounds =
+        homeScore: score
+        awayScore: round.awayScore
 
       #set the round object and save
-      rounds[@get('currentRound')] = updated_rounds
+      rounds[@get('currentRound')] = updatedRounds
       game.set('rounds', rounds.toArray())
       game.save()
     addPointAway: ->
@@ -50,15 +48,15 @@ App.CurrentGameController = Ember.ObjectController.extend
       @set('currentRound', rounds.length - 1)
       round = rounds[@get('currentRound')]
       #Add points
-      score = round.away_score
+      score = round.awayScore
       score = score + 1
       #create new round object
-      updated_rounds =
-        home_score: round.home_score
-        away_score: score
+      updatedRounds =
+        homeScore: round.homeScore
+        awayScore: score
 
       #set the round obect and save.
-      rounds[@get('currentRound')] = updated_rounds
+      rounds[@get('currentRound')] = updatedRounds
       game.set('rounds', rounds.toArray())
       game.save()
     subtractPointAway: ->
@@ -68,16 +66,48 @@ App.CurrentGameController = Ember.ObjectController.extend
       @set('currentRound', rounds.length - 1)
       round = rounds[@get('currentRound')]
       #Subtract points
-      score = round.away_score
+      score = round.awayScore
       score = score - 1
       if score < 0
         return
       #create new round object
-      updated_rounds =
-        home_score: round.home_score
-        away_score: score
+      updatedRounds =
+        homeScore: round.homeScore
+        awayScore: score
 
       #set the round obect and save.
-      rounds[@get('currentRound')] = updated_rounds
+      rounds[@get('currentRound')] = updatedRounds
       game.set('rounds', rounds.toArray())
       game.save()
+
+    endRound: (round) ->
+      console.log this
+      console.log "end round!"
+      debugger
+      game = @get('model')
+      if round.homeScore + 1 > round.awayScore
+        score = game.get('homeScore')
+        score = score + 1
+        game.set('homeScore', score)
+        rounds = game.get('rounds')
+        new_round =
+          homeScore: 0
+          awayScore: 0
+        rounds.push(new_round)
+        game.set('rounds', rounds.toArray())
+        game.save()
+        return
+      if round.awayScore + 1 > round.homeScore
+        score = game.get('awayScore')
+        score = score + 1
+        game.set('awayScore', score)
+        rounds = game.get('rounds')
+        new_round =
+          homeScore: 0
+          awayScore: 0
+        rounds.push(new_round)
+        game.set('rounds', rounds.toArray())
+        game.save()
+        return
+      console.log "Must win by 2, cannot be a tie/draw"
+      return false

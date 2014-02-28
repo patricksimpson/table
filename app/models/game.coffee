@@ -5,3 +5,5 @@ App.Game = FP.Model.extend
   completedAt: FP.attr 'date'
   startedAt: FP.attr 'date'
   rounds: FP.attr 'hash'
+  homeScore: FP.attr 'number'
+  awayScore: FP.attr 'number'
