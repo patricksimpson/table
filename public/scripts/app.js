@@ -393,9 +393,6 @@ App.CurrentGameController = Ember.ObjectController.extend({
     },
     endRound: function(round) {
       var game, new_round, rounds, score;
-      console.log(this);
-      console.log("end round!");
-      debugger;
       game = this.get('model');
       if (round.homeScore + 1 > round.awayScore) {
         score = game.get('homeScore');
