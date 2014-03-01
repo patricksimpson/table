@@ -11,21 +11,32 @@
   </div>
   <div class="gameview--actions">
     {{#each roundsWithIndex}}
-
     <h3 class="gameview--header">Game {{index}}</h3>
     {{#with round}}
+      {{#unless this.isComplete}}{{#if this.isCurrent}}Game Active{{/if}}
+      {{else}}
+        {{#if this.isCurrent}} 
+        <button {{action newRound}} class="button blue">New Game</button>
+        <button {{action endGame}} class="button black">Match Over!</button>
+        {{/if}}
+      {{/unless}}
     <div class="actions actions--home">
-      <button {{action addPointHome}} class="button green">+</button>
+      {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action addPointHome}} class="button green">+</button>{{/if}}{{/unless}}
       <span class="score">{{homeScore}}</span>
-      <button {{action subtractPointHome}} class="button red">-</button>
+      {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointHome}} class="button red">-</button>{{/if}}{{/unless}}
     </div> 
     <div class="actions actions--away">
-      <button {{action subtractPointAway}} class="button red">-</button>
+      {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointAway}} class="button red">-</button>{{/if}}{{/unless}}
       <span class="score">{{awayScore}}</span>
-      <button {{action addPointAway}} class="button green">+</button>
+      {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action addPointAway}} class="button green">+</button>{{/if}}{{/unless}}
     </div>
     <div class="gameview--end">
-      <button {{action endRound this}} class="button blue">End Round</button>
+      {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action endRound this}} class="button blue">End Round</button>{{/if}}
+      {{else}}
+        {{#if this.isCurrent}} 
+        Game Over!
+        {{/if}}
+      {{/unless}}
     </div>
     {{/with}}
     {{/each}}
