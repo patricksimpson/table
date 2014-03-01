@@ -151,7 +151,7 @@ module.exports = App.Router.map(function() {
     path: '/person/:person_id'
   });
   return this.resource("currentGame", {
-    path: '/current/:currentGame_id'
+    path: '/current'
   });
 });
 });
@@ -319,6 +319,15 @@ App.ChallengeController = Ember.ArrayController.extend({
 App.CurrentGameController = Ember.ObjectController.extend({
   needs: ['person', 'people'],
   currentRound: 0,
+  roundsWithIndex: (function() {
+    var _this = this;
+    return this.get('rounds').map(function(round, index) {
+      return {
+        round: round,
+        index: index + 1
+      };
+    }).reverse();
+  }).property('rounds'),
   actions: {
     addPointHome: function() {
       var game, round, rounds, score, updatedRounds;
@@ -394,17 +403,18 @@ App.CurrentGameController = Ember.ObjectController.extend({
     endRound: function(round) {
       var game, new_round, rounds, score;
       game = this.get('model');
+      debugger;
       if (round.homeScore + 1 > round.awayScore) {
         score = game.get('homeScore');
         score = score + 1;
         game.set('homeScore', score);
-        rounds = game.get('rounds');
+        rounds = game.get('rounds').toArray();
         new_round = {
           homeScore: 0,
           awayScore: 0
         };
         rounds.push(new_round);
-        game.set('rounds', rounds.toArray());
+        game.set('rounds', rounds);
         game.save();
         return;
       }
@@ -412,13 +422,13 @@ App.CurrentGameController = Ember.ObjectController.extend({
         score = game.get('awayScore');
         score = score + 1;
         game.set('awayScore', score);
-        rounds = game.get('rounds');
+        rounds = game.get('rounds').toArray();
         new_round = {
           homeScore: 0,
           awayScore: 0
         };
         rounds.push(new_round);
-        game.set('rounds', rounds.toArray());
+        game.set('rounds', rounds);
         game.save();
         return;
       }
@@ -842,7 +852,14 @@ module.exports = App.ChallengeRoute = Ember.Route.extend({
 ;require.register("routes/currentGame", function(exports, require, module) {
 module.exports = App.CurrentGameRoute = Ember.Route.extend({
   model: function(params) {
-    return this.store.fetch('currentGame', params.currentGame_id);
+    var _this = this;
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      return _this.store.fetch('currentGame', {
+        limit: 1
+      }).then(function(currentGames) {
+        return resolve(currentGames.get('firstObject'));
+      });
+    });
   }
 });
 });
@@ -925,8 +942,8 @@ function program5(depth0,data) {
   data.buffer.push("</span>\n        ");
   hashTypes = {};
   hashContexts = {};
-  options = {hash:{},inverse:self.noop,fn:self.program(6, program6, data),contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "currentGame", "game", options) : helperMissing.call(depth0, "link-to", "currentGame", "game", options));
+  options = {hash:{},inverse:self.noop,fn:self.program(6, program6, data),contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "currentGame", options) : helperMissing.call(depth0, "link-to", "currentGame", options));
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("\n    ");
   return buffer;
@@ -1154,19 +1171,30 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
-  var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n    <h3 class=\"gameview--header\">Game ");
+  var buffer = '', stack1, hashTypes, hashContexts;
+  data.buffer.push("\n\n    <h3 class=\"gameview--header\">Game ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "index", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("</h3>\n    <div class=\"actions actions--home\">\n      <button ");
+  data.buffer.push("</h3>\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['with'].call(depth0, "round", {hash:{},inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n    ");
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n    <div class=\"actions actions--home\">\n      <button ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "addPointHome", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push(" class=\"button green\">+</button>\n      <span class=\"score\">");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "round.homeScore", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "homeScore", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("</span>\n      <button ");
   hashTypes = {};
   hashContexts = {};
@@ -1178,7 +1206,7 @@ function program1(depth0,data) {
   data.buffer.push(" class=\"button red\">-</button>\n      <span class=\"score\">");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "round.awayScore", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "awayScore", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("</span>\n      <button ");
   hashTypes = {};
   hashContexts = {};
@@ -1186,7 +1214,7 @@ function program1(depth0,data) {
   data.buffer.push(" class=\"button green\">+</button>\n    </div>\n    <div class=\"gameview--end\">\n      <button ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers.action.call(depth0, "endRound", "round", {hash:{},contexts:[depth0,depth0],types:["ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "endRound", "", {hash:{},contexts:[depth0,depth0],types:["ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push(" class=\"button blue\">End Round</button>\n    </div>\n    ");
   return buffer;
   }
@@ -1210,7 +1238,7 @@ function program1(depth0,data) {
   data.buffer.push("</span>\n  </div>\n  <div class=\"gameview--actions\">\n    ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "round", "in", "rounds", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.each.call(depth0, "roundsWithIndex", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  </div>\n</div>\n");
   return buffer;
