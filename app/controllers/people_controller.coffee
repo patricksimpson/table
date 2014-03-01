@@ -11,9 +11,11 @@ module.exports = App.PeopleController = Ember.ArrayController.extend
       person.set('isMe', isMe)
       person
     )
-    return Em.ArrayProxy.createWithMixins(
+    Em.ArrayProxy.createWithMixins(
       Ember.SortableMixin,
-      { content: people, sortProperties: ['wins'], sortAscending: false}
+        content: people
+        sortProperties: ['wins']
+        sortAscending: false
     )
   ).property('content.@each', 'person')
   isChallenged: (person) ->
