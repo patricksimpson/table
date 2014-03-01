@@ -1,8 +1,4 @@
 App.PersonController = Ember.ObjectController.extend
-  wins:( ->
-    #@get('name')
-   1
-  ).property('games')
   needs: ['auth','challenge', 'wait']
   challenge: Ember.computed.alias('controllers.challenge')
   authedPerson: Ember.computed.alias('controllers.auth.person')

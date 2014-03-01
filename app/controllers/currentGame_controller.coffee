@@ -7,6 +7,8 @@ App.CurrentGameController = Ember.ObjectController.extend
     @set('currentRound', rounds.length)
     @get('rounds').map((round, index) =>
       round:
+        homeWon: round.homeScore > round.awayScore
+        awayWon: round.homeScore < round.awayScore
         homeScore: round.homeScore
         awayScore: round.awayScore
         isComplete: round.isComplete

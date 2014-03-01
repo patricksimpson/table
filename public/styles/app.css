@@ -532,6 +532,15 @@ table {
     border-spacing: 0;
 }
 
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 html,
 body {
   margin: 0px;
@@ -975,7 +984,11 @@ label {
   text-align: center;
 }
 .gameview--actions:before {
+  content: " ";
+  display: block;
   clear: both;
+  width: 100%;
+  height: 1rem;
 }
 .gameview--actions .button {
   padding: 0.5em 2em;
@@ -987,6 +1000,22 @@ label {
 }
 .gameview--main {
   text-align: center;
+}
+.match--action {
+  margin: 1em 0em;
+  clear: both;
+}
+.gameview--content {
+  clear: both;
+  height: 2em;
+  padding: 1em;
+  width: 100%;
+}
+.clearfix {
+  content: "";
+  display: table;
+  clear: both;
+  width: 100%;
 }
 
 
