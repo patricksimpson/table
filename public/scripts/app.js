@@ -247,7 +247,9 @@ App.AuthController = Ember.Controller.extend({
         email: '',
         isWaiting: false,
         isAdmin: false,
-        createdAt: new Date()
+        createdAt: new Date(),
+        wins: 0,
+        losses: 0
       });
       return newPerson.save().then(function() {
         return _this.set('person', person);
@@ -337,6 +339,23 @@ App.CurrentGameController = Ember.ObjectController.extend({
       };
     }).reverse();
   }).property('rounds'),
+  gameOver: function() {
+    var completedGame, game;
+    game = this.get('model');
+    completedGame = this.get('store').createRecord("completedGame", {
+      home: game.get('home'),
+      away: game.get('away'),
+      createdAt: game.get('createdAt'),
+      startedAt: game.get('startedAt'),
+      homeScore: game.get('homeScore'),
+      awayScore: game.get('awayScore'),
+      rounds: game.get('rounds'),
+      completedAt: new Date()
+    });
+    completedGame.save();
+    game["delete"]();
+    return this.transitionTo('/');
+  },
   actions: {
     addPointHome: function() {
       var currentRound, currentRoundIndex, game, round, rounds, score, updatedRounds;
@@ -478,6 +497,46 @@ App.CurrentGameController = Ember.ObjectController.extend({
       rounds.push(new_round);
       game.set('rounds', rounds);
       return game.save();
+    },
+    endGame: function() {
+      var awayPerson, game, homePerson, l, loss, w, wins;
+      game = this.get('model');
+      homePerson = game.get('home');
+      awayPerson = game.get('away');
+      if (game.get('homeScore') > game.get('awayScore')) {
+        wins = homePerson.get('wins');
+        if ((wins == null) || wins === NaN) {
+          wins = 0;
+        }
+        loss = awayPerson.get('losses');
+        if ((loss == null) || loss === NaN) {
+          loss = 0;
+        }
+        w = wins + 1;
+        l = loss + 1;
+        homePerson.set('wins', w);
+        awayPerson.set('losses', l);
+        homePerson.save();
+        awayPerson.save();
+        this.gameOver();
+      }
+      if (game.get('homeScore') < game.get('awayScore')) {
+        wins = awayPerson.get('wins');
+        if ((wins == null) || wins === NaN) {
+          wins = 0;
+        }
+        loss = homePerson.get('losses');
+        if ((loss == null) || loss === NaN) {
+          loss = 0;
+        }
+        w = wins + 1;
+        l = loss + 1;
+        awayPerson.set('wins', w);
+        homePerson.set('losses', l);
+        homePerson.save();
+        awayPerson.save();
+        this.gameOver();
+      }
     }
   }
 });

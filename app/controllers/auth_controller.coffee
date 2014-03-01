@@ -28,6 +28,8 @@ App.AuthController = Ember.Controller.extend
         isWaiting: false
         isAdmin: false
         createdAt: new Date()
+        wins: 0
+        losses: 0
       )
       newPerson.save().then =>
         @set('person', person)

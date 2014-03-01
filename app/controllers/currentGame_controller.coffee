@@ -14,6 +14,21 @@ App.CurrentGameController = Ember.ObjectController.extend
       index: index + 1
     ).reverse()
   ).property('rounds')
+  gameOver: ->
+    game = @get('model')
+    completedGame = @get('store').createRecord("completedGame",
+      home: game.get('home')
+      away: game.get('away')
+      createdAt: game.get('createdAt')
+      startedAt: game.get('startedAt')
+      homeScore: game.get('homeScore')
+      awayScore: game.get('awayScore')
+      rounds: game.get('rounds')
+      completedAt: new Date()
+    )
+    completedGame.save()
+    game.delete()
+    @transitionTo('/')
   actions:
     addPointHome: ->
       game = @get('model')
@@ -155,4 +170,37 @@ App.CurrentGameController = Ember.ObjectController.extend
       rounds.push(new_round)
       game.set('rounds', rounds)
       game.save()
-      
+    endGame: ->
+      game = @get('model')
+      homePerson = game.get('home')
+      awayPerson = game.get('away')
+      #And the winner is..
+      if game.get('homeScore') > game.get('awayScore')
+        wins = homePerson.get('wins')
+        if not wins? or wins == NaN
+          wins = 0
+        loss = awayPerson.get('losses')
+        if not loss? or loss == NaN
+          loss = 0
+        w = wins + 1
+        l = loss + 1
+        homePerson.set('wins', w)
+        awayPerson.set('losses',l)
+        homePerson.save()
+        awayPerson.save()
+        @gameOver()
+      if game.get('homeScore') < game.get('awayScore')
+        wins = awayPerson.get('wins')
+        if not wins? or wins == NaN
+          wins = 0
+        loss = homePerson.get('losses')
+        if not loss? or loss == NaN
+          loss = 0
+        w = wins + 1
+        l = loss + 1
+        awayPerson.set('wins', w)
+        homePerson.set('losses',l)
+        homePerson.save()
+        awayPerson.save()
+        @gameOver()
+      return
