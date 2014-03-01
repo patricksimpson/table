@@ -325,13 +325,16 @@ module.exports = App.CompletedGamesController = Ember.ArrayController.extend({
   needs: ['game'],
   games: (function() {
     return this.get('content').map(function(game) {
-      var as, hs;
+      var as, completed, hs;
       hs = game.get('homeScore');
       as = game.get('awayScore');
       game.set('homeWinner', hs > as);
       game.set('awayWinner', as > hs);
+      completed = game.get('completedAt');
+      console.log(moment(completed).fromNow());
+      game.set('date', moment(completed).fromNow());
       return game;
-    });
+    }).reverse();
   }).property('content.@each')
 });
 });
@@ -635,14 +638,19 @@ module.exports = App.PeopleController = Ember.ArrayController.extend({
   personName: null,
   personEmail: null,
   people: (function() {
-    var currentPerson,
+    var currentPerson, people,
       _this = this;
     currentPerson = this.get('person');
-    return this.get('content').map(function(person) {
+    people = this.get('content').map(function(person) {
       var isMe;
       isMe = person.get('id') === (currentPerson != null ? currentPerson.get('id') : void 0);
       person.set('isMe', isMe);
       return person;
+    });
+    return Em.ArrayProxy.createWithMixins(Ember.SortableMixin, {
+      content: people,
+      sortProperties: ['wins'],
+      sortAscending: false
     });
   }).property('content.@each', 'person'),
   isChallenged: function(person) {
@@ -1246,7 +1254,11 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = '', stack1, hashTypes, hashContexts;
-  data.buffer.push("\n<li>\n(");
+  data.buffer.push("\n<li>\n");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "away.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n(");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "awayScore", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -1255,11 +1267,7 @@ function program1(depth0,data) {
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "awayWinner", {hash:{},inverse:self.program(4, program4, data),fn:self.program(2, program2, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "away.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\nvs.\n");
+  data.buffer.push("\n, \n");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "home.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -1272,6 +1280,10 @@ function program1(depth0,data) {
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "homeWinner", {hash:{},inverse:self.program(4, program4, data),fn:self.program(2, program2, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "date", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("\n</li>\n");
   return buffer;
   }
@@ -1287,12 +1299,12 @@ function program4(depth0,data) {
   data.buffer.push("\nL\n");
   }
 
-  data.buffer.push("<ul>\n");
+  data.buffer.push("<div class=\"content--container\">\n<h2>Game History</h2>\n<ul>\n");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers.each.call(depth0, "games", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n</ul>\n");
+  data.buffer.push("\n</ul>\n</div>\n");
   return buffer;
   
 });
@@ -1313,7 +1325,15 @@ function program1(depth0,data) {
   options = {hash:{},inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "person", "", options) : helperMissing.call(depth0, "link-to", "person", "", options));
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
-  data.buffer.push("\n    ");
+  data.buffer.push("\n  (");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "wins", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" / ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "losses", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(")\n    ");
   hashTypes = {};
   hashContexts = {};
   stack2 = helpers['if'].call(depth0, "isMe", {hash:{},inverse:self.program(6, program6, data),fn:self.program(4, program4, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
@@ -1335,7 +1355,7 @@ function program2(depth0,data) {
 function program4(depth0,data) {
   
   
-  data.buffer.push("\n      (you)\n    ");
+  data.buffer.push(" &#8592 You\n\n    ");
   }
 
 function program6(depth0,data) {

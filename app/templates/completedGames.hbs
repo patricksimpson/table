@@ -1,14 +1,16 @@
+<div class="content--container">
+<h2>Game History</h2>
 <ul>
 {{#each games}}
 <li>
+{{away.name}}
 ({{awayScore}})
 {{#if awayWinner}}
 W
 {{else}}
 L
 {{/if}}
-{{away.name}}
-vs.
+, 
 {{home.name}}
 ({{homeScore}})
 {{#if homeWinner}}
@@ -16,6 +18,8 @@ W
 {{else}}
 L
 {{/if}}
+{{date}}
 </li>
 {{/each}}
 </ul>
+</div>

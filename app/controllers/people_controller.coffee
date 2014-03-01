@@ -6,10 +6,15 @@ module.exports = App.PeopleController = Ember.ArrayController.extend
   personEmail: null
   people: (->
     currentPerson = @get('person')
-    @get('content').map (person) =>
+    people = @get('content').map((person) =>
       isMe = ( person.get('id') == currentPerson?.get('id') )
       person.set('isMe', isMe)
       person
+    )
+    return Em.ArrayProxy.createWithMixins(
+      Ember.SortableMixin,
+      { content: people, sortProperties: ['wins'], sortAscending: false}
+    )
   ).property('content.@each', 'person')
   isChallenged: (person) ->
     challenges = @get('challenges_away')
