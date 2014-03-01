@@ -19,59 +19,59 @@
     </nav>
   </header>
   <h2>SparkTable ({{people.length}})</h2>
-  <div class="currentGame">
-    <h3>Current Game</h3>
-    {{#each game in currentGame }}
-      <div class="game">
-        <span class="player home">{{game.home.name}}</span>
-        <span class="vs">vs</span>
-        <span class="player away">{{game.away.name}}</span>
-        {{#link-to 'currentGame'}}View game{{/link-to}}
+  {{outlet}}
+  <div class="content--other">
+    <div class="currentGame">
+      <h3>Current Game</h3>
+      {{#each game in currentGame }}
+        <div class="game">
+          <span class="player home">{{game.home.name}}</span>
+          <span class="vs">vs</span>
+          <span class="player away">{{game.away.name}}</span>
+          {{#link-to 'currentGame'}}View game{{/link-to}}
+      {{/each}}
+    </div>
+    <div class="pendingGames">
+      <h3>Pending Games</h3>
+      {{#each game in pendingGames}}
+        <div class="game">
+          <span class="player home">{{game.home.name}}</span>
+          <span class="vs">vs</span>
+          <span class="player away">{{game.away.name}}</span>
+      {{/each}}
+    <h3>Challenges</h3>
+    <ul>
+    {{#each auth.person.challenges}}
+    <li> 
+      You're challenged by {{home.name}}
+      <button {{action 'acceptChallenge' this}} class="button blue">Accept</button>
+      <button {{action 'declineChallenge' this}} class="button black">Decline</button>
+      </li>
     {{/each}}
-  </div>
-  <div class="pendingGames">
-    <h3>Pending Games</h3>
-    {{#each game in pendingGames}}
-      <div class="game">
-        <span class="player home">{{game.home.name}}</span>
-        <span class="vs">vs</span>
-        <span class="player away">{{game.away.name}}</span>
+    {{#each auth.person.responses}}
+    <li> 
+      Challenge declined by {{away.name}}
+      <button {{action 'removeResponse' this}} class="button black">Ok</button>
+      </li>
     {{/each}}
-  <h3>Challenges</h3>
-  <ul>
-  {{#each auth.person.challenges}}
-   <li> 
-    You're challenged by {{home.name}}
-    <button {{action 'acceptChallenge' this}} class="button blue">Accept</button>
-    <button {{action 'declineChallenge' this}} class="button black">Decline</button>
-    </li>
-  {{/each}}
-  {{#each auth.person.responses}}
-   <li> 
-    Challenge declined by {{away.name}}
-    <button {{action 'removeResponse' this}} class="button black">Ok</button>
-    </li>
-  {{/each}}
-  </ul>
-  <h3>Waiting for players (ping?)</h3>
-  {{#each wait in waitingList}}
-    {{#if wait.person.isWaiting}}
-      <p>
-      {{#unless wait.isMe}}
-        {{wait.person.name}} is looking to play. 
-        {{#if auth.person.name}} 
-          <button {{action 'acceptGame' wait.person auth.person}} class="button green">Join</button>
-        {{/if}}
-      {{else}}
-        Waiting for challenges...
-      {{/unless}}
-      </p>
-    {{/if}}
-  {{/each}}
-  <div class="content">
-    {{outlet}}
+    </ul>
+    <h3>Waiting for players (ping?)</h3>
+    {{#each wait in waitingList}}
+      {{#if wait.person.isWaiting}}
+        <p>
+        {{#unless wait.isMe}}
+          {{wait.person.name}} is looking to play. 
+          {{#if auth.person.name}} 
+            <button {{action 'acceptGame' wait.person auth.person}} class="button green">Join</button>
+          {{/if}}
+        {{else}}
+          Waiting for challenges...
+        {{/unless}}
+        </p>
+      {{/if}}
+    {{/each}}
   </div>
 </div>
-<footer class="footer">
+<footer class="clearfix footer">
 Table - 2014 - by Patrick Simpson 
 </footer>

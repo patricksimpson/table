@@ -953,7 +953,11 @@ label {
   font-size: 0.9rem;
 }
 .gameview {
-  background-color: #eee;
+  background-color: #e2e3ff;
+  padding: 1em 0;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 9px;
+  border-radius: 9px;
 }
 .player--content,
 .actions {
@@ -1016,6 +1020,21 @@ label {
   display: table;
   clear: both;
   width: 100%;
+}
+.content--container {
+  float: left;
+  width: 60%;
+}
+.content--container--game {
+  float: none;
+  width: 100%;
+}
+.content--other {
+  float: left;
+  width: 40%;
+}
+.endround {
+  margin-top: 1em;
 }
 
 
