@@ -1,0 +1,21 @@
+<ul>
+{{#each games}}
+<li>
+({{awayScore}})
+{{#if awayWinner}}
+W
+{{else}}
+L
+{{/if}}
+{{away.name}}
+vs.
+{{home.name}}
+({{homeScore}})
+{{#if homeWinner}}
+W
+{{else}}
+L
+{{/if}}
+</li>
+{{/each}}
+</ul>

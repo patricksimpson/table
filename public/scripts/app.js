@@ -150,8 +150,11 @@ module.exports = App.Router.map(function() {
   this.resource("person", {
     path: '/person/:person_id'
   });
-  return this.resource("currentGame", {
+  this.resource("currentGame", {
     path: '/current'
+  });
+  return this.resource("completedGames", {
+    path: '/games'
   });
 });
 });
@@ -314,6 +317,22 @@ App.ChallengeController = Ember.ArrayController.extend({
     away.save();
     return challenge["delete"]();
   }
+});
+});
+
+;require.register("controllers/completedGames_controller", function(exports, require, module) {
+module.exports = App.CompletedGamesController = Ember.ArrayController.extend({
+  needs: ['game'],
+  games: (function() {
+    return this.get('content').map(function(game) {
+      var as, hs;
+      hs = game.get('homeScore');
+      as = game.get('awayScore');
+      game.set('homeWinner', hs > as);
+      game.set('awayWinner', as > hs);
+      return game;
+    });
+  }).property('content.@each')
 });
 });
 
@@ -958,7 +977,15 @@ module.exports = App.ChallengeRoute = Ember.Route.extend({
 });
 });
 
-;require.register("routes/currentGame", function(exports, require, module) {
+;require.register("routes/completedGames", function(exports, require, module) {
+module.exports = App.CompletedGamesRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.fetch('completedGame');
+  }
+});
+});
+
+;require.register("routes/currentGames", function(exports, require, module) {
 module.exports = App.CurrentGameRoute = Ember.Route.extend({
   model: function(params) {
     var _this = this;
@@ -1205,6 +1232,67 @@ function program19(depth0,data) {
   stack1 = helpers.each.call(depth0, "wait", "in", "waitingList", {hash:{},inverse:self.noop,fn:self.program(14, program14, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n  </div>\n</div>\n<footer class=\"clearfix footer\">\nTable - 2014 - by Patrick Simpson \n</footer>\n");
+  return buffer;
+  
+});
+});
+
+;require.register("templates/completedGames", function(exports, require, module) {
+module.exports = Ember.TEMPLATES['completedGames'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = '', stack1, hashTypes, hashContexts;
+  data.buffer.push("\n<li>\n(");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "awayScore", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(")\n");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "awayWinner", {hash:{},inverse:self.program(4, program4, data),fn:self.program(2, program2, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "away.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\nvs.\n");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "home.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n(");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "homeScore", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(")\n");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "homeWinner", {hash:{},inverse:self.program(4, program4, data),fn:self.program(2, program2, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n</li>\n");
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  
+  data.buffer.push("\nW\n");
+  }
+
+function program4(depth0,data) {
+  
+  
+  data.buffer.push("\nL\n");
+  }
+
+  data.buffer.push("<ul>\n");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers.each.call(depth0, "games", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n</ul>\n");
   return buffer;
   
 });
