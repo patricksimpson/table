@@ -1,6 +1,7 @@
 App.CurrentGameController = Ember.ObjectController.extend
   needs: ['person', 'people']
   currentRound: 1
+  confirmEndMatch: false
   roundsWithIndex: ( ->
     rounds = @get('rounds')
     currentRound = @get('currentRound')
@@ -172,6 +173,10 @@ App.CurrentGameController = Ember.ObjectController.extend
       rounds.push(new_round)
       game.set('rounds', rounds)
       game.save()
+    confirmEndGame: ->
+      @set('confirmEndMatch', true)
+    undoEndGame: ->
+      @set('confirmEndMatch', false)
     endGame: ->
       game = @get('model')
       homePerson = game.get('home')

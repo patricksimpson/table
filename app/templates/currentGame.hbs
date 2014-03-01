@@ -12,12 +12,19 @@
   <div class="gameview--actions">
     {{#each roundsWithIndex}}
     {{#with round}}
-      {{#unless this.isComplete}}{{#if this.isCurrent}}Game Active{{/if}}
-      {{else}}
+      {{#unless this.isComplete}}
+        {{#if this.isCurrent}}Game Active{{/if}}
+        {{else}}
         {{#if this.isCurrent}}
         <div class="match--action">
-          <button {{action newRound}} class="button blue">New Game</button>
-          <button {{action endGame}} class="button black">Match Over!</button>
+          {{#unless controller.confirmEndMatch}}
+            <button {{action newRound}} class="button blue">New Game</button>
+            <button {{action confirmEndGame}} class="button grey">End Match</button>
+          {{else}}
+            <p>Please check game scores and press ok to confirm:</p>
+          <button {{action endGame}} class="button grey">Ok</button>
+          <button {{action undoEndGame}} class="button black">Cancel</button>
+          {{/unless}}          
         </div>
         {{/if}}
       {{/unless}}

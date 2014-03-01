@@ -321,6 +321,7 @@ App.ChallengeController = Ember.ArrayController.extend({
 App.CurrentGameController = Ember.ObjectController.extend({
   needs: ['person', 'people'],
   currentRound: 1,
+  confirmEndMatch: false,
   roundsWithIndex: (function() {
     var currentRound, rounds,
       _this = this;
@@ -499,6 +500,12 @@ App.CurrentGameController = Ember.ObjectController.extend({
       rounds.push(new_round);
       game.set('rounds', rounds);
       return game.save();
+    },
+    confirmEndGame: function() {
+      return this.set('confirmEndMatch', true);
+    },
+    undoEndGame: function() {
+      return this.set('confirmEndMatch', false);
     },
     endGame: function() {
       var awayPerson, game, homePerson, l, loss, w, wins;
@@ -1286,7 +1293,7 @@ function program1(depth0,data) {
   data.buffer.push("</h3>\n    ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['with'].call(depth0, "round", {hash:{},inverse:self.noop,fn:self.program(9, program9, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['with'].call(depth0, "round", {hash:{},inverse:self.noop,fn:self.program(12, program12, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n    ");
   return buffer;
@@ -1305,11 +1312,12 @@ function program2(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = '', stack1, hashTypes, hashContexts;
+  data.buffer.push("\n        ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "isCurrent", {hash:{},inverse:self.noop,fn:self.program(4, program4, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n      ");
+  data.buffer.push("\n        ");
   return buffer;
   }
 function program4(depth0,data) {
@@ -1331,31 +1339,57 @@ function program6(depth0,data) {
   }
 function program7(depth0,data) {
   
+  var buffer = '', stack1, hashTypes, hashContexts;
+  data.buffer.push("\n        <div class=\"match--action\">\n          ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers.unless.call(depth0, "controller.confirmEndMatch", {hash:{},inverse:self.program(10, program10, data),fn:self.program(8, program8, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("          \n        </div>\n        ");
+  return buffer;
+  }
+function program8(depth0,data) {
+  
   var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n        <div class=\"match--action\">\n          <button ");
+  data.buffer.push("\n            <button ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "newRound", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"button blue\">New Game</button>\n          <button ");
+  data.buffer.push(" class=\"button blue\">New Game</button>\n            <button ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers.action.call(depth0, "endGame", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"button black\">Match Over!</button>\n        </div>\n        ");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "confirmEndGame", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button grey\">End Match</button>\n          ");
   return buffer;
   }
 
-function program9(depth0,data) {
+function program10(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n            <p>Please check game scores and press ok to confirm:</p>\n          <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "endGame", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button grey\">Ok</button>\n          <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "undoEndGame", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button black\">Cancel</button>\n          ");
+  return buffer;
+  }
+
+function program12(depth0,data) {
   
   var buffer = '', stack1, hashTypes, hashContexts;
   data.buffer.push("\n    <div class=\"gameview--content clearfix\">\n      <div class=\"actions actions--home\">\n        ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.unless.call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(10, program10, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.unless.call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(13, program13, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n        ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(13, program13, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(16, program16, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push(" <span class=\"score\">");
   hashTypes = {};
@@ -1364,12 +1398,12 @@ function program9(depth0,data) {
   data.buffer.push("</span>\n        ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.unless.call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(16, program16, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.unless.call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(19, program19, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n      </div> \n      <div class=\"actions actions--away\">\n        ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.unless.call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(19, program19, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.unless.call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(22, program22, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n        <span class=\"score\">");
   hashTypes = {};
@@ -1378,31 +1412,31 @@ function program9(depth0,data) {
   data.buffer.push("</span>");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(22, program22, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(25, program25, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n        ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.unless.call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(24, program24, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.unless.call(depth0, "isComplete", {hash:{},inverse:self.noop,fn:self.program(27, program27, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n      </div>\n      <div class=\"gameview--end\">\n        ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.unless.call(depth0, "isComplete", {hash:{},inverse:self.program(30, program30, data),fn:self.program(27, program27, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.unless.call(depth0, "isComplete", {hash:{},inverse:self.program(33, program33, data),fn:self.program(30, program30, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n      </div>\n    </div>\n    ");
   return buffer;
   }
-function program10(depth0,data) {
+function program13(depth0,data) {
   
   var stack1, hashTypes, hashContexts;
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isCurrent", {hash:{},inverse:self.noop,fn:self.program(11, program11, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "isCurrent", {hash:{},inverse:self.noop,fn:self.program(14, program14, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   else { data.buffer.push(''); }
   }
-function program11(depth0,data) {
+function program14(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
   data.buffer.push("<button ");
@@ -1413,39 +1447,19 @@ function program11(depth0,data) {
   return buffer;
   }
 
-function program13(depth0,data) {
-  
-  var stack1, hashTypes, hashContexts;
-  hashTypes = {};
-  hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "homeWon", {hash:{},inverse:self.noop,fn:self.program(14, program14, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  else { data.buffer.push(''); }
-  }
-function program14(depth0,data) {
-  
-  
-  data.buffer.push("W");
-  }
-
 function program16(depth0,data) {
   
   var stack1, hashTypes, hashContexts;
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isCurrent", {hash:{},inverse:self.noop,fn:self.program(17, program17, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "homeWon", {hash:{},inverse:self.noop,fn:self.program(17, program17, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   else { data.buffer.push(''); }
   }
 function program17(depth0,data) {
   
-  var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("<button ");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers.action.call(depth0, "subtractPointHome", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"button red\">-</button>");
-  return buffer;
+  
+  data.buffer.push("W");
   }
 
 function program19(depth0,data) {
@@ -1463,7 +1477,7 @@ function program20(depth0,data) {
   data.buffer.push("<button ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers.action.call(depth0, "subtractPointAway", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "subtractPointHome", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push(" class=\"button red\">-</button>");
   return buffer;
   }
@@ -1473,21 +1487,41 @@ function program22(depth0,data) {
   var stack1, hashTypes, hashContexts;
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "awayWon", {hash:{},inverse:self.noop,fn:self.program(14, program14, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "isCurrent", {hash:{},inverse:self.noop,fn:self.program(23, program23, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   else { data.buffer.push(''); }
   }
+function program23(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("<button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "subtractPointAway", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"button red\">-</button>");
+  return buffer;
+  }
 
-function program24(depth0,data) {
+function program25(depth0,data) {
   
   var stack1, hashTypes, hashContexts;
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isCurrent", {hash:{},inverse:self.noop,fn:self.program(25, program25, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "awayWon", {hash:{},inverse:self.noop,fn:self.program(17, program17, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   else { data.buffer.push(''); }
   }
-function program25(depth0,data) {
+
+function program27(depth0,data) {
+  
+  var stack1, hashTypes, hashContexts;
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "isCurrent", {hash:{},inverse:self.noop,fn:self.program(28, program28, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  else { data.buffer.push(''); }
+  }
+function program28(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
   data.buffer.push("<button ");
@@ -1498,17 +1532,17 @@ function program25(depth0,data) {
   return buffer;
   }
 
-function program27(depth0,data) {
+function program30(depth0,data) {
   
   var buffer = '', stack1, hashTypes, hashContexts;
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isCurrent", {hash:{},inverse:self.noop,fn:self.program(28, program28, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "isCurrent", {hash:{},inverse:self.noop,fn:self.program(31, program31, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n        ");
   return buffer;
   }
-function program28(depth0,data) {
+function program31(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
   data.buffer.push("<button ");
@@ -1519,18 +1553,18 @@ function program28(depth0,data) {
   return buffer;
   }
 
-function program30(depth0,data) {
+function program33(depth0,data) {
   
   var buffer = '', stack1, hashTypes, hashContexts;
   data.buffer.push("\n          ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isCurrent", {hash:{},inverse:self.noop,fn:self.program(31, program31, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "isCurrent", {hash:{},inverse:self.noop,fn:self.program(34, program34, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n        ");
   return buffer;
   }
-function program31(depth0,data) {
+function program34(depth0,data) {
   
   
   data.buffer.push(" \n          Game Over!\n          ");
