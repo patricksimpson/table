@@ -11,10 +11,14 @@ App.AuthController = Ember.Controller.extend
     )
   ).on('init')
   pickUser: (user) ->
+    console.log user
+    console.log user.photos[0]
+    console.log user.photos[0].value
     @get('store').fetch('person', user.id).then ((person) =>
       person.setProperties(
         name: user.name
         twitter: user.username
+        avatar: user.photos[0].value.replace("_normal", "")
       )
       person.save()
       @set('isAdmin', person.get('isAdmin'))
@@ -30,6 +34,7 @@ App.AuthController = Ember.Controller.extend
         createdAt: new Date()
         wins: 0
         losses: 0
+        avatar: user.photos[0].value
       )
       newPerson.save().then =>
         @set('person', person)

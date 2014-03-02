@@ -1,6 +1,10 @@
 <div class="content--container">
 <div class="profile">
-  <h2>{{name}}</h2>{{#if isMe}}<button {{action 'editPerson'}} class="button grey">Edit</button>{{/if}}
+  <h2>
+    <img {{bind-attr src=avatar alt=name title=name}} class="person--avatar">
+    <span class="person--name">{{name}}</span>
+  </h2>
+  {{#if isMe}}<button {{action 'editPerson'}} class="button grey">Edit</button>{{/if}}
   {{#unless isMe}}
     {{#if isChallenged}}
       You challenged {{name}}
@@ -19,9 +23,13 @@
     {{/if}}
   {{/unless}}
   {{outlet}}
-  <div class="stats">
-    Wins: <span class="wins">{{wins}}</span>
-    Losses: <span class="losses">{{losses}}</span>
+  <div class="person--stats">
+    <p>
+      <span class="person--stat">Wins:</span><span class="stat-wins">{{wins}}</span>
+    </p>
+    <p>
+      <span class="person--stat">Losses:</span><span class="person--stat stat-losses">{{losses}}</span>
+    </p>
   </div>
   {{#each games}}
     <p>{{game.score}}</p>

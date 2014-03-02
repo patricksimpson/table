@@ -14,10 +14,53 @@
   padding: 0 1em;
   font-size: 2rem;
 }
+
 .player--name{
   font-size: 2rem;
 }
 
 .stats{
   margin: 1em 0;
+}
+
+.link--person {
+  color: #41788c;
+  transition: color 0.5s ease;
+  text-decoration: none;
+  &:hover {
+    color: #6BC1E0;
+  }
+}
+
+.link--person--avatar {
+  margin-left: .25em;
+  text-decoration: none;
+}
+@-webkit-keyframes dance{
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes dance {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.effect--person {
+  &:hover {
+    img {
+      -webkit-animation-name: dance;
+      animation-name: dance;
+      -webkit-animation-duration: 2s;
+      animation-duration: 2s;
+      -webkit-animation-delay: 2s;
+      animation-delay: 2s;
+      animation-timing-function: ease-in;
+    }
+  }
+}
+.person--avatar {
+  width: 90px;
+  height: 90px;
+  vertical-align: middle;
+  border-radius: 50%;
+  border: 2px solid #DBD7D7;
 }

@@ -10,3 +10,4 @@ App.Person = FP.Model.extend
   losses: FP.attr 'number'
   challenges: FP.hasMany('challenge', {embedded: false})
   responses: FP.hasMany('challenge', {embedded: false})
+  avatar: FP.attr 'string'

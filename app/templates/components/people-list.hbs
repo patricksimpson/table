@@ -1,16 +1,34 @@
-<ul>
+<ul class="leaderboard">
+  <li class="leaderboard--person leaderboard--header">
+    <span class="leaderboard--person--name">
+    Person
+    </span>
+    <span class="leaderboard--stats">
+      <span class="leaderboard--stat stat--win">
+      W
+      </span>
+      <span class="leaderboard--stat stat--loss">
+      L
+      </span>
+    </span>
+  </li> 
   {{#each people}}
-  <li class="person">
-  <span class="person--name">
-  {{#link-to "person" this}}
-    {{name}}
-  {{/link-to}}
+  <li class="leaderboard--person">
+  <span class="effect--person">
+    {{#link-to "person" this classNames="link--person--avatar"}}
+      <img {{bind-attr src=avatar alt=name title=name}} class="leaderboard--person--avatar"> 
+    {{/link-to}}
+    <span class="leaderboard--person--name">
+    {{#link-to "person" this classNames="link--person"}}
+      {{name}}
+    {{/link-to}}
+    </span>
   </span>
-  <span class="person--stats">
-    <span class="stats--wins">
+  <span class="leaderboard--stats">
+    <span class="leaderboard--stat stat--win">
       {{wins}}
     </span>
-    <span class="stats--losses">
+    <span class="leaderboard--stat stat--loss">
       {{losses}}
     </span>
   </span>
