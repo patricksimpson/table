@@ -550,296 +550,7 @@ body {
   margin: 1em auto;
   max-width: 55em;
 }
-.stats {
-  margin: 1em 0;
-}
 label {
-  display: block;
-}
-/* The styles for the grey button */
-.grey {
-  color: #444;
-  border: 1px solid #d0d0d0;
-  background-image: -moz--webkit-linear-gradient(#ededed, #e1e1e1);
-  background-image: -moz--moz-linear-gradient(#ededed, #e1e1e1);
-  background-image: -moz--o-linear-gradient(#ededed, #e1e1e1);
-  background-image: -moz--ms-linear-gradient(#ededed, #e1e1e1);
-  background-image: -moz-linear-gradient(#ededed, #e1e1e1);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e1e1e1), to(#ededed));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e1e1e1), to(#ededed));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e1e1e1), to(#ededed));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e1e1e1), to(#ededed));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e1e1e1), to(#ededed));
-  background-image: -webkit--webkit-linear-gradient(#ededed, #e1e1e1);
-  background-image: -webkit--moz-linear-gradient(#ededed, #e1e1e1);
-  background-image: -webkit--o-linear-gradient(#ededed, #e1e1e1);
-  background-image: -webkit--ms-linear-gradient(#ededed, #e1e1e1);
-  background-image: -webkit-linear-gradient(#ededed, #e1e1e1);
-  background-image: -o--webkit-linear-gradient(#ededed, #e1e1e1);
-  background-image: -o--moz-linear-gradient(#ededed, #e1e1e1);
-  background-image: -o--o-linear-gradient(#ededed, #e1e1e1);
-  background-image: -o--ms-linear-gradient(#ededed, #e1e1e1);
-  background-image: -o-linear-gradient(#ededed, #e1e1e1);
-  text-shadow: 1px 1px 1px #fff;
-  background-color: #e1e1e1;
-}
-.grey:hover {
-  border: 1px solid #b0b0b0;
-  background-image: -moz--webkit-linear-gradient(#e1e1e1, #ededed);
-  background-image: -moz--moz-linear-gradient(#e1e1e1, #ededed);
-  background-image: -moz--o-linear-gradient(#e1e1e1, #ededed);
-  background-image: -moz--ms-linear-gradient(#e1e1e1, #ededed);
-  background-image: -moz-linear-gradient(#e1e1e1, #ededed);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ededed), to(#e1e1e1));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ededed), to(#e1e1e1));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ededed), to(#e1e1e1));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ededed), to(#e1e1e1));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ededed), to(#e1e1e1));
-  background-image: -webkit--webkit-linear-gradient(#e1e1e1, #ededed);
-  background-image: -webkit--moz-linear-gradient(#e1e1e1, #ededed);
-  background-image: -webkit--o-linear-gradient(#e1e1e1, #ededed);
-  background-image: -webkit--ms-linear-gradient(#e1e1e1, #ededed);
-  background-image: -webkit-linear-gradient(#e1e1e1, #ededed);
-  background-image: -o--webkit-linear-gradient(#e1e1e1, #ededed);
-  background-image: -o--moz-linear-gradient(#e1e1e1, #ededed);
-  background-image: -o--o-linear-gradient(#e1e1e1, #ededed);
-  background-image: -o--ms-linear-gradient(#e1e1e1, #ededed);
-  background-image: -o-linear-gradient(#e1e1e1, #ededed);
-  background-color: #ededed;
-}
-.grey:active {
-  border: 1px solid #666;
-}
-/* The styles for the red button */
-.red {
-  color: #923c47;
-  border: 1px solid #d96d7c;
-  background-image: -moz--webkit-linear-gradient(#f997b0, #f6677b);
-  background-image: -moz--moz-linear-gradient(#f997b0, #f6677b);
-  background-image: -moz--o-linear-gradient(#f997b0, #f6677b);
-  background-image: -moz--ms-linear-gradient(#f997b0, #f6677b);
-  background-image: -moz-linear-gradient(#f997b0, #f6677b);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f6677b), to(#f997b0));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f6677b), to(#f997b0));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f6677b), to(#f997b0));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f6677b), to(#f997b0));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f6677b), to(#f997b0));
-  background-image: -webkit--webkit-linear-gradient(#f997b0, #f6677b);
-  background-image: -webkit--moz-linear-gradient(#f997b0, #f6677b);
-  background-image: -webkit--o-linear-gradient(#f997b0, #f6677b);
-  background-image: -webkit--ms-linear-gradient(#f997b0, #f6677b);
-  background-image: -webkit-linear-gradient(#f997b0, #f6677b);
-  background-image: -o--webkit-linear-gradient(#f997b0, #f6677b);
-  background-image: -o--moz-linear-gradient(#f997b0, #f6677b);
-  background-image: -o--o-linear-gradient(#f997b0, #f6677b);
-  background-image: -o--ms-linear-gradient(#f997b0, #f6677b);
-  background-image: -o-linear-gradient(#f997b0, #f6677b);
-  text-shadow: 1px 1px 1px #fdbcc7;
-  background-color: #f6677b;
-}
-.red:hover {
-  border: 1px solid #c75964;
-  background-image: -moz--webkit-linear-gradient(#f6677b, #f997b0);
-  background-image: -moz--moz-linear-gradient(#f6677b, #f997b0);
-  background-image: -moz--o-linear-gradient(#f6677b, #f997b0);
-  background-image: -moz--ms-linear-gradient(#f6677b, #f997b0);
-  background-image: -moz-linear-gradient(#f6677b, #f997b0);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f997b0), to(#f6677b));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f997b0), to(#f6677b));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f997b0), to(#f6677b));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f997b0), to(#f6677b));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f997b0), to(#f6677b));
-  background-image: -webkit--webkit-linear-gradient(#f6677b, #f997b0);
-  background-image: -webkit--moz-linear-gradient(#f6677b, #f997b0);
-  background-image: -webkit--o-linear-gradient(#f6677b, #f997b0);
-  background-image: -webkit--ms-linear-gradient(#f6677b, #f997b0);
-  background-image: -webkit-linear-gradient(#f6677b, #f997b0);
-  background-image: -o--webkit-linear-gradient(#f6677b, #f997b0);
-  background-image: -o--moz-linear-gradient(#f6677b, #f997b0);
-  background-image: -o--o-linear-gradient(#f6677b, #f997b0);
-  background-image: -o--ms-linear-gradient(#f6677b, #f997b0);
-  background-image: -o-linear-gradient(#f6677b, #f997b0);
-  background-color: #f997b0;
-}
-.red:active {
-  border: 1px solid #ab3e4b;
-}
-/* The styles for the blue button */
-.blue {
-  color: #41788c;
-  border: 1px solid #6fb1c7;
-  background-image: -moz--webkit-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -moz--moz-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -moz--o-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -moz--ms-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -moz-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#73d0f1), to(#aae5f7));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#73d0f1), to(#aae5f7));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#73d0f1), to(#aae5f7));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#73d0f1), to(#aae5f7));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#73d0f1), to(#aae5f7));
-  background-image: -webkit--webkit-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -webkit--moz-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -webkit--o-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -webkit--ms-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -webkit-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -o--webkit-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -o--moz-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -o--o-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -o--ms-linear-gradient(#aae5f7, #73d0f1);
-  background-image: -o-linear-gradient(#aae5f7, #73d0f1);
-  text-shadow: 1px 1px 1px #bfeafb;
-  background-color: #73d0f1;
-}
-.blue:hover {
-  border: 1px solid #4690ad;
-  background-image: -moz--webkit-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -moz--moz-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -moz--o-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -moz--ms-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -moz-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#aae5f7), to(#73d0f1));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#aae5f7), to(#73d0f1));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#aae5f7), to(#73d0f1));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#aae5f7), to(#73d0f1));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#aae5f7), to(#73d0f1));
-  background-image: -webkit--webkit-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -webkit--moz-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -webkit--o-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -webkit--ms-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -webkit-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -o--webkit-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -o--moz-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -o--o-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -o--ms-linear-gradient(#73d0f1, #aae5f7);
-  background-image: -o-linear-gradient(#73d0f1, #aae5f7);
-  background-color: #aae5f7;
-}
-.blue:active {
-  border: 1px solid #3b778b;
-}
-/* The styles for the green button */
-.green {
-  color: #5a742d;
-  border: 1px solid #95b959;
-  background-image: -moz--webkit-linear-gradient(#cae387, #a5cb5e);
-  background-image: -moz--moz-linear-gradient(#cae387, #a5cb5e);
-  background-image: -moz--o-linear-gradient(#cae387, #a5cb5e);
-  background-image: -moz--ms-linear-gradient(#cae387, #a5cb5e);
-  background-image: -moz-linear-gradient(#cae387, #a5cb5e);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#a5cb5e), to(#cae387));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#a5cb5e), to(#cae387));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#a5cb5e), to(#cae387));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#a5cb5e), to(#cae387));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#a5cb5e), to(#cae387));
-  background-image: -webkit--webkit-linear-gradient(#cae387, #a5cb5e);
-  background-image: -webkit--moz-linear-gradient(#cae387, #a5cb5e);
-  background-image: -webkit--o-linear-gradient(#cae387, #a5cb5e);
-  background-image: -webkit--ms-linear-gradient(#cae387, #a5cb5e);
-  background-image: -webkit-linear-gradient(#cae387, #a5cb5e);
-  background-image: -o--webkit-linear-gradient(#cae387, #a5cb5e);
-  background-image: -o--moz-linear-gradient(#cae387, #a5cb5e);
-  background-image: -o--o-linear-gradient(#cae387, #a5cb5e);
-  background-image: -o--ms-linear-gradient(#cae387, #a5cb5e);
-  background-image: -o-linear-gradient(#cae387, #a5cb5e);
-  text-shadow: 1px 1px 1px #dff4bc;
-  background-color: #a5cb5e;
-}
-.green:hover {
-  border: 1px solid #687e30;
-  background-image: -moz--webkit-linear-gradient(#a5cb5e, #cae387);
-  background-image: -moz--moz-linear-gradient(#a5cb5e, #cae387);
-  background-image: -moz--o-linear-gradient(#a5cb5e, #cae387);
-  background-image: -moz--ms-linear-gradient(#a5cb5e, #cae387);
-  background-image: -moz-linear-gradient(#a5cb5e, #cae387);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#cae387), to(#a5cb5e));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#cae387), to(#a5cb5e));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#cae387), to(#a5cb5e));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#cae387), to(#a5cb5e));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#cae387), to(#a5cb5e));
-  background-image: -webkit--webkit-linear-gradient(#a5cb5e, #cae387);
-  background-image: -webkit--moz-linear-gradient(#a5cb5e, #cae387);
-  background-image: -webkit--o-linear-gradient(#a5cb5e, #cae387);
-  background-image: -webkit--ms-linear-gradient(#a5cb5e, #cae387);
-  background-image: -webkit-linear-gradient(#a5cb5e, #cae387);
-  background-image: -o--webkit-linear-gradient(#a5cb5e, #cae387);
-  background-image: -o--moz-linear-gradient(#a5cb5e, #cae387);
-  background-image: -o--o-linear-gradient(#a5cb5e, #cae387);
-  background-image: -o--ms-linear-gradient(#a5cb5e, #cae387);
-  background-image: -o-linear-gradient(#a5cb5e, #cae387);
-  background-color: #cae387;
-}
-.green:active {
-  border: 1px solid #506320;
-}
-.black {
-  color: #fff;
-  border: 1px solid #4d4d4d;
-  background-image: -moz--webkit-linear-gradient(#656565, #454545);
-  background-image: -moz--moz-linear-gradient(#656565, #454545);
-  background-image: -moz--o-linear-gradient(#656565, #454545);
-  background-image: -moz--ms-linear-gradient(#656565, #454545);
-  background-image: -moz-linear-gradient(#656565, #454545);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#454545), to(#656565));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#454545), to(#656565));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#454545), to(#656565));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#454545), to(#656565));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#454545), to(#656565));
-  background-image: -webkit--webkit-linear-gradient(#656565, #454545);
-  background-image: -webkit--moz-linear-gradient(#656565, #454545);
-  background-image: -webkit--o-linear-gradient(#656565, #454545);
-  background-image: -webkit--ms-linear-gradient(#656565, #454545);
-  background-image: -webkit-linear-gradient(#656565, #454545);
-  background-image: -o--webkit-linear-gradient(#656565, #454545);
-  background-image: -o--moz-linear-gradient(#656565, #454545);
-  background-image: -o--o-linear-gradient(#656565, #454545);
-  background-image: -o--ms-linear-gradient(#656565, #454545);
-  background-image: -o-linear-gradient(#656565, #454545);
-  text-shadow: 1px 1px 1px #6d6d6d;
-  background-color: #454545;
-}
-.black:hover {
-  border: 1px solid #363636;
-  background-image: -moz--webkit-linear-gradient(#454545, #656565);
-  background-image: -moz--moz-linear-gradient(#454545, #656565);
-  background-image: -moz--o-linear-gradient(#454545, #656565);
-  background-image: -moz--ms-linear-gradient(#454545, #656565);
-  background-image: -moz-linear-gradient(#454545, #656565);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#656565), to(#454545));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#656565), to(#454545));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#656565), to(#454545));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#656565), to(#454545));
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#656565), to(#454545));
-  background-image: -webkit--webkit-linear-gradient(#454545, #656565);
-  background-image: -webkit--moz-linear-gradient(#454545, #656565);
-  background-image: -webkit--o-linear-gradient(#454545, #656565);
-  background-image: -webkit--ms-linear-gradient(#454545, #656565);
-  background-image: -webkit-linear-gradient(#454545, #656565);
-  background-image: -o--webkit-linear-gradient(#454545, #656565);
-  background-image: -o--moz-linear-gradient(#454545, #656565);
-  background-image: -o--o-linear-gradient(#454545, #656565);
-  background-image: -o--ms-linear-gradient(#454545, #656565);
-  background-image: -o-linear-gradient(#454545, #656565);
-  background-color: #656565;
-}
-.black:active {
-  border: 1px solid #000;
-}
-.deleteme {
-  margin: 1em 0;
-  font-size: 0.8rem;
-}
-.deleteme label {
-  display: inline;
-}
-.deleteme input {
-  display: inline;
-  margin: 0.25em 0.5em;
-}
-.deleteme .button {
-  float: none;
-  clear: both;
-  margin: 1em 0;
   display: block;
 }
 .clearfix {
@@ -848,143 +559,254 @@ label {
   clear: both;
   width: 100%;
 }
-.content--container {
-  float: left;
-  width: 60%;
-}
-.content--container--game {
-  float: none;
-  width: 100%;
-}
-.content--other {
-  float: left;
-  width: 40%;
-}
+
+.button {
+  display: inline-block;
+  font-size: 0.8rem;
+  text-decoration: none !important;
+  font-family: Helvetica, Arial, sans serif;
+  padding: 8px 12px;
+  border-radius: 3px;
+  box-shadow: inset 0px 0px 2px #fff; }
+
+.button:active {
+  box-shadow: inset 0px 0px 3px #999; }
+
+.button--container {
+  position: relative;
+  margin: 1em 0; }
+
+.button--add {
+  position: absolute;
+  top: 0;
+  left: 1em;
+  bottom: 0;
+  margin: auto 0;
+  background-color: transparent;
+  border: 0px none;
+  font-size: 1.2rem;
+  color: #8a9ba8;
+  height: 40px;
+  transition: all 0.2s; }
+
+.button--add:hover {
+  font-weight: bold; }
+
+.button--add:after {
+  content: '+ Person'; }
+
+.deleteme {
+  margin: 1em 0;
+  font-size: .8rem; }
+  .deleteme label {
+    display: inline; }
+  .deleteme input {
+    display: inline;
+    margin: .25em .5em; }
+  .deleteme .button {
+    float: none;
+    clear: both;
+    margin: 1em 0;
+    display: block; }
+
+/* The styles for the grey button */
+.grey {
+  color: #444;
+  border: 1px solid #d0d0d0;
+  background-image: -moz-linear-gradient(#ededed, #e1e1e1);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e1e1e1), to(#ededed));
+  background-image: -webkit-linear-gradient(#ededed, #e1e1e1);
+  background-image: -o-linear-gradient(#ededed, #e1e1e1);
+  text-shadow: 1px 1px 1px #fff;
+  background-color: #e1e1e1; }
+
+.grey:hover {
+  border: 1px solid #b0b0b0;
+  background-image: -moz-linear-gradient(#e1e1e1, #ededed);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ededed), to(#e1e1e1));
+  background-image: -webkit-linear-gradient(#e1e1e1, #ededed);
+  background-image: -o-linear-gradient(#e1e1e1, #ededed);
+  background-color: #ededed; }
+
+.grey:active {
+  border: 1px solid #666; }
+
+/* The styles for the red button */
+.red {
+  color: #923c47;
+  border: 1px solid #d96d7c;
+  background-image: -moz-linear-gradient(#f997b0, #f6677b);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f6677b), to(#f997b0));
+  background-image: -webkit-linear-gradient(#f997b0, #f6677b);
+  background-image: -o-linear-gradient(#f997b0, #f6677b);
+  text-shadow: 1px 1px 1px #fdbcc7;
+  background-color: #f6677b; }
+
+.red:hover {
+  border: 1px solid #c75964;
+  background-image: -moz-linear-gradient(#f6677b, #f997b0);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f997b0), to(#f6677b));
+  background-image: -webkit-linear-gradient(#f6677b, #f997b0);
+  background-image: -o-linear-gradient(#f6677b, #f997b0);
+  background-color: #f997b0; }
+
+.red:active {
+  border: 1px solid #ab3e4b; }
+
+/* The styles for the blue button */
+.blue {
+  color: #41788c;
+  border: 1px solid #6fb1c7;
+  background-image: -moz-linear-gradient(#aae5f7, #73d0f1);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#73d0f1), to(#aae5f7));
+  background-image: -webkit-linear-gradient(#aae5f7, #73d0f1);
+  background-image: -o-linear-gradient(#aae5f7, #73d0f1);
+  text-shadow: 1px 1px 1px #bfeafb;
+  background-color: #73d0f1; }
+
+.blue:hover {
+  border: 1px solid #4690ad;
+  background-image: -moz-linear-gradient(#73d0f1, #aae5f7);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#aae5f7), to(#73d0f1));
+  background-image: -webkit-linear-gradient(#73d0f1, #aae5f7);
+  background-image: -o-linear-gradient(#73d0f1, #aae5f7);
+  background-color: #aae5f7; }
+
+.blue:active {
+  border: 1px solid #3b778b; }
+
+/* The styles for the green button */
+.green {
+  color: #5a742d;
+  border: 1px solid #95b959;
+  background-image: -moz-linear-gradient(#cae387, #a5cb5e);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#a5cb5e), to(#cae387));
+  background-image: -webkit-linear-gradient(#cae387, #a5cb5e);
+  background-image: -o-linear-gradient(#cae387, #a5cb5e);
+  text-shadow: 1px 1px 1px #dff4bc;
+  background-color: #a5cb5e; }
+
+.green:hover {
+  border: 1px solid #687e30;
+  background-image: -moz-linear-gradient(#a5cb5e, #cae387);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#cae387), to(#a5cb5e));
+  background-image: -webkit-linear-gradient(#a5cb5e, #cae387);
+  background-image: -o-linear-gradient(#a5cb5e, #cae387);
+  background-color: #cae387; }
+
+.green:active {
+  border: 1px solid #506320; }
+
+.black {
+  color: #fff;
+  border: 1px solid #4d4d4d;
+  background-image: -moz-linear-gradient(#656565, #454545);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#454545), to(#656565));
+  background-image: -webkit-linear-gradient(#656565, #454545);
+  background-image: -o-linear-gradient(#656565, #454545);
+  text-shadow: 1px 1px 1px #6d6d6d;
+  background-color: #454545; }
+
+.black:hover {
+  border: 1px solid #363636;
+  background-image: -moz-linear-gradient(#454545, #656565);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#656565), to(#454545));
+  background-image: -webkit-linear-gradient(#454545, #656565);
+  background-image: -o-linear-gradient(#454545, #656565);
+  background-color: #656565; }
+
+.black:active {
+  border: 1px solid #000; }
+
+.banner {
+  background-color: #fff;
+  width: 100%; }
+
+.banner--navigation {
+  list-style: none;
+  padding: 0.25em 0;
+  margin: 0; }
+
+.banner--navigation--item {
+  display: inline-block;
+  color: #2f2f2f;
+  font-size: .8rem; }
+  .banner--navigation--item a {
+    color: #41788c; }
+  .banner--navigation--item:before {
+    margin: 0 .5em;
+    content: "|";
+    display: inline-block; }
+  .banner--navigation--item:first-child:before {
+    content: "";
+    margin: 0; }
+
+.banner--navigation--login {
+  float: right; }
+  .banner--navigation--login:before {
+    content: ""; }
+
+.hero {
+  margin: 0;
+  margin-bottom: 0px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  font-size: inherit;
+  line-height: inherit;
+  background: #2f2f2f;
+  text-align: center;
+  color: #fff; }
+
+.hero--text {
+  margin: 0;
+  font-size: 44px;
+  line-height: 50px;
+  color: inherit;
+  letter-spacing: -1px;
+  font-weight: normal; }
+
+.gameview {
+  background-color: #E2E3FF;
+  padding: 1em 0;
+  border: 1px solid #ccc;
+  border-radius: 9px; }
+
+.gameview--header {
+  border-bottom: 1px solid #ccc; }
+
+.gameview--actions {
+  clear: both;
+  margin: 2em;
+  text-align: center; }
+  .gameview--actions:before {
+    content: " ";
+    display: block;
+    clear: both;
+    width: 100%;
+    height: 1rem; }
+  .gameview--actions .button {
+    padding: .5em 2em;
+    font-size: 1.2rem; }
+
+.score {
+  font-size: 1.2rem;
+  padding: 0 1em; }
+
+.gameview--main {
+  text-align: center; }
+
+.match--action {
+  margin: 1em 0em;
+  clear: both; }
+
+.gameview--content {
+  clear: both;
+  height: 2em;
+  padding: 1em;
+  width: 100%; }
+
 .endround {
-  margin-top: 1em;
-}
-
-.button {
-  display: inline-block;
-  font-size: 0.8rem;
-  text-decoration: none !important;
-  font-family: Helvetica, Arial, sans serif;
-  padding: 8px 12px;
-  border-radius: 3px;
-  box-shadow: inset 0px 0px 2px #fff; }
-
-.button:active {
-  box-shadow: inset 0px 0px 3px #999; }
-
-.button--container {
-  position: relative;
-  margin: 1em 0; }
-
-.button--add {
-  position: absolute;
-  top: 0;
-  left: 1em;
-  bottom: 0;
-  margin: auto 0;
-  background-color: transparent;
-  border: 0px none;
-  font-size: 1.2rem;
-  color: #8a9ba8;
-  height: 40px;
-  transition: all 0.2s; }
-
-.button--add:hover {
-  font-weight: bold; }
-
-.button--add:after {
-  content: '+ Person'; }
-
-.banner {
-  background-color: #fff;
-  width: 100%; }
-
-.banner--navigation {
-  list-style: none;
-  padding: 0.25em 0;
-  margin: 0; }
-
-.banner--navigation--item {
-  display: inline-block;
-  color: #2f2f2f;
-  font-size: .8rem; }
-  .banner--navigation--item a {
-    color: #41788c; }
-  .banner--navigation--item:before {
-    margin: 0 .5em;
-    content: "|";
-    display: inline-block; }
-  .banner--navigation--item:first-child:before {
-    content: "";
-    margin: 0; }
-
-.banner--navigation--login {
-  float: right; }
-  .banner--navigation--login:before {
-    content: ""; }
-
-.hero {
-  margin: 0;
-  margin-bottom: 0px;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  font-size: inherit;
-  line-height: inherit;
-  background: #2f2f2f;
-  text-align: center;
-  color: #fff; }
-
-.hero--text {
-  margin: 0;
-  font-size: 44px;
-  line-height: 50px;
-  color: inherit;
-  letter-spacing: -1px;
-  font-weight: normal; }
-
-.gameview {
-  background-color: #E2E3FF;
-  padding: 1em 0;
-  border: 1px solid #ccc;
-  border-radius: 9px; }
-
-.gameview--header {
-  border-bottom: 1px solid #ccc; }
-
-.gameview--actions {
-  clear: both;
-  margin: 2em;
-  text-align: center; }
-  .gameview--actions:before {
-    content: " ";
-    display: block;
-    clear: both;
-    width: 100%;
-    height: 1rem; }
-  .gameview--actions .button {
-    padding: .5em 2em;
-    font-size: 1.2rem; }
-
-.score {
-  font-size: 1.2rem;
-  padding: 0 1em; }
-
-.gameview--main {
-  text-align: center; }
-
-.match--action {
-  margin: 1em 0em;
-  clear: both; }
-
-.gameview--content {
-  clear: both;
-  height: 2em;
-  padding: 1em;
-  width: 100%; }
+  margin-top: 1em; }
 
 .player--content, .actions {
   box-sizing: border-box;
@@ -1003,156 +825,15 @@ label {
 .player--name {
   font-size: 2rem; }
 
-.footer {
-  margin: 1em;
-  color: #ccc;
-  text-align: center;
-  font-size: 0.9rem; }
-
-.button {
-  display: inline-block;
-  font-size: 0.8rem;
-  text-decoration: none !important;
-  font-family: Helvetica, Arial, sans serif;
-  padding: 8px 12px;
-  border-radius: 3px;
-  box-shadow: inset 0px 0px 2px #fff; }
-
-.button:active {
-  box-shadow: inset 0px 0px 3px #999; }
-
-.button--container {
-  position: relative;
+.stats {
   margin: 1em 0; }
 
-.button--add {
-  position: absolute;
-  top: 0;
-  left: 1em;
-  bottom: 0;
-  margin: auto 0;
-  background-color: transparent;
-  border: 0px none;
-  font-size: 1.2rem;
-  color: #8a9ba8;
-  height: 40px;
-  transition: all 0.2s; }
-
-.button--add:hover {
-  font-weight: bold; }
-
-.button--add:after {
-  content: '+ Person'; }
-
-.banner {
-  background-color: #fff;
-  width: 100%; }
-
-.banner--navigation {
-  list-style: none;
-  padding: 0.25em 0;
-  margin: 0; }
-
-.banner--navigation--item {
-  display: inline-block;
-  color: #2f2f2f;
-  font-size: .8rem; }
-  .banner--navigation--item a {
-    color: #41788c; }
-  .banner--navigation--item:before {
-    margin: 0 .5em;
-    content: "|";
-    display: inline-block; }
-  .banner--navigation--item:first-child:before {
-    content: "";
-    margin: 0; }
-
-.banner--navigation--login {
-  float: right; }
-  .banner--navigation--login:before {
-    content: ""; }
-
-.hero {
-  margin: 0;
-  margin-bottom: 0px;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  font-size: inherit;
-  line-height: inherit;
-  background: #2f2f2f;
-  text-align: center;
-  color: #fff; }
-
-.hero--text {
-  margin: 0;
-  font-size: 44px;
-  line-height: 50px;
-  color: inherit;
-  letter-spacing: -1px;
-  font-weight: normal; }
-
-.gameview {
-  background-color: #E2E3FF;
-  padding: 1em 0;
-  border: 1px solid #ccc;
-  border-radius: 9px; }
-
-.gameview--header {
-  border-bottom: 1px solid #ccc; }
-
-.gameview--actions {
-  clear: both;
-  margin: 2em;
-  text-align: center; }
-  .gameview--actions:before {
-    content: " ";
-    display: block;
-    clear: both;
-    width: 100%;
-    height: 1rem; }
-  .gameview--actions .button {
-    padding: .5em 2em;
-    font-size: 1.2rem; }
-
-.score {
-  font-size: 1.2rem;
-  padding: 0 1em; }
-
-.gameview--main {
-  text-align: center; }
-
-.match--action {
-  margin: 1em 0em;
-  clear: both; }
-
-.gameview--content {
-  clear: both;
-  height: 2em;
-  padding: 1em;
-  width: 100%; }
-
-.player--content, .actions {
-  box-sizing: border-box;
-  float: left;
-  width: 49.5%;
-  padding: 0 2em; }
-
-.player--home {
-  border-right: 1px solid #ccc;
-  text-align: right; }
-
-.overall--score {
-  padding: 0 1em;
-  font-size: 2rem; }
-
-.player--name {
-  font-size: 2rem; }
-
 .footer {
   margin: 1em;
   color: #ccc;
   text-align: center;
   font-size: 0.9rem; }
+
 
 
 /*# sourceMappingURL=app.css.map*/
