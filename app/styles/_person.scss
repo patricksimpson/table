@@ -64,3 +64,18 @@
   border-radius: 50%;
   border: 2px solid #DBD7D7;
 }
+.person--stats{
+  font-size: 1.25rem;  
+}
+.person--stat {
+  width: 5em;
+  display:inline-block;
+}
+.you {
+  font-size: .9rem;
+  color: #555;
+  font-weight: normal;
+}
+.stat-wins, .stat-losses {
+  font-weight: bold;
+}

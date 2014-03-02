@@ -777,6 +777,11 @@ label {
   float: left;
   width: 40%; }
 
+.action--list {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
 .leaderboard {
   margin: 0;
   padding: 0;
@@ -784,9 +789,9 @@ label {
   min-height: 20em; }
 
 .leaderboard--person {
-  list-style: none;
   display: block;
-  margin: .5em 2em .5em 0; }
+  margin: .5em 2em;
+  margin-left: 0; }
 
 .leaderboard--person--name {
   display: inline-block;
@@ -810,11 +815,14 @@ label {
   height: 50px;
   border: 1px solid #444; }
 
+.currentGame {
+  clear: both;
+  margin: 1em 0; }
+
 .gameview {
-  background-color: #E2E3FF;
+  background-color: #eee;
   padding: 1em 0;
-  border: 1px solid #ccc;
-  border-radius: 9px; }
+  margin: 1em 0em; }
 
 .gameview--header {
   border-bottom: 1px solid #ccc; }
@@ -913,6 +921,21 @@ label {
   vertical-align: middle;
   border-radius: 50%;
   border: 2px solid #DBD7D7; }
+
+.person--stats {
+  font-size: 1.25rem; }
+
+.person--stat {
+  width: 5em;
+  display: inline-block; }
+
+.you {
+  font-size: .9rem;
+  color: #555;
+  font-weight: normal; }
+
+.stat-wins, .stat-losses {
+  font-weight: bold; }
 
 .footer {
   margin: 1em;

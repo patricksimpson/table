@@ -3,6 +3,7 @@
   <h2>
     <img {{bind-attr src=avatar alt=name title=name}} class="person--avatar">
     <span class="person--name">{{name}}</span>
+    {{#if isMe}}<span class="you">&#8592 You</span>{{/if}}
   </h2>
   {{#if isMe}}<button {{action 'editPerson'}} class="button grey">Edit</button>{{/if}}
   {{#unless isMe}}
@@ -16,9 +17,9 @@
   {{else}}
     {{#if authedPerson}}
       {{#unless isWaiting}}
-        <button {{action 'joinWaitingList'}} class="button green">Join Queue</button>
+        <button {{action 'joinWaitingList'}} class="button green">Ping?</button>
       {{else}}
-        <button {{action 'leaveWaitingList'}} class="button red">Leave Queue</button>
+        <button {{action 'leaveWaitingList'}} class="button black">Cancel Ping</button>
       {{/unless}}
     {{/if}}
   {{/unless}}
@@ -31,6 +32,7 @@
       <span class="person--stat">Losses:</span><span class="person--stat stat-losses">{{losses}}</span>
     </p>
   </div>
+  <h3>Recent Games</h3>
   {{#each games}}
     <p>{{game.score}}</p>
   {{/each}}

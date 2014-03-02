@@ -1,8 +1,16 @@
 App.ApplicationController = Ember.Controller.extend
+  clock: 'components/clock'
   needs: ['auth', 'challenge', 'people', 'person', 'wait', 'game']
   authBinding: "controllers.auth"
   waitList: Ember.computed.alias('controllers.wait')
   game: Ember.computed.alias('controllers.game')
+  currentGames: (->
+    @get('currentGame').map((game) =>
+      startedAt = game.get('startedAt')
+      game.set('time', moment(startedAt).fromNow())
+      game
+    )
+  ).property('currentGame.content.@each', 'clock.minute')
   waitingList: (->
     @get('waits').map (wait) =>
       wait.set 'updatetime', new Date()

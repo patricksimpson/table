@@ -1,4 +1,4 @@
-<ul class="leaderboard">
+<ol class="leaderboard">
   <li class="leaderboard--person leaderboard--header">
     <span class="leaderboard--person--name">
     Person
@@ -32,11 +32,11 @@
       {{losses}}
     </span>
   </span>
-    {{#if isMe}} &#8592 You
+    {{#if isMe}} <span class="you">&#8592 You</span>
 
     {{else}}
       <!--<button {{action 'challenge'}} class="button blue">Challenge</button>-->
     {{/if}}
   </li>
   {{/each}}
-</ul>
+</ol>

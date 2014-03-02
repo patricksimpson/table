@@ -18,17 +18,24 @@
       </ul>
     </nav>
   </header>
+    {{#if currentGames.length}}
     <div class="currentGame">
-      {{#each game in currentGame }}
+      {{#each game in currentGames }}
         <div class="game">
+          Current Match:
+          {{#link-to 'currentGame'}}
           <span class="player home">{{game.home.name}}</span>
           <span class="vs">vs</span>
           <span class="player away">{{game.away.name}}</span>
-          {{#link-to 'currentGame'}}View game{{/link-to}}
+          {{/link-to}}
+          <span class="time">{{game.time}}</span>
         </div>
       {{/each}}
+    </div>
+  {{/if}}
   {{outlet}}
   <div class="content--other">
+{{#if pendingGames.length}}
     <div class="pendingGames">
       <h3>Pending Games</h3>
       {{#each game in pendingGames}}
@@ -37,11 +44,14 @@
           <span class="vs">vs</span>
           <span class="player away">{{game.away.name}}</span>
       {{/each}}
-    <h3>Challenges</h3>
-    <ul>
+    </div>
+  {{/if}}
+    <h3 class="action--header">Challenges</h3>
+{{#if auth.person.challenges.length}}
+    <ul class="action--list">
     {{#each auth.person.challenges}}
     <li> 
-      You're challenged by {{home.name}}
+      {{home.name}}
       <button {{action 'acceptChallenge' this}} class="button blue">Accept</button>
       <button {{action 'declineChallenge' this}} class="button black">Decline</button>
       </li>
@@ -53,21 +63,28 @@
       </li>
     {{/each}}
     </ul>
-    <h3>Waiting for players (ping?)</h3>
+  {{else}}
+    No challenges.
+  {{/if}}
+    <h3 class="action--header">Waiting List</h3>
+    {{#if waitingList.length}}
     {{#each wait in waitingList}}
       {{#if wait.person.isWaiting}}
         <p>
         {{#unless wait.isMe}}
-          {{wait.person.name}} is looking to play. 
+          {{wait.person.name}}: Ping?
           {{#if auth.person.name}} 
-            <button {{action 'acceptGame' wait.person auth.person}} class="button green">Join</button>
+            <button {{action 'acceptGame' wait.person auth.person}} class="button blue">Pong!</button>
           {{/if}}
         {{else}}
-          Waiting for challenges...
+          {{auth.person.name}}: Ping?
         {{/unless}}
         </p>
       {{/if}}
     {{/each}}
+  {{else}}
+  No one is waiting.
+  {{/if}}
   </div>
 </div>
 <footer class="clearfix footer">

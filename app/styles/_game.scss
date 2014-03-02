@@ -1,8 +1,12 @@
+ .currentGame {
+   clear: both;
+   margin: 1em 0;
+ }
+
 .gameview{
-  background-color: #E2E3FF;
+  background-color: #eee;
   padding: 1em 0;
-  border: 1px solid #ccc;
-  border-radius: 9px;
+  margin: 1em 0em;
 }
 
 .gameview--header{
