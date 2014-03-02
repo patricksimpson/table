@@ -1,10 +1,19 @@
 <ul>
   {{#each people}}
-  <li>
+  <li class="person">
+  <span class="person--name">
   {{#link-to "person" this}}
     {{name}}
   {{/link-to}}
-  ({{wins}} / {{losses}})
+  </span>
+  <span class="person--stats">
+    <span class="stats--wins">
+      {{wins}}
+    </span>
+    <span class="stats--losses">
+      {{losses}}
+    </span>
+  </span>
     {{#if isMe}} &#8592 You
 
     {{else}}

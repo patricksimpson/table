@@ -18,19 +18,18 @@
       </ul>
     </nav>
   </header>
-  <h2>SparkTable ({{people.length}})</h2>
-  {{outlet}}
-  <div class="content--other">
+  <h2>Sparkbox Table</h2>
     <div class="currentGame">
-      <h3>Current Game</h3>
       {{#each game in currentGame }}
         <div class="game">
           <span class="player home">{{game.home.name}}</span>
           <span class="vs">vs</span>
           <span class="player away">{{game.away.name}}</span>
           {{#link-to 'currentGame'}}View game{{/link-to}}
+        </div>
       {{/each}}
-    </div>
+  {{outlet}}
+  <div class="content--other">
     <div class="pendingGames">
       <h3>Pending Games</h3>
       {{#each game in pendingGames}}
