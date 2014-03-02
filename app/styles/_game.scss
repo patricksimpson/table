@@ -1,0 +1,48 @@
+.gameview{
+  background-color: #E2E3FF;
+  padding: 1em 0;
+  border: 1px solid #ccc;
+  border-radius: 9px;
+}
+
+.gameview--header{
+  border-bottom: 1px solid #ccc;
+}
+
+.gameview--actions{
+  &:before{
+    content: " ";
+    display: block;
+    clear: both;
+    width: 100%;
+    height: 1rem;
+  }
+  clear: both;
+  margin:2em;
+  text-align: center;
+  .button{
+    padding: .5em 2em;
+    font-size: 1.2rem;
+  }
+}
+
+.score{
+  font-size: 1.2rem;
+  padding: 0 1em;
+}
+
+.gameview--main{
+  text-align: center
+}
+
+.match--action{
+  margin: 1em 0em;
+  clear: both;
+}
+
+.gameview--content{
+  clear: both;
+  height: 2em;
+  padding: 1em;
+  width: 100%;
+}

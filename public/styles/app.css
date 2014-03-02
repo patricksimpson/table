@@ -546,38 +546,6 @@ body {
   margin: 0px;
   font-family: 'Open Sans', sans-serif;
 }
-.banner {
-  background-color: #fff;
-  width: 100%;
-}
-.banner--navigation {
-  list-style: none;
-  padding: 0.25em 0;
-  margin: 0;
-}
-.banner--navigation--item {
-  display: inline-block;
-  color: #2f2f2f;
-  font-size: 0.8rem;
-}
-.banner--navigation--item a {
-  color: #41788c;
-}
-.banner--navigation--item:before {
-  margin: 0 0.5em;
-  content: "|";
-  display: inline-block;
-}
-.banner--navigation--item:first-child:before {
-  content: "";
-  margin: 0;
-}
-.banner--navigation--login {
-  float: right;
-}
-.banner--navigation--login:before {
-  content: "";
-}
 .main {
   margin: 1em auto;
   max-width: 55em;
@@ -587,47 +555,6 @@ body {
 }
 label {
   display: block;
-}
-.hero {
-  margin: 0;
-  margin-bottom: 0px;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  font-size: inherit;
-  line-height: inherit;
-  background: #2f2f2f;
-  text-align: center;
-  color: #fff;
-}
-.hero--text {
-  margin: 0;
-  font-size: 44px;
-  line-height: 50px;
-  color: inherit;
-  letter-spacing: -1px;
-  font-weight: normal;
-}
-.button {
-  display: inline-block;
-  font-size: 0.8rem;
-  text-decoration: none !important;
-  font-family: Helvetica, Arial, sans serif;
-  padding: 8px 12px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  -webkit-box-shadow: inset 0px 0px 2px #fff;
-  box-shadow: inset 0px 0px 2px #fff;
-  -o-box-shadow: inset 0px 0px 2px #fff;
-  -webkit-box-shadow: inset 0px 0px 2px #fff;
-  -moz-box-shadow: inset 0px 0px 2px #fff;
-}
-.button:active {
-  -webkit-box-shadow: inset 0px 0px 3px #999;
-  box-shadow: inset 0px 0px 3px #999;
-  -o-box-shadow: inset 0px 0px 3px #999;
-  -webkit-box-shadow: inset 0px 0px 3px #999;
-  -moz-box-shadow: inset 0px 0px 3px #999;
 }
 /* The styles for the grey button */
 .grey {
@@ -898,37 +825,6 @@ label {
 .black:active {
   border: 1px solid #000;
 }
-.button--container {
-  position: relative;
-  margin: 1em 0;
-}
-.button--add {
-  position: absolute;
-  top: 0;
-  left: 1em;
-  bottom: 0;
-  margin: auto 0;
-  background-color: transparent;
-  border: 0px none;
-  font-size: 1.2rem;
-  color: #8a9ba8;
-  height: 40px;
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -ms-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  -ms-transition: all 0.2s;
-  transition: all 0.2s;
-}
-.button--add:hover {
-  font-weight: bold;
-}
-.button--add:after {
-  content: '+ Person';
-}
 .deleteme {
   margin: 1em 0;
   font-size: 0.8rem;
@@ -945,75 +841,6 @@ label {
   clear: both;
   margin: 1em 0;
   display: block;
-}
-.footer {
-  margin: 1em;
-  color: #ccc;
-  text-align: center;
-  font-size: 0.9rem;
-}
-.gameview {
-  background-color: #e2e3ff;
-  padding: 1em 0;
-  border: 1px solid #ccc;
-  -webkit-border-radius: 9px;
-  border-radius: 9px;
-}
-.player--content,
-.actions {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  float: left;
-  width: 49.5%;
-  padding: 0 2em;
-}
-.player--home {
-  border-right: 1px solid #ccc;
-  text-align: right;
-}
-.overall--score {
-  padding: 0 1em;
-  font-size: 2rem;
-}
-.player--name {
-  font-size: 2rem;
-}
-.gameview--header {
-  border-bottom: 1px solid #ccc;
-}
-.gameview--actions {
-  clear: both;
-  margin: 2em;
-  text-align: center;
-}
-.gameview--actions:before {
-  content: " ";
-  display: block;
-  clear: both;
-  width: 100%;
-  height: 1rem;
-}
-.gameview--actions .button {
-  padding: 0.5em 2em;
-  font-size: 1.2rem;
-}
-.score {
-  font-size: 1.2rem;
-  padding: 0 1em;
-}
-.gameview--main {
-  text-align: center;
-}
-.match--action {
-  margin: 1em 0em;
-  clear: both;
-}
-.gameview--content {
-  clear: both;
-  height: 2em;
-  padding: 1em;
-  width: 100%;
 }
 .clearfix {
   content: "";
@@ -1037,7 +864,295 @@ label {
   margin-top: 1em;
 }
 
+.button {
+  display: inline-block;
+  font-size: 0.8rem;
+  text-decoration: none !important;
+  font-family: Helvetica, Arial, sans serif;
+  padding: 8px 12px;
+  border-radius: 3px;
+  box-shadow: inset 0px 0px 2px #fff; }
 
+.button:active {
+  box-shadow: inset 0px 0px 3px #999; }
+
+.button--container {
+  position: relative;
+  margin: 1em 0; }
+
+.button--add {
+  position: absolute;
+  top: 0;
+  left: 1em;
+  bottom: 0;
+  margin: auto 0;
+  background-color: transparent;
+  border: 0px none;
+  font-size: 1.2rem;
+  color: #8a9ba8;
+  height: 40px;
+  transition: all 0.2s; }
+
+.button--add:hover {
+  font-weight: bold; }
+
+.button--add:after {
+  content: '+ Person'; }
+
+.banner {
+  background-color: #fff;
+  width: 100%; }
+
+.banner--navigation {
+  list-style: none;
+  padding: 0.25em 0;
+  margin: 0; }
+
+.banner--navigation--item {
+  display: inline-block;
+  color: #2f2f2f;
+  font-size: .8rem; }
+  .banner--navigation--item a {
+    color: #41788c; }
+  .banner--navigation--item:before {
+    margin: 0 .5em;
+    content: "|";
+    display: inline-block; }
+  .banner--navigation--item:first-child:before {
+    content: "";
+    margin: 0; }
+
+.banner--navigation--login {
+  float: right; }
+  .banner--navigation--login:before {
+    content: ""; }
+
+.hero {
+  margin: 0;
+  margin-bottom: 0px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  font-size: inherit;
+  line-height: inherit;
+  background: #2f2f2f;
+  text-align: center;
+  color: #fff; }
+
+.hero--text {
+  margin: 0;
+  font-size: 44px;
+  line-height: 50px;
+  color: inherit;
+  letter-spacing: -1px;
+  font-weight: normal; }
+
+.gameview {
+  background-color: #E2E3FF;
+  padding: 1em 0;
+  border: 1px solid #ccc;
+  border-radius: 9px; }
+
+.gameview--header {
+  border-bottom: 1px solid #ccc; }
+
+.gameview--actions {
+  clear: both;
+  margin: 2em;
+  text-align: center; }
+  .gameview--actions:before {
+    content: " ";
+    display: block;
+    clear: both;
+    width: 100%;
+    height: 1rem; }
+  .gameview--actions .button {
+    padding: .5em 2em;
+    font-size: 1.2rem; }
+
+.score {
+  font-size: 1.2rem;
+  padding: 0 1em; }
+
+.gameview--main {
+  text-align: center; }
+
+.match--action {
+  margin: 1em 0em;
+  clear: both; }
+
+.gameview--content {
+  clear: both;
+  height: 2em;
+  padding: 1em;
+  width: 100%; }
+
+.player--content, .actions {
+  box-sizing: border-box;
+  float: left;
+  width: 49.5%;
+  padding: 0 2em; }
+
+.player--home {
+  border-right: 1px solid #ccc;
+  text-align: right; }
+
+.overall--score {
+  padding: 0 1em;
+  font-size: 2rem; }
+
+.player--name {
+  font-size: 2rem; }
+
+.footer {
+  margin: 1em;
+  color: #ccc;
+  text-align: center;
+  font-size: 0.9rem; }
+
+.button {
+  display: inline-block;
+  font-size: 0.8rem;
+  text-decoration: none !important;
+  font-family: Helvetica, Arial, sans serif;
+  padding: 8px 12px;
+  border-radius: 3px;
+  box-shadow: inset 0px 0px 2px #fff; }
+
+.button:active {
+  box-shadow: inset 0px 0px 3px #999; }
+
+.button--container {
+  position: relative;
+  margin: 1em 0; }
+
+.button--add {
+  position: absolute;
+  top: 0;
+  left: 1em;
+  bottom: 0;
+  margin: auto 0;
+  background-color: transparent;
+  border: 0px none;
+  font-size: 1.2rem;
+  color: #8a9ba8;
+  height: 40px;
+  transition: all 0.2s; }
+
+.button--add:hover {
+  font-weight: bold; }
+
+.button--add:after {
+  content: '+ Person'; }
+
+.banner {
+  background-color: #fff;
+  width: 100%; }
+
+.banner--navigation {
+  list-style: none;
+  padding: 0.25em 0;
+  margin: 0; }
+
+.banner--navigation--item {
+  display: inline-block;
+  color: #2f2f2f;
+  font-size: .8rem; }
+  .banner--navigation--item a {
+    color: #41788c; }
+  .banner--navigation--item:before {
+    margin: 0 .5em;
+    content: "|";
+    display: inline-block; }
+  .banner--navigation--item:first-child:before {
+    content: "";
+    margin: 0; }
+
+.banner--navigation--login {
+  float: right; }
+  .banner--navigation--login:before {
+    content: ""; }
+
+.hero {
+  margin: 0;
+  margin-bottom: 0px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  font-size: inherit;
+  line-height: inherit;
+  background: #2f2f2f;
+  text-align: center;
+  color: #fff; }
+
+.hero--text {
+  margin: 0;
+  font-size: 44px;
+  line-height: 50px;
+  color: inherit;
+  letter-spacing: -1px;
+  font-weight: normal; }
+
+.gameview {
+  background-color: #E2E3FF;
+  padding: 1em 0;
+  border: 1px solid #ccc;
+  border-radius: 9px; }
+
+.gameview--header {
+  border-bottom: 1px solid #ccc; }
+
+.gameview--actions {
+  clear: both;
+  margin: 2em;
+  text-align: center; }
+  .gameview--actions:before {
+    content: " ";
+    display: block;
+    clear: both;
+    width: 100%;
+    height: 1rem; }
+  .gameview--actions .button {
+    padding: .5em 2em;
+    font-size: 1.2rem; }
+
+.score {
+  font-size: 1.2rem;
+  padding: 0 1em; }
+
+.gameview--main {
+  text-align: center; }
+
+.match--action {
+  margin: 1em 0em;
+  clear: both; }
+
+.gameview--content {
+  clear: both;
+  height: 2em;
+  padding: 1em;
+  width: 100%; }
+
+.player--content, .actions {
+  box-sizing: border-box;
+  float: left;
+  width: 49.5%;
+  padding: 0 2em; }
+
+.player--home {
+  border-right: 1px solid #ccc;
+  text-align: right; }
+
+.overall--score {
+  padding: 0 1em;
+  font-size: 2rem; }
+
+.player--name {
+  font-size: 2rem; }
+
+.footer {
+  margin: 1em;
+  color: #ccc;
+  text-align: center;
+  font-size: 0.9rem; }
 
 
 /*# sourceMappingURL=app.css.map*/
