@@ -54,3 +54,51 @@
 .endround {
   margin-top: 1em
 }
+.gameListing {
+  margin: 0;
+  padding: 0;
+  padding-right: 1em;
+}
+.game {
+  padding: .5em 0;
+  margin: .5em 0;
+  border-bottom: 1px solid #ccc;
+  font-size: .9rem;
+  list-style: none;
+
+}
+.game--person {
+  display: inline-block;
+  width: 49.5%;
+}
+.game--score{
+  display: inline-block;
+}
+.game--score-away{
+  margin-right: 1em;
+}
+.game--person-name{
+ display:inline-block;
+}
+.game--date {
+  float: right;
+  color: #666;
+  font-style: italic;
+  position: relative;
+  bottom: 1em;
+  font-size: .75rem;
+}
+.game--stats {
+  width: 2em;
+  display: inline-block;
+}
+.game--person--avatar {
+  border-radius: 8px;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #ccc;
+  vertical-align: middle;
+}
+.person--won {
+  font-weight: bold;
+}

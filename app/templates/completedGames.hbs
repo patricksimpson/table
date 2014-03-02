@@ -1,24 +1,37 @@
 <div class="content--container">
 <h2>Game History</h2>
-<ul>
+<ul class="completedGames gameListing">
 {{#each games}}
-<li>
-{{away.name}}
-({{awayScore}})
-{{#if awayWinner}}
-W
+<li class="game">
+  <span class="game--person">
+    <span class="game--stats">
+      <span class="game--score">{{homeScore}}</span>
+    </span>
+{{#if homeWinner}} 
+    <span class="game--person-name person--won">
 {{else}}
-L
+    <span class="game--person-name">
 {{/if}}
-, 
-{{home.name}}
-({{homeScore}})
-{{#if homeWinner}}
-W
+      <img {{bind-attr src=home.avatar alt=home.name title=home.name }} class="game--person--avatar">
+      {{home.name}}
+    </span>
+  </span> 
+  <span class="game--person">
+    <span class="game--stats">
+      <span class="game--score">{{awayScore}}</span>
+    </span>
+{{#if awayWinner}} 
+    <span class="game--person-name person--won">
 {{else}}
-L
+    <span class="game--person-name">
 {{/if}}
-{{date}}
+      <img {{bind-attr src=away.avatar alt=away.name title=away.name }} class="game--person--avatar">
+      {{away.name}} 
+    </span>
+  </span> 
+  <span class="game--date">
+    {{date}}
+  </span>
 </li>
 {{/each}}
 </ul>
