@@ -10,5 +10,5 @@ module.exports = App.CompletedGamesController = Ember.ArrayController.extend
       console.log moment(completed).fromNow()
       game.set('date', moment(completed).fromNow())
       game
-    )
+    ).reverse()
   ).property('content.@each')

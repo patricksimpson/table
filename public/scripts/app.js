@@ -378,7 +378,7 @@ module.exports = App.CompletedGamesController = Ember.ArrayController.extend({
       console.log(moment(completed).fromNow());
       game.set('date', moment(completed).fromNow());
       return game;
-    });
+    }).reverse();
   }).property('content.@each')
 });
 });
