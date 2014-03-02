@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "qunitjs": "*",
-    "testem": "~0.5.15"
+    "testem": "~0.5.15",
+    "sass-brunch": "~1.8.0"
   }
 }
