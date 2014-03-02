@@ -533,13 +533,8 @@ table {
 }
 
 
-*, *:before, *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
-
 html, body {
-  margin: 0px;
+  margin: 0;
   font-family: 'Open Sans', sans-serif; }
 
 label {
@@ -549,29 +544,29 @@ label {
   content: "";
   display: table;
   clear: both;
-  width: 100%; }
+  width: auto; }
 
 .main {
   margin: 1em auto;
-  max-width: 55em;
+  max-width: 60em;
   padding: 0em 1em; }
 
 .content--other {
   float: none;
   display: block; }
-  @media (min-width: 45em) {
+  @media (min-width: 56em) {
     .content--other {
       float: left;
-      width: 35%;
+      width: 30%;
       margin-left: 5%; } }
 
 .content--container {
   float: none;
   display: block; }
-  @media (min-width: 45em) {
+  @media (min-width: 56em) {
     .content--container {
       float: left;
-      width: 60%; } }
+      width: 70%; } }
 
 .content--container--game {
   float: none;
@@ -790,8 +785,7 @@ label {
 .leaderboard {
   margin: 0;
   padding: 0;
-  margin-bottom: 1em;
-  min-height: 20em; }
+  margin-bottom: 1em; }
 
 .leaderboard--person {
   display: block;
@@ -990,10 +984,11 @@ label {
   font-weight: bold; }
 
 .footer {
-  margin: 1em;
+  margin: 2em 0em;
   color: #ccc;
   text-align: center;
-  font-size: 0.9rem; }
+  font-size: 0.9rem;
+  display: block; }
 
 
 

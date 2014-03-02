@@ -1,24 +1,24 @@
 .main {
   margin: 1em auto;
-  max-width: 55em;
+  max-width: 60em;
   padding: 0em 1em;
 }
 
 .content--other{
   float: none;
   display: block;
-  @include sb-media(45em){
+  @include sb-media(56em){
     float: left;
-    width: 35%;
+    width: 30%;
     margin-left: 5%;
   }
 }
 .content--container{
   float: none;
   display: block;
-  @include sb-media(45em){
+  @include sb-media(56em){
     float: left;
-    width: 60%;
+    width: 70%;
   }
 }
 .content--container--game{
