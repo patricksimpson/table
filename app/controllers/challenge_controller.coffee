@@ -36,8 +36,8 @@ App.ChallengeController = Ember.ArrayController.extend
   acceptChallenge: (challenge) ->
     home = challenge.get('home')
     away = challenge.get('away')
-    
-    @get('game').addGame(home, away)
+    game = @get('game')
+    game.addGame(home, away)
     
     away.get('challenges').removeObject challenge
     away.save()

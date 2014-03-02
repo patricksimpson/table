@@ -1,7 +1,6 @@
 App.GameController = Ember.ObjectController.extend
   needs: ['person']
   addGame: (home, away) ->
-    console.log "make me a game..."
     newGame = @get('store').createRecord("pendingGame",
       home: home
       away: away

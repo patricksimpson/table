@@ -352,10 +352,11 @@ App.ChallengeController = Ember.ArrayController.extend({
     });
   },
   acceptChallenge: function(challenge) {
-    var away, home;
+    var away, game, home;
     home = challenge.get('home');
     away = challenge.get('away');
-    this.get('game').addGame(home, away);
+    game = this.get('game');
+    game.addGame(home, away);
     away.get('challenges').removeObject(challenge);
     away.save();
     return challenge["delete"]();
@@ -621,7 +622,6 @@ App.GameController = Ember.ObjectController.extend({
   needs: ['person'],
   addGame: function(home, away) {
     var newGame;
-    console.log("make me a game...");
     newGame = this.get('store').createRecord("pendingGame", {
       home: home,
       away: away,
