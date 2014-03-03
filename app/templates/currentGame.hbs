@@ -23,7 +23,7 @@
         {{else}}
         {{#if this.isCurrent}}
         <div class="match--action">
-          {{#if controller.isMe}}
+          {{#if controller.authPerson}}
           {{#unless controller.confirmEndMatch}}
             <button {{action newRound}} class="button blue">New Round</button>
             <button {{action confirmEndGame}} class="button grey">End Match</button>
@@ -64,7 +64,9 @@
           {{/if}}
         {{/unless}}
         <p>
+          {{#if this.isCurrent}}
           <button {{action cancelGame}} class="endround button black">Cancel Game</button>
+          {{/if}}
         </p>
         {{/if}}
       </div>

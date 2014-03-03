@@ -31,7 +31,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         isMe: @get('isMe')
       index: index + 1
     ).reverse()
-  ).property('rounds', 'authPerson')
+  ).property('rounds', 'authPerson', 'content')
   gameOver: ->
     game = @get('model')
     completedGame = @get('store').createRecord("completedGame",
