@@ -1,13 +1,24 @@
 App.CurrentGameController = Ember.ObjectController.extend
-  needs: ['person', 'people']
+  needs: ['person', 'people', 'auth']
   currentRound: 1
+  authPerson: Ember.computed.alias('controllers.auth.person')
   confirmEndMatch: false
   message: ""
   roundsWithIndex: ( ->
     rounds = @get('rounds')
+    authPerson = @get('authPerson')
+    game = @get('model')
+    homePerson = game.get('home')
+    awayPerson = game.get('away')
+    @set('isMe', false)
+    if authPerson?
+      if authPerson.get('id') == homePerson.get('id') or authPerson.get('id') == awayPerson.get('id')
+        @set('isMe', true)
     if !rounds?
+      @transitionTo("/games")
       @set('message', "Game Over")
       return
+    @set('message', "")
     currentRound = @get('currentRound')
     @set('currentRound', rounds.length)
     
@@ -19,9 +30,10 @@ App.CurrentGameController = Ember.ObjectController.extend
         awayScore: round.awayScore
         isComplete: round.isComplete
         isCurrent: (index + 1) == currentRound
+        isMe: @get('isMe')
       index: index + 1
     ).reverse()
-  ).property('rounds')
+  ).property('rounds', 'authPerson')
   gameOver: ->
     game = @get('model')
     completedGame = @get('store').createRecord("completedGame",

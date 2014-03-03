@@ -560,8 +560,8 @@ h2 {
   @media (min-width: 56em) {
     .content--other {
       float: left;
-      width: 30%;
-      margin-left: 5%; } }
+      width: 23%;
+      margin-left: 2%; } }
 
 .content--container {
   float: none;
@@ -569,7 +569,7 @@ h2 {
   @media (min-width: 56em) {
     .content--container {
       float: left;
-      width: 70%; } }
+      width: 74.9%; } }
 
 .content--container--game {
   float: none;
