@@ -1,12 +1,15 @@
 <div class="content--container--game gameview">
+{{#if this}}
   <h2 class="gameview--main">Current Match</h2>
   <div class="gameview--current">
   <div class="player--content player--home">
-    <span class="player--name">{{home.name}}</span>
     <span class="overall--score">{{homeScore}}</span>
+    <img {{bind-attr src=home.avatar alt=home.name title=home.name}} class="gameview--person--avatar"> 
+    <span class="player--name">{{home.name}}</span>
   </div>
   <div class="player--content player--away">
     <span class="overall--score">{{awayScore}}</span>
+    <img {{bind-attr src=away.avatar alt=away.name title=away.name}} class="gameview--person--avatar"> 
     <span class="player--name">{{away.name}}</span>
   </div>
   <div class="gameview--actions">
@@ -18,7 +21,7 @@
         {{#if this.isCurrent}}
         <div class="match--action">
           {{#unless controller.confirmEndMatch}}
-            <button {{action newRound}} class="button blue">New Game</button>
+            <button {{action newRound}} class="button blue">New Round</button>
             <button {{action confirmEndGame}} class="button grey">End Match</button>
           {{else}}
             <p>Please check game scores and press ok to confirm:</p>
@@ -33,17 +36,18 @@
     {{#with round}}
     <div class="gameview--content clearfix">
       <div class="actions actions--home">
-        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action addPointHome}} class="button green">+</button>{{/if}}{{/unless}}
-        {{#if isComplete}}{{#if homeWon}}W{{/if}}{{/if}} <span class="score">{{homeScore}}</span>
-        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointHome}} class="button red">-</button>{{/if}}{{/unless}}
+        <span class="score">{{homeScore}}</span>
+        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action addPointHome}} class="button green button-add">+</button>{{/if}}{{/unless}}
+        {{#if isComplete}}{{#if homeWon}}W{{/if}}{{/if}}
+        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointHome}} class="button red button-minus">-</button>{{/if}}{{/unless}}
       </div> 
       <div class="actions actions--away">
-        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointAway}} class="button red">-</button>{{/if}}{{/unless}}
         <span class="score">{{awayScore}}</span>{{#if isComplete}}{{#if awayWon}}W{{/if}}{{/if}}
-        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action addPointAway}} class="button green">+</button>{{/if}}{{/unless}}
+        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action addPointAway}} class="button green button-add">+</button>{{/if}}{{/unless}}
+        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointAway}} class="button red button-minus">-</button>{{/if}}{{/unless}}
       </div>
       <div class="gameview--end">
-        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action endRound this}} class="endround button blue">End Round</button>{{/if}}
+        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action endRound this}} class="endround button grey">End Round</button>{{/if}}
         {{else}}
           {{#if this.isCurrent}} 
           Game Over!
@@ -55,4 +59,7 @@
     {{/each}}
   </div>
   </div>
+{{else}}
+No current games.
+{{/if}}
 </div>

@@ -54,8 +54,8 @@
     {{#each auth.person.challenges}}
       <li> 
         {{home.name}}
-        <button {{action 'acceptChallenge' this}} class="button blue">Accept</button>
-        <button {{action 'declineChallenge' this}} class="button black">Decline</button>
+        <button {{action 'acceptChallenge' this bubbles=false}} class="button blue">Accept</button>
+        <button {{action 'declineChallenge' this bubbles=false}} class="button black">Decline</button>
       </li>
     {{/each}}
     </ul>

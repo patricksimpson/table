@@ -4,13 +4,65 @@
  }
 
 .gameview{
-  background-color: #eee;
-  padding: 1em 0;
-  margin: 1em 0em;
+  background-color: #fff;
+  padding: 0;
+  margin: 0;
 }
 
 .gameview--header{
+  width: 100%;
+  margin: .5em 0;
   border-bottom: 1px solid #ccc;
+}
+
+.player--content, .actions{
+  box-sizing: border-box;
+  float: left;
+  width: 49.5%;
+  padding: 0;
+  &:first-child {
+    padding-right: 1em;
+  }
+  &:last-child {
+    padding-left: 1em;
+  }
+}
+
+.gameview--person--avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid #999;
+  float: left;
+  position: relative;
+}
+.player--name {
+  display: inline-block;
+  margin-top: 1em;
+}
+.player--home{
+  text-align: right;
+  .gameview--person--avatar{
+    float: right;
+  }
+  .player--name {
+    margin-right: .5em;
+  }
+}
+.player--away {
+  .player--name {
+    margin-left: .5em;
+  }
+}
+.overall--score{
+  display: block;
+  font-size: 2rem;
+  margin: 0 .75em;
+  margin-bottom: .5em;
+}
+
+.player--name{
+  font-size: 1.2rem;
 }
 
 .gameview--actions{
@@ -28,11 +80,18 @@
     padding: .5em 2em;
     font-size: 1.2rem;
   }
+  .button-add {
+    width: 90px;
+  }
+  .button-minus {
+    width: 90px;
+  }
 }
 
 .score{
-  font-size: 1.2rem;
-  padding: 0 1em;
+  font-size: 1.45rem;
+  padding-bottom: 1em;
+  display: block;
 }
 
 .gameview--main{
@@ -47,8 +106,9 @@
 .gameview--content{
   clear: both;
   height: 2em;
-  padding: 1em;
+  padding-bottom: 1em;
   width: 100%;
+
 }
 
 .endround {
@@ -78,7 +138,7 @@
   margin-right: 1em;
 }
 .game--person-name{
- display:inline-block;
+ display: inline-block;
 }
 .game--date {
   float: right;
