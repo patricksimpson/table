@@ -1,0 +1,21 @@
+{
+  "name": "table",
+  "version": "0.1.0",
+  "homepage": "https://github.com/patricksimpson/table",
+  "authors": [
+    "patricksimpson <izerop@gmail.com>"
+  ],
+  "description": "table",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fastclick": "~1.0.0"
+  }
+}
