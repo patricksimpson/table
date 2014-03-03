@@ -226,3 +226,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         awayPerson.save()
         @gameOver()
       return
+    cancelGame: ->
+      game = @get('model')
+      game.delete()
+      @transitionTo("/")

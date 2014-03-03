@@ -626,6 +626,12 @@ App.CurrentGameController = Ember.ObjectController.extend({
         awayPerson.save();
         this.gameOver();
       }
+    },
+    cancelGame: function() {
+      var game;
+      game = this.get('model');
+      game["delete"]();
+      return this.transitionTo("/");
     }
   }
 });
@@ -1977,7 +1983,11 @@ function program37(depth0,data) {
   hashContexts = {};
   stack1 = helpers.unless.call(depth0, "isComplete", {hash:{},inverse:self.program(41, program41, data),fn:self.program(38, program38, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n        ");
+  data.buffer.push("\n        <p>\n          <button ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "cancelGame", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" class=\"endround button black\">Cancel Game</button>\n        </p>\n        ");
   return buffer;
   }
 function program38(depth0,data) {
