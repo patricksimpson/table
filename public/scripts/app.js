@@ -336,17 +336,22 @@ App.ChallengeController = Ember.ArrayController.extend({
     return challenge["delete"]();
   },
   createChallenge: function(homePerson, awayPerson) {
-    var challenge,
+    var challenge, challengeRequest,
       _this = this;
     challenge = this.get('store').createRecord('challenge', {
       home: homePerson,
       away: awayPerson,
       createdAt: new Date()
     });
-    return challenge.save().then(function(challenge) {
+    challenge.save().then(function(challenge) {
       awayPerson.get('challenges').addObject(challenge);
       return awayPerson.save();
     });
+    challengeRequest = this.store.createRecord("challengeRequest", {
+      home: homePerson.get('twitter'),
+      away: awayPerson.get('twitter')
+    });
+    return challengeRequest.save();
   },
   acceptChallenge: function(challenge) {
     var away, game, home;
@@ -423,7 +428,7 @@ App.CurrentGameController = Ember.ObjectController.extend({
     }).reverse();
   }).property('rounds', 'authPerson'),
   gameOver: function() {
-    var completedGame, game;
+    var awayPerson, completedGame, game, homePerson, tweetCompleted;
     game = this.get('model');
     completedGame = this.get('store').createRecord("completedGame", {
       home: game.get('home'),
@@ -436,6 +441,15 @@ App.CurrentGameController = Ember.ObjectController.extend({
       completedAt: new Date()
     });
     completedGame.save();
+    homePerson = game.get('home');
+    awayPerson = game.get('away');
+    tweetCompleted = this.get('store').createRecord('completedRequest', {
+      home: homePerson.get('twitter'),
+      away: awayPerson.get('twitter'),
+      homeScore: game.get('homeScore'),
+      awayScore: game.get('awayScore')
+    });
+    tweetCompleted.save();
     game["delete"]();
     return this.transitionTo('/');
   },
@@ -993,6 +1007,15 @@ App.ChallengeRequest = FP.Model.extend({
 require('models/game');
 
 App.CompletedGame = App.Game.extend();
+});
+
+;require.register("models/completedRequest", function(exports, require, module) {
+App.CompletedRequest = FP.Model.extend({
+  home: FP.attr('string'),
+  away: FP.attr('string'),
+  homeScore: FP.attr('number'),
+  awayScore: FP.attr('number')
+});
 });
 
 ;require.register("models/currentGame", function(exports, require, module) {

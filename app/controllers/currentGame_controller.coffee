@@ -45,6 +45,18 @@ App.CurrentGameController = Ember.ObjectController.extend
       completedAt: new Date()
     )
     completedGame.save()
+
+    homePerson = game.get('home')
+    awayPerson = game.get('away')
+
+    tweetCompleted = @get('store').createRecord('completedRequest',
+      home: homePerson.get('twitter')
+      away: awayPerson.get('twitter')
+      homeScore: game.get('homeScore')
+      awayScore: game.get('awayScore')
+    )
+    tweetCompleted.save()
+
     game.delete()
     @transitionTo('/')
   actions:
