@@ -84,6 +84,10 @@
     width: 90px;
   }
   .button-minus {
+    margin-top: 1em;
+    @include sb-media(37em){
+      margin-top: 0;
+    }
     width: 90px;
   }
 }

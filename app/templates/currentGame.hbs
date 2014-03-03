@@ -42,7 +42,7 @@
     <div class="gameview--content clearfix">
       <div class="actions actions--home">
         <span class="score">{{homeScore}}</span>
-        {{#if this.isMe}}
+        {{#if controller.authPerson}}
         {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action addPointHome}} class="button green button-add">+</button>{{/if}}{{/unless}}
         {{#if isComplete}}{{#if homeWon}}W{{/if}}{{/if}}
         {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointHome}} class="button black button-minus">-</button>{{/if}}{{/unless}}
@@ -50,13 +50,13 @@
       </div> 
       <div class="actions actions--away">
         <span class="score">{{awayScore}}</span>{{#if isComplete}}{{#if awayWon}}W{{/if}}{{/if}}
-        {{#if this.isMe}}
+        {{#if controller.authPerson}}
         {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action addPointAway}} class="button green button-add">+</button>{{/if}}{{/unless}}
         {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointAway}} class="button black button-minus">-</button>{{/if}}{{/unless}}
         {{/if}}
       </div>
       <div class="gameview--end">
-        {{#if this.isMe}}
+        {{#if controller.authPerson}}
         {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action endRound this}} class="endround button grey">End Round</button>{{/if}}
         {{else}}
           {{#if this.isCurrent}} 

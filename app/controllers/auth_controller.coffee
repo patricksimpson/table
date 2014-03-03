@@ -33,8 +33,9 @@ App.AuthController = Ember.Controller.extend
         losses: 0
         avatar: user.photos[0].value
       )
-      newPerson.save().then =>
+      newPerson.save().then ((person) =>
         @set('person', person)
+      )
 
   login: ->
     @authClient.login('twitter', { rememberMe: true } )
