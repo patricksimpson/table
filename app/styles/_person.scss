@@ -4,11 +4,14 @@
 }
 
 .link--person {
-  color: #41788c;
+  color: #444;
   transition: color 0.5s ease;
+  transition: background-color 0.5s ease;
   text-decoration: none;
+  padding:.5em;
   &:hover {
-    color: #6BC1E0;
+    color: #000;
+    text-decoration: underline;
   }
 }
 
@@ -52,8 +55,8 @@
   display:inline-block;
 }
 .you {
-  font-size: .9rem;
-  color: #555;
+  font-size: .8rem;
+  color: #666;
   font-weight: normal;
 }
 .stat-wins, .stat-losses {

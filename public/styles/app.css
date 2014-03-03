@@ -546,6 +546,9 @@ label {
   clear: both;
   width: auto; }
 
+h2 {
+  margin: .25em 0; }
+
 .main {
   margin: 1em auto;
   max-width: 60em;
@@ -747,27 +750,32 @@ label {
 .banner--navigation--item {
   display: inline-block;
   color: #2f2f2f;
-  font-size: .8rem; }
+  font-size: .9rem;
+  display: block; }
   .banner--navigation--item a {
     color: #41788c; }
-  .banner--navigation--item:before {
-    margin: 0 .5em;
-    content: "|";
-    display: inline-block; }
-  .banner--navigation--item:first-child:before {
-    content: "";
-    margin: 0; }
+  @media (min-width: 37em) {
+    .banner--navigation--item {
+      display: inline-block; }
+      .banner--navigation--item:after {
+        margin: 0 .5em;
+        content: "|";
+        display: inline-block; }
+      .banner--navigation--item:first-child:after, .banner--navigation--item:last-child:after {
+        content: "";
+        margin: 0; } }
 
 .banner--navigation--login {
-  float: right; }
+  float: right;
+  text-align: right; }
   .banner--navigation--login:before {
     content: ""; }
 
 .hero {
   margin: 0;
   margin-bottom: 0px;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   font-size: inherit;
   line-height: inherit;
   background: #2f2f2f;
@@ -794,8 +802,19 @@ label {
 
 .leaderboard--person--name {
   display: inline-block;
-  width: 16em;
+  width: auto;
   margin-right: 1em; }
+  @media (min-width: 35em) {
+    .leaderboard--person--name {
+      width: 16em; } }
+
+.leaderboard--stats {
+  display: block;
+  margin-left: 5em; }
+  @media (min-width: 35em) {
+    .leaderboard--stats {
+      display: inline-block;
+      margin-left: 0em; } }
 
 .leaderboard--stat {
   width: 3em;
@@ -805,7 +824,16 @@ label {
   border-bottom: 1px solid #ccc;
   margin-bottom: .25em;
   font-weight: bold;
-  padding-left: 55px; }
+  padding-left: 5em; }
+  @media (min-width: 35em) {
+    .leaderboard--header .leaderboard--person--name {
+      padding-left: 1em;
+      width: 15em; } }
+  @media (min-width: 35em) {
+    .leaderboard--header {
+      padding-left: 3em; } }
+  .leaderboard--header .leaderboard--stats {
+    margin-left: 0; }
 
 .leaderboard--person--avatar {
   border-radius: 50%;
@@ -814,9 +842,15 @@ label {
   height: 50px;
   border: 1px solid #444; }
 
+.isMe .leaderboard--person--avatar {
+  border-color: #6E8BFF;
+  border-width: 2px; }
+.isMe .link--person {
+  color: #000; }
+
 .currentGame {
   clear: both;
-  margin: 1em 0; }
+  margin: .25em 0; }
 
 .gameview {
   background-color: #fff;
@@ -915,14 +949,18 @@ label {
 
 .game {
   padding: .5em 0;
-  margin: .5em 0;
-  border-bottom: 1px solid #ccc;
-  font-size: .9rem;
+  font-size: 1.1rem;
   list-style: none; }
+  .game a {
+    color: #C95454; }
 
 .game--person {
-  display: inline-block;
-  width: 49.5%; }
+  display: block;
+  width: 100%; }
+  @media (min-width: 47em) {
+    .game--person {
+      display: inline-block;
+      width: 49.5%; } }
 
 .game--score {
   display: inline-block; }
@@ -941,6 +979,12 @@ label {
   bottom: 1em;
   font-size: .75rem; }
 
+.game--time {
+  display: block;
+  font-size: .75rem;
+  color: #666;
+  font-style: italic; }
+
 .game--stats {
   width: 2em;
   display: inline-block; }
@@ -955,15 +999,24 @@ label {
 .person--won {
   font-weight: bold; }
 
+.currentGame--header {
+  margin: .25em 0em; }
+
+.completedGames .game {
+  border-bottom: 1px solid #ccc; }
+
 .stats {
   margin: 1em 0; }
 
 .link--person {
-  color: #41788c;
+  color: #444;
   transition: color 0.5s ease;
-  text-decoration: none; }
+  transition: background-color 0.5s ease;
+  text-decoration: none;
+  padding: .5em; }
   .link--person:hover {
-    color: #6BC1E0; }
+    color: #000;
+    text-decoration: underline; }
 
 .link--person--avatar {
   margin-left: .25em;
@@ -1007,8 +1060,8 @@ label {
   display: inline-block; }
 
 .you {
-  font-size: .9rem;
-  color: #555;
+  font-size: .8rem;
+  color: #666;
   font-weight: normal; }
 
 .stat-wins, .stat-losses {

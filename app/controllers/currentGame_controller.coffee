@@ -2,10 +2,15 @@ App.CurrentGameController = Ember.ObjectController.extend
   needs: ['person', 'people']
   currentRound: 1
   confirmEndMatch: false
+  message: ""
   roundsWithIndex: ( ->
     rounds = @get('rounds')
+    if !rounds?
+      @set('message', "Game Over")
+      return
     currentRound = @get('currentRound')
     @set('currentRound', rounds.length)
+    
     @get('rounds').map((round, index) =>
       round:
         homeWon: round.homeScore > round.awayScore

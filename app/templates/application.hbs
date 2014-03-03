@@ -5,30 +5,30 @@
   <header class="banner">
     <nav>
       <ul class="banner--navigation">
-        <li class="banner--navigation--item"><a href="#/">Table Listing</a></li>
-        <li class="banner--navigation--item"><a href="#/games">Game History</a></li>
         <li class="banner--navigation--item banner--navigation--login">
           {{#if auth.person}}
-            Logged in as {{auth.person.name}}
+            Logged in as {{#link-to 'person' auth.person}}{{auth.person.name}}{{/link-to}}
             <button {{action "logout"}} class="button grey">Logout</button>
           {{else}}
             <button {{action "login"}} class="button grey">Login or Signup</button>
           {{/if}}
           </li>
+        <li class="banner--navigation--item"><a href="#/">Leaderboard</a></li>
+        <li class="banner--navigation--item"><a href="#/games">Game History</a></li>
       </ul>
     </nav>
   </header>
   {{#if currentGames.length}}
   <div class="currentGame">
   {{#each game in currentGames }}
+    <h4 class="currentGame--header">Current Match</h4>
     <div class="game">
-      Current Match:
       {{#link-to 'currentGame'}}
       <span class="player home">{{game.home.name}}</span>
       <span class="vs">vs</span>
       <span class="player away">{{game.away.name}}</span>
       {{/link-to}}
-      <span class="time">{{game.time}}</span>
+      <span class="game--time">Game started {{game.time}}</span>
     </div>
   {{/each}}
   </div>
@@ -54,8 +54,10 @@
     {{#each auth.person.challenges}}
       <li> 
         {{home.name}}
-        <button {{action 'acceptChallenge' this bubbles=false}} class="button blue">Accept</button>
-        <button {{action 'declineChallenge' this bubbles=false}} class="button black">Decline</button>
+        <div class="challenge--actions">
+          <button {{action 'acceptChallenge' this bubbles=false}} class="button blue">Accept</button>
+          <button {{action 'declineChallenge' this bubbles=false}} class="button black">Decline</button>
+        </div>
       </li>
     {{/each}}
     </ul>

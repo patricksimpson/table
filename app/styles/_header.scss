@@ -12,24 +12,29 @@
 .banner--navigation--item{
   display: inline-block;
   color: #2f2f2f;
-  font-size: .8rem;
+  font-size: .9rem;
   a{
     color: #41788c;
   }
-    
-  &:before{
-    margin: 0 .5em;
-    content: "|";
+  display: block;
+  @include sb-media(37em){  
     display: inline-block;
-  }
-  &:first-child:before{
-    content: "";
-    margin: 0;
+    &:after{
+      margin: 0 .5em;
+      content: "|";
+      display: inline-block;
+    }
+    
+    &:first-child:after, &:last-child:after{
+      content: "";
+      margin: 0;
+    }
   }
 }
     
 .banner--navigation--login{
   float: right;
+  text-align: right;
   &:before{
     content: "";
   }

@@ -1,5 +1,8 @@
 <div class="content--container--game gameview">
 {{#if this}}
+  {{#if message}}
+    {{message}}
+  {{else}}
   <h2 class="gameview--main">Current Match</h2>
   <div class="gameview--current">
   <div class="player--content player--home">
@@ -39,12 +42,12 @@
         <span class="score">{{homeScore}}</span>
         {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action addPointHome}} class="button green button-add">+</button>{{/if}}{{/unless}}
         {{#if isComplete}}{{#if homeWon}}W{{/if}}{{/if}}
-        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointHome}} class="button red button-minus">-</button>{{/if}}{{/unless}}
+        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointHome}} class="button black button-minus">-</button>{{/if}}{{/unless}}
       </div> 
       <div class="actions actions--away">
         <span class="score">{{awayScore}}</span>{{#if isComplete}}{{#if awayWon}}W{{/if}}{{/if}}
         {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action addPointAway}} class="button green button-add">+</button>{{/if}}{{/unless}}
-        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointAway}} class="button red button-minus">-</button>{{/if}}{{/unless}}
+        {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action subtractPointAway}} class="button black button-minus">-</button>{{/if}}{{/unless}}
       </div>
       <div class="gameview--end">
         {{#unless this.isComplete}}{{#if this.isCurrent}}<button {{action endRound this}} class="endround button grey">End Round</button>{{/if}}
@@ -59,6 +62,7 @@
     {{/each}}
   </div>
   </div>
+  {{/if}}
 {{else}}
 No current games.
 {{/if}}

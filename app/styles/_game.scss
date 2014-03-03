@@ -1,6 +1,6 @@
  .currentGame {
    clear: both;
-   margin: 1em 0;
+   margin: .25em 0;
  }
 
 .gameview{
@@ -121,15 +121,19 @@
 }
 .game {
   padding: .5em 0;
-  margin: .5em 0;
-  border-bottom: 1px solid #ccc;
-  font-size: .9rem;
+  font-size: 1.1rem;
   list-style: none;
-
+  a{
+    color: #C95454;
+  }
 }
 .game--person {
-  display: inline-block;
-  width: 49.5%;
+  display: block;
+  width: 100%;
+  @include sb-media(47em){
+    display: inline-block;
+    width: 49.5%;
+  }
 }
 .game--score{
   display: inline-block;
@@ -148,6 +152,12 @@
   bottom: 1em;
   font-size: .75rem;
 }
+.game--time {
+  display: block;
+  font-size: .75rem;
+  color: #666;
+  font-style: italic;
+}
 .game--stats {
   width: 2em;
   display: inline-block;
@@ -161,4 +171,12 @@
 }
 .person--won {
   font-weight: bold;
+}
+.currentGame--header {
+  margin: .25em 0em;
+}
+.completedGames {
+  .game{
+    border-bottom: 1px solid #ccc;
+  }
 }
