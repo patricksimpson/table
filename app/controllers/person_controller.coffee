@@ -1,27 +1,31 @@
 App.PersonController = Ember.ObjectController.extend
   needs: ['auth','challenge', 'wait']
-  challenge: Ember.computed.alias('controllers.challenge')
+  challengeData: Ember.computed.alias('controllers.challenge')
   authedPerson: Ember.computed.alias('controllers.auth.person')
   isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin')
   wait: Ember.computed.alias('controllers.wait')
   iAmSure: false
   isEditing: false
-  isChallenged: (->
+  isChallenged: false
+  hasChallenges: (->
     person = @get('model')
+    authedPerson = @get('authedPerson')
     challenges = person.get('challenges')
-    #This needs refactored. This toArray is a hack.
-    for challenge in challenges.toArray()
-      request = challenge.content
-      if request == undefined
-        request = challenge
-      if request == undefined
-        return
-      away_id = request.get('away.id')
-      person_id = person.get('id')
-      if person_id == away_id
-        return true
-    return false
-  ).property('content', 'authedPerson.content.challenges.@each', 'challenges.content.@each')
+    @set('isChallenged', false)
+    for challenge in challenges.content
+      id = challenge.id
+      @get('store').fetch('challenge', id).then ((myChallenge) =>
+        if !@get('isChallenged')
+          authedPerson = @get('authedPerson')
+          if !authedPerson?
+            return
+          if (myChallenge.get('home').get('id') == authedPerson.get('id')) and (myChallenge.get('away').get('id') == person.get('id'))
+            @set('isChallenged', true)
+          else
+            @set('isChallenged', false)
+        )
+    return ""
+  ).property('content.challenges.@each', 'controllers.challenge.content.@each', 'authedPerson')
   challengeDeclined: (->
     changed = false
     for challenge in @get('responses')

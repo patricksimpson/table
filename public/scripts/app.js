@@ -271,9 +271,6 @@ App.AuthController = Ember.Controller.extend({
   }).on('init'),
   pickUser: function(user) {
     var _this = this;
-    console.log(user);
-    console.log(user.photos[0]);
-    console.log(user.photos[0].value);
     return this.get('store').fetch('person', user.id).then((function(person) {
       person.setProperties({
         name: user.name,
@@ -316,7 +313,7 @@ App.AuthController = Ember.Controller.extend({
 
 ;require.register("controllers/challenge_controller", function(exports, require, module) {
 App.ChallengeController = Ember.ArrayController.extend({
-  needs: ['person', 'game'],
+  needs: ['game'],
   game: Ember.computed.alias('controllers.game'),
   declineChallenge: function(challenge) {
     var awayPerson, homePerson;
@@ -751,34 +748,40 @@ module.exports = App.PeopleController = Ember.ArrayController.extend({
 ;require.register("controllers/person_controller", function(exports, require, module) {
 App.PersonController = Ember.ObjectController.extend({
   needs: ['auth', 'challenge', 'wait'],
-  challenge: Ember.computed.alias('controllers.challenge'),
+  challengeData: Ember.computed.alias('controllers.challenge'),
   authedPerson: Ember.computed.alias('controllers.auth.person'),
   isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin'),
   wait: Ember.computed.alias('controllers.wait'),
   iAmSure: false,
   isEditing: false,
-  isChallenged: (function() {
-    var away_id, challenge, challenges, person, person_id, request, _i, _len, _ref;
+  isChallenged: false,
+  hasChallenges: (function() {
+    var authedPerson, challenge, challenges, id, person, _i, _len, _ref,
+      _this = this;
     person = this.get('model');
+    authedPerson = this.get('authedPerson');
     challenges = person.get('challenges');
-    _ref = challenges.toArray();
+    this.set('isChallenged', false);
+    _ref = challenges.content;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       challenge = _ref[_i];
-      request = challenge.content;
-      if (request === void 0) {
-        request = challenge;
-      }
-      if (request === void 0) {
-        return;
-      }
-      away_id = request.get('away.id');
-      person_id = person.get('id');
-      if (person_id === away_id) {
-        return true;
-      }
+      id = challenge.id;
+      this.get('store').fetch('challenge', id).then((function(myChallenge) {
+        if (!_this.get('isChallenged')) {
+          authedPerson = _this.get('authedPerson');
+          if (authedPerson == null) {
+            return;
+          }
+          if ((myChallenge.get('home').get('id') === authedPerson.get('id')) && (myChallenge.get('away').get('id') === person.get('id'))) {
+            return _this.set('isChallenged', true);
+          } else {
+            return _this.set('isChallenged', false);
+          }
+        }
+      }));
     }
-    return false;
-  }).property('content', 'authedPerson.content.challenges.@each', 'challenges.content.@each'),
+    return "";
+  }).property('content.challenges.@each', 'controllers.challenge.content.@each', 'authedPerson'),
   challengeDeclined: (function() {
     var challenge, changed, _i, _len, _ref;
     changed = false;
@@ -1041,7 +1044,7 @@ module.exports = App.ApplicationRoute = Ember.Route.extend({
 ;require.register("routes/challenge", function(exports, require, module) {
 module.exports = App.ChallengeRoute = Ember.Route.extend({
   model: function() {
-    return this.store.fetch('challenge');
+    return this.get('store').findAll('challenge');
   }
 });
 });
@@ -2194,6 +2197,10 @@ function program21(depth0,data) {
   stack2 = helpers['if'].call(depth0, "isMe", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("\n  </h2>\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "hasChallenges", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n  ");
   hashTypes = {};
   hashContexts = {};
   stack2 = helpers['if'].call(depth0, "isMe", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});

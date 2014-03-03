@@ -1,5 +1,5 @@
 App.ChallengeController = Ember.ArrayController.extend
-  needs: ['person', 'game']
+  needs: ['game']
   game: Ember.computed.alias('controllers.game')
   declineChallenge: (challenge) ->
     

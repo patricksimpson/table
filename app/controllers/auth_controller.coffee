@@ -11,9 +11,6 @@ App.AuthController = Ember.Controller.extend
     )
   ).on('init')
   pickUser: (user) ->
-    console.log user
-    console.log user.photos[0]
-    console.log user.photos[0].value
     @get('store').fetch('person', user.id).then ((person) =>
       person.setProperties(
         name: user.name

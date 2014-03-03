@@ -5,6 +5,7 @@
     <span class="person--name">{{name}}</span>
     {{#if isMe}}<span class="you">&#8592 You</span>{{/if}}
   </h2>
+  {{hasChallenges}}
   {{#if isMe}}<button {{action 'editPerson'}} class="button grey">Edit</button>{{/if}}
   {{#unless isMe}}
     {{#if isChallenged}}
