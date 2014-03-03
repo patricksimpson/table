@@ -1,6 +1,8 @@
 # ===== Config =====
 window.App = require 'config/app'
+
 require 'config/router'
+require 'config/fastclick'
 
 App.Store = FP.Store.extend
   firebaseRoot: "https://glaring-fire-8110.firebaseio.com"
