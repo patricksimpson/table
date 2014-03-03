@@ -16,9 +16,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         @set('isMe', true)
     if !rounds?
       @transitionTo("/games")
-      @set('message', "Game Over")
       return
-    @set('message', "")
     currentRound = @get('currentRound')
     @set('currentRound', rounds.length)
     

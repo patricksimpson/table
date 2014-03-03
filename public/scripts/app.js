@@ -403,10 +403,8 @@ App.CurrentGameController = Ember.ObjectController.extend({
     }
     if (rounds == null) {
       this.transitionTo("/games");
-      this.set('message', "Game Over");
       return;
     }
-    this.set('message', "");
     currentRound = this.get('currentRound');
     this.set('currentRound', rounds.length);
     return this.get('rounds').map(function(round, index) {
