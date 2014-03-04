@@ -4,6 +4,7 @@ App.WaitController = Ember.ArrayController.extend
     newWait = @get('store').createRecord("wait",
       person: appendPerson
       createdAt: new Date()
+      twitter: appendPerson.get('twitter')
     )
     newWait.save()
   removePerson: (person) ->
