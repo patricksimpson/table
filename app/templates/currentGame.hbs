@@ -1,8 +1,5 @@
+{{#if isActiveGame}}
 <div class="content--container--game gameview">
-{{#if this}}
-  {{#if message}}
-    {{message}}
-  {{else}}
   <h2 class="gameview--main">Current Match</h2>
   <div class="gameview--current">
   <div class="player--content player--home">
@@ -75,8 +72,7 @@
     {{/each}}
   </div>
   </div>
-  {{/if}}
-{{else}}
-No current games.
-{{/if}}
 </div>
+{{else}}
+<div class="content--container"><p>No active games</p></div>
+{{/if}}

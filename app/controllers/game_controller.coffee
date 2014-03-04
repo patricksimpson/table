@@ -16,6 +16,7 @@ App.GameController = Ember.ObjectController.extend
     # Check for a current game
     @get('store').fetch('currentGame').then ((currentGame) =>
       if currentGame.content.length < 1
+        console.log game
         @setCurrentGame(game)
     ), (error) =>
       console.log error
@@ -40,18 +41,18 @@ App.GameController = Ember.ObjectController.extend
     #   awayScore: 0
     # )
     #round.save()
-    console.log "saving current game, deleting pending"
     currentGame.save()
     @startGame(currentGame)
+    @removePending(pendingGame)
+
+  removePending: (pendingGame) ->
     # this fixes a bizare firebase bug. 
-    # 
     Ember.run.later(pendingGame, =>
       pendingGameId = pendingGame.get('id')
       @get('store').fetch('pendingGame', pendingGameId).then ((pendingGame) ->
         pendingGame.delete()
       )
     , 500)
-
   startGame: (currentGame) ->
     #Notify players.
     home = currentGame.get('home')

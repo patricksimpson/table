@@ -5,12 +5,20 @@ App.ApplicationController = Ember.Controller.extend
   waitList: Ember.computed.alias('controllers.wait')
   game: Ember.computed.alias('controllers.game')
   currentGames: (->
-    @get('currentGame').map((game) =>
+    currentGames = @get('currentGame').map((game) =>
       startedAt = game.get('startedAt')
       game.set('time', moment(startedAt).fromNow())
+      auth_id = @get('controllers.auth.person.id')
+      if auth_id
+        homePerson = game.get('home')
+        awayPerson = game.get('away')
+        if (auth_id == homePerson.get('id')) or (auth_id == awayPerson.get('id'))
+          @transitionToRoute('currentGame')
       game
     )
-  ).property('currentGame.content.@each', 'clock.minute')
+    @set('isActiveGame', currentGames.length > 0)
+    return currentGames
+  ).property('currentGame.content.@each', 'clock.minute', 'controllers.auth.person')
   waitingList: (->
     @get('waits').map (wait) =>
       wait.set 'updatetime', new Date()
@@ -34,6 +42,18 @@ App.ApplicationController = Ember.Controller.extend
     )
     return c
   ).property('challengeData.content.@each', 'controllers.auth.person')
+  pendingGames: (->
+    games = @get('pendingGameData').map((game) =>
+      awayPerson = game.get('away')
+      homePerson = game.get('home')
+      game.set('isEmpty', @get('currentGames').length < 1)
+      auth_id = @get('controllers.auth.person.id')
+      if auth_id?
+        game.set('isMe', (auth_id == homePerson.get('id')) or (auth_id == awayPerson.get('id')))
+      game
+    )
+    return games
+  ).property('currentGames', 'pendingGameData.content.@each', 'controllers.auth.person')
   actions:
     login: ->
       @get('controllers.auth').login()
@@ -44,7 +64,12 @@ App.ApplicationController = Ember.Controller.extend
       @get('waitList').removePerson(home)
       home.set('isWaiting', false)
       home.save()
-      
+    startPendingGame: (theGame) ->
+      game = @get('controllers.game')
+      game.newGame(theGame)
+    cancelPendingGame: (theGame) ->
+      game = @get('controllers.game')
+      game.removePending(theGame)
     acceptChallenge: (theChallenge) ->
       challenge = @get('controllers.challenge')
       challenge.acceptChallenge(theChallenge)

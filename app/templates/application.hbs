@@ -44,9 +44,17 @@
         <span class="vs">vs</span>
         <span class="player away">{{game.away.name}}</span>
       </div>
-      {{/each}}
-    </div>
-  {{/if}}
+      {{#if game.isMe}}
+      <div class="action--button--container">
+        {{#if game.isEmpty}}
+        <button class="button blue" {{action startPendingGame game}}>Start</button>
+        {{/if}}
+        <button class="button black" {{action cancelPendingGame game}}>Cancel</button>
+      </div>
+      {{/if}}
+        {{/each}}
+      </div>
+    {{/if}}
   {{#if pendingChallenges.length}}
   <h4>Challenges</h4>
   {{#each pendingChallenges}}

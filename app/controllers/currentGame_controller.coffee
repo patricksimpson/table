@@ -1,9 +1,10 @@
 App.CurrentGameController = Ember.ObjectController.extend
-  needs: ['person', 'people', 'auth']
+  needs: ['person', 'people', 'auth', 'challenge', 'application']
   currentRound: 1
   authPerson: Ember.computed.alias('controllers.auth.person')
   confirmEndMatch: false
   message: ""
+  isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
   roundsWithIndex: ( ->
     rounds = @get('rounds')
     authPerson = @get('authPerson')
