@@ -11,3 +11,22 @@ App.Person = FP.Model.extend
   challenges: FP.hasMany('challenge', {embedded: false})
   responses: FP.hasMany('challenge', {embedded: false})
   avatar: FP.attr 'string'
+  percentage: (->
+    wins = @get('wins')
+    losses = @get('losses')
+    totalGames = wins + @get('losses')
+    if totalGames > 0
+      if wins > 0
+        if wins == totalGames
+          percentage = wins
+        else
+          percentage = wins / totalGames
+      else
+        percentage = -1 * losses
+    if totalGames == 0
+      percentage = -99
+    percentage
+  ).property('wins', 'losses', 'totalGames')
+  totalGames: (->
+    @get('wins') + @get('losses')
+  ).property('wins', 'losses')
