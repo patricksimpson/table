@@ -4,5 +4,5 @@ module.exports = App.ApplicationRoute = Ember.Route.extend
     controller.set('waits', @get('store').findAll('wait'))
     controller.set('currentGame', @get('store').findAll('currentGame'))
     controller.set('pendingGames', @get('store').findAll('pendingGame'))
-    controller.set('pendingChallenge', @get('store').findAll('challenge'))
+    controller.set('challengeData', @get('store').findAll('challenge'))
     

@@ -47,10 +47,15 @@
       {{/each}}
     </div>
   {{/if}}
-  {{#if pendingChallenge.length}}
+  {{#if pendingChallenges.length}}
   <h4>Challenges</h4>
-  {{#each pendingChallenge}}
-    <p>{{home.name}} challenged {{away.name}}!</p>
+  {{#each pendingChallenges}}
+    <p>{{#if isMe}}You {{else}}{{home.name}}{{/if}} challenged {{away.name}}!</p>
+    {{#if isMe}}
+    <div class="action--button--container">
+      <button class="button black" {{action cancelChallenge this}}>Cancel</button>
+    </div>
+    {{/if}}
   {{/each}}
   {{/if}}
   {{#if auth.person.challenges.length}}
@@ -71,7 +76,7 @@
   {{/if}}
   {{#if auth.person.responses.length}}
   <div class="responses">
-    <h4 class="action--header">responses ({{auth.person.responses.length}})</h4>
+    <h4 class="action--header">Responses ({{auth.person.responses.length}})</h4>
     <ul class="action--list">
     {{#each auth.person.responses}}
       <li> 
@@ -84,7 +89,7 @@
   {{/if}}
   {{#if waitingList.length}}
   <div class="waitinglist">
-    <h4 class="action--header">waiting list ({{waitingList.length}})</h4>
+    <h4 class="action--header">Waiting List ({{waitingList.length}})</h4>
     {{#each wait in waitingList}}
     {{#if wait.person.isWaiting}}
       <p>

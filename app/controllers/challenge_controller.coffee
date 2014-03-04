@@ -20,6 +20,12 @@ App.ChallengeController = Ember.ArrayController.extend
     homePerson.get('responses').removeObject challenge
     homePerson.save()
     challenge.delete()
+  removeChallenge: (challenge) ->
+    awayPerson = challenge.get('away')
+    awayPerson.get('challenges').removeObject challenge
+    awayPerson.save()
+    challenge.delete()
+
   createChallenge: (homePerson, awayPerson) ->
     challenge = @get('store').createRecord('challenge',
       home: homePerson

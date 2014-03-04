@@ -24,6 +24,16 @@ App.ApplicationController = Ember.Controller.extend
         wait.set 'isMe', false
       wait
   ).property('waits.content.@each', 'controllers.person.content', 'controllers.auth.person')
+  pendingChallenges: (->
+    c = @get('challengeData').map((challenge) =>
+      homePerson = challenge.get('home')
+      auth_id = @get('controllers.auth.person.id')
+      if auth_id?
+        challenge.set('isMe', auth_id == homePerson.get('id'))
+      challenge
+    )
+    return c
+  ).property('challengeData.content.@each', 'controllers.auth.person')
   actions:
     login: ->
       @get('controllers.auth').login()
@@ -41,6 +51,9 @@ App.ApplicationController = Ember.Controller.extend
     declineChallenge: (theChallenge) ->
       challenge = @get('controllers.challenge')
       challenge.declineChallenge(theChallenge)
+    cancelChallenge: (theChallenge) ->
+      challenge = @get('controllers.challenge')
+      challenge.removeChallenge(theChallenge)
     removeResponse: (theChallenge) ->
       challenge = @get('controllers.challenge')
       challenge.removeResponse(theChallenge)

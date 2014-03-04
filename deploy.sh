@@ -1,11 +1,12 @@
 #!/bin/zsh
+echo "building production"
 cake build
+echo "moving files to deploy directory..."
 cd ../table-deploy
 ls -1 | xargs rm -rf
-cp ../table/public/* .
-mkdir ./styles/fonts
-cp ../table/app/styles/fonts/* ./styles/fonts
+mv ../table/public/* .
 git add -A
 git commit -m "deploy"
 git push
+cd ../table
 echo "Done deploying!"
