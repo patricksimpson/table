@@ -4,6 +4,7 @@ App.CurrentGameController = Ember.ObjectController.extend
   authPerson: Ember.computed.alias('controllers.auth.person')
   confirmEndMatch: false
   message: ""
+  cancelGameConfirm: false
   isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
   roundsWithIndex: ( ->
     rounds = @get('rounds')
@@ -243,3 +244,8 @@ App.CurrentGameController = Ember.ObjectController.extend
       game = @get('model')
       game.delete()
       @transitionTo("/")
+    cancelGameConfirm: ->
+      @set('cancelGameConfirm', true)
+    undoCancelGameConfirm: ->
+      @set('cancelGameConfirm', false)
+

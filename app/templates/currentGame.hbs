@@ -62,7 +62,13 @@
         {{/unless}}
         <p>
           {{#if this.isCurrent}}
-          <button {{action cancelGame}} class="endround button black">Cancel Game</button>
+            {{#if controller.cancelGameConfirm}}
+            <p>Are you sure you want to cancel this match?</p>
+            <button {{action cancelGame}} class="endround button grey">Ok</button>
+            <button {{action undoCancelGameConfirm}} class="button black">Nevermind</button>
+            {{else}}
+            <button {{action cancelGameConfirm}} class="button black endround">Cancel Match</button>
+            {{/if}}
           {{/if}}
         </p>
         {{/if}}
