@@ -22,8 +22,8 @@
     {{#link-to "person" this classNames="link--person--avatar"}}
       <img {{bind-attr src=avatar alt=name title=name}} class="leaderboard--person--avatar"> 
     {{/link-to}}
-    <span class="leaderboard--person--name">
-    {{#link-to "person" this classNames="link--person"}}
+    <span class="">
+    {{#link-to "person" this classNames="leaderboard--person--name link--person"}}
       {{name}}
     {{/link-to}}
     </span>

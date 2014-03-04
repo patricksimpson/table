@@ -7,7 +7,7 @@
       <ul class="banner--navigation">
         <li class="banner--navigation--item banner--navigation--login">
           {{#if auth.person}}
-            Logged in as {{#link-to 'person' auth.person}}{{auth.person.name}}{{/link-to}}
+            Hi,{{#link-to 'person' auth.person}}{{auth.person.name}}{{/link-to}}
             <button {{action "logout"}} class="button grey">Logout</button>
           {{else}}
             <button {{action "login"}} class="button grey">Login or Signup</button>

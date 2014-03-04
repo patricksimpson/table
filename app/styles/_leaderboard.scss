@@ -60,11 +60,11 @@
   border: 1px solid #444;
 }
 .isMe {
-  .leaderboard--person--avatar {
+  .leaderboard--person--avatar, .person--avatar {
     border-color: #6E8BFF;
     border-width: 2px;
   }
   .link--person {
-    color: #000;
+    color: #3E6DB3;
   }
 }

@@ -1,37 +1,42 @@
 <div class="content--container">
-<div class="profile">
+<div class="profile" {{bind-attr class="isMe:isMe"}}>
   <h2>
     <img {{bind-attr src=avatar alt=name title=name}} class="person--avatar">
     <span class="person--name">{{name}}</span>
-    {{#if isMe}}<span class="you">&#8592 You</span>{{/if}}
   </h2>
-  {{hasChallenges}}
-  {{#if isMe}}<!--<button {{action 'editPerson'}} class="button grey">Edit</button>-->{{/if}}
-  {{#unless isMe}}
-    {{#if isChallenged}}
-      You challenged {{name}}
+  <div class="profile--content">
+    {{hasChallenges}}
+    <h4 class="profile--content--header">Actions</h4>
+    <div class="profile--actions">
+    {{#if isMe}}<!--<button {{action 'editPerson'}} class="button grey">Edit</button>-->{{/if}}
+    {{#unless isMe}}
+      {{#if isChallenged}}
+        You challenged {{name}}
+      {{else}}
+        {{#if authedPerson}}
+          <button {{action 'challengeRequest'}} class="button blue">Challenge!</button>
+        {{/if}}
+      {{/if}}
     {{else}}
       {{#if authedPerson}}
-        <button {{action 'challengeRequest'}} class="button blue">Challenge!</button>
+        {{#unless isWaiting}}
+          <button {{action 'joinWaitingList'}} class="button green">Ping?</button>
+        {{else}}
+          <button {{action 'leaveWaitingList'}} class="button black">Cancel Ping</button>
+        {{/unless}}
       {{/if}}
-    {{/if}}
-  {{else}}
-    {{#if authedPerson}}
-      {{#unless isWaiting}}
-        <button {{action 'joinWaitingList'}} class="button green">Ping?</button>
-      {{else}}
-        <button {{action 'leaveWaitingList'}} class="button black">Cancel Ping</button>
-      {{/unless}}
-    {{/if}}
-  {{/unless}}
-  {{outlet}}
-  <div class="person--stats">
-    <p>
-      <span class="person--stat">Wins:</span><span class="stat-wins">{{wins}}</span>
-    </p>
-    <p>
-      <span class="person--stat">Losses:</span><span class="person--stat stat-losses">{{losses}}</span>
-    </p>
+    {{/unless}}
+    </div>
+    {{outlet}}
+    <h4 class="profile--content--header">Stats</h4>
+    <div class="person--stats">
+      <p>
+        <span class="person--stat">Wins:</span><span class="stat-wins">{{wins}}</span>
+      </p>
+      <p>
+        <span class="person--stat">Losses:</span><span class="person--stat stat-losses">{{losses}}</span>
+      </p>
+    </div>
   </div>
   <h3>Recent Games</h3>
   {{#each games}}

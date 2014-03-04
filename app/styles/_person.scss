@@ -5,6 +5,7 @@
 
 .link--person {
   color: #444;
+  color: #2D4C83;
   transition: color 0.5s ease;
   transition: background-color 0.5s ease;
   text-decoration: none;
@@ -41,9 +42,16 @@
   }
 }
 .person--avatar {
-  width: 90px;
-  height: 90px;
-  vertical-align: middle;
+  width: 60px;
+  height: 60px;
+  margin: 0;
+  display: block;
+  @include sb-media(27em){
+    width: 90px;
+    height: 90px;
+    vertical-align: middle;
+    display: inline;
+  }
   border-radius: 50%;
   border: 2px solid #DBD7D7;
 }
@@ -61,4 +69,13 @@
 }
 .stat-wins, .stat-losses {
   font-weight: bold;
+}
+.profile--content {
+  padding: 1em;
+  border-top: 1px solid #ccc;
+}
+.profile--actions {
+}
+.profile--content--header{
+  margin: .75em 0;
 }
