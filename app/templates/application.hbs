@@ -47,9 +47,15 @@
       {{/each}}
     </div>
   {{/if}}
+  {{#if pendingChallenge.length}}
+  <h4>Challenges</h4>
+  {{#each pendingChallenge}}
+    <p>{{home.name}} challenged {{away.name}}!</p>
+  {{/each}}
+  {{/if}}
   {{#if auth.person.challenges.length}}
   <div class="challenges">
-    <h4 class="action--header">challenges ({{auth.person.challenges.length}})</h4>
+    <h4 class="action--header">Your Challenges ({{auth.person.challenges.length}})</h4>
     <ul class="action--list">
     {{#each auth.person.challenges}}
       <li> 
