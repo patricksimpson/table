@@ -6,17 +6,36 @@ module.exports = App.PeopleController = Ember.ArrayController.extend
   personEmail: null
   people: (->
     currentPerson = @get('person')
+    sparky = null
     people = @get('content').map((person) =>
       isMe = ( person.get('id') == currentPerson?.get('id') )
       person.set('isMe', isMe)
+      wins = person.get('wins')
+      losses = person.get('losses')
+      totalGames = wins + person.get('losses')
+      if totalGames > 0
+        if wins > 0
+          if wins == totalGames
+            percentage = wins
+          else
+            percentage = wins / totalGames
+        else
+          percentage = -1 * losses
+      if totalGames == 0
+        percentage = -99
+      person.set('percentage', percentage)
+      if person.get('id') == "1410921259"
+        sparky = person
       person
     )
+    people.removeObject(sparky)
     Em.ArrayProxy.createWithMixins(
       Ember.SortableMixin,
         content: people
-        sortProperties: ['wins']
+        sortProperties: ['percentage']
         sortAscending: false
     )
+
   ).property('content.@each', 'person')
   isChallenged: (person) ->
     challenges = @get('challenges_away')
