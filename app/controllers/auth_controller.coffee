@@ -3,6 +3,15 @@ App.AuthController = Ember.Controller.extend
   isAuthed: false
   userId: 0
   isAdmin: false
+  isNotAuthorized: false
+  getAllows: (->
+    ref = new Firebase('https://glaring-fire-8110.firebaseio.com')
+    allow = ref.child('allowed')
+    @set('allowData', allow)
+    allow.on('value', (list) =>
+      @set('allowed', list.val())
+    )
+  ).on('init')
   setupAuth:( ->
     slRef = new Firebase('https://glaring-fire-8110.firebaseio.com')
     @authClient = new FirebaseSimpleLogin(slRef, (err, user) =>
@@ -21,6 +30,10 @@ App.AuthController = Ember.Controller.extend
       @set('isAdmin', person.get('isAdmin'))
       @set('person', person)
     ), (error) =>
+      allowlist = @get('allowed')
+      if allowlist.indexOf(user.username) < 0
+        @set('isNotAuthorized', true)
+        return
       newPerson = @get('store').createRecord("person",
         id: user.id
         name: user.name

@@ -10,7 +10,12 @@
             Hi, {{#link-to 'person' auth.person}}{{auth.person.name}}{{/link-to}}
             <button {{action "logout"}} class="button grey">Logout</button>
           {{else}}
+            {{#if auth.isNotAuthorized}}
+            <span class="warning">You're not authorized. Contact <a href="https://twitter.com/SparkTable">@SparkTable</a> to request access.</span>
+            <button {{action "login"}} class="button red">Login or Signup</button>
+            {{else}}
             <button {{action "login"}} class="button grey">Login or Signup</button>
+            {{/if}}
           {{/if}}
           </li>
         <li class="banner--navigation--item"><a href="#/">Leaderboard</a></li>
