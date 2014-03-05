@@ -28,7 +28,10 @@ App.Person = FP.Model.extend
     if losses < 1
       percentage = (wins * (wins + 1)) + 1
     else
-      percentage = (wins / losses) * ( @get('totalGames') )
+      if wins < 1
+        percentage = -1 * losses
+      else
+        percentage = (wins / losses) * ( @get('totalGames') )
     Math.round(percentage * 100) / 100
   ).property('wins', 'losses', 'totalGames')
   totalGames: (->
