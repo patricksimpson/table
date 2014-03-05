@@ -16,7 +16,6 @@ App.GameController = Ember.ObjectController.extend
     # Check for a current game
     @get('store').fetch('currentGame').then ((currentGame) =>
       if currentGame.content.length < 1
-        console.log game
         @setCurrentGame(game)
     ), (error) =>
       console.log error

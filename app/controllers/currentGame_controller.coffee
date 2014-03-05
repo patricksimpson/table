@@ -347,7 +347,6 @@ App.CurrentGameController = Ember.ObjectController.extend
     cancelConfirmOpenRoundAction: ->
       @set('confirmOpenRound', false)
     cancelRound: (round) ->
-      console.log round
       if round.index < 1
         return
       currentRoundIndex = @get('currentRound')

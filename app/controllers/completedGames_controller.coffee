@@ -7,7 +7,6 @@ module.exports = App.CompletedGamesController = Ember.ArrayController.extend
       game.set('homeWinner', hs > as)
       game.set('awayWinner', as > hs)
       completed = game.get('completedAt')
-      console.log moment(completed).fromNow()
       game.set('date', moment(completed).fromNow())
       game
     ).reverse()
