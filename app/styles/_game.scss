@@ -132,7 +132,10 @@
   padding: .5em 0;
   font-size: 1.1rem;
   list-style: none;
-  a{
+  a {
+    color: #333;
+  }
+  a.game--current{
     color: #C95454;
   }
 }
@@ -172,7 +175,7 @@
   display: inline-block;
 }
 .game--person--avatar {
-  border-radius: 8px;
+  border-radius: 50%;
   width: 24px;
   height: 24px;
   border: 1px solid #ccc;
