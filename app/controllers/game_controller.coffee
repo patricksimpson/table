@@ -25,6 +25,8 @@ App.GameController = Ember.ObjectController.extend
       {
         homeScore: 0
         awayScore: 0
+        isCurrent: true
+        index: 0
       }
     ]
     currentGame = @get('store').createRecord('currentGame',

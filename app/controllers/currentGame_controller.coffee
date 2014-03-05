@@ -4,6 +4,7 @@ App.CurrentGameController = Ember.ObjectController.extend
   authPerson: Ember.computed.alias('controllers.auth.person')
   confirmEndMatch: false
   message: ""
+  confirmOpenRound: false
   cancelGameConfirm: false
   isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
   roundsWithIndex: ( ->
@@ -28,12 +29,13 @@ App.CurrentGameController = Ember.ObjectController.extend
         awayWon: round.homeScore < round.awayScore
         homeScore: round.homeScore
         awayScore: round.awayScore
+        index: index
         isComplete: round.isComplete
         isCurrent: (index + 1) == currentRound
         isMe: @get('isMe')
       index: index + 1
     ).reverse()
-  ).property('rounds', 'authPerson', 'content')
+  ).property('rounds', 'content', 'authPerson')
   gameOver: ->
     game = @get('model')
     completedGame = @get('store').createRecord("completedGame",
@@ -61,6 +63,48 @@ App.CurrentGameController = Ember.ObjectController.extend
 
     game.delete()
     @transitionTo('/')
+  openRound: (round) ->
+    @set('confirmOpenRound', false)
+    game = @get('model')
+    if round.index == undefined
+      console.log "ERROR WITH INDEX?"
+      return
+    newRoundIndex = round.index
+    howManyToPop = (@get('currentRound') - 1) - newRoundIndex
+    rounds = game.get('rounds')
+    rounds = rounds.toArray()
+    homeScoreSubtract = 0
+    awayScoreSubtract = 0
+    i = 0
+    while i < howManyToPop
+      rewindRound = rounds.pop()
+      if rewindRound.isComplete
+        if rewindRound.homeScore > rewindRound.awayScore
+          homeScoreSubtract++
+        else
+          if rewindRound.awayScore > rewindRound.homeScore
+            awayScoreSubtract++
+      i++
+    @set('currentRound', newRoundIndex + 1)
+    theRound = rounds.pop()
+    if theRound.homeScore > theRound.awayScore
+      homeScoreSubtract++
+    else
+      awayScoreSubtract++
+    #now we have the subtract amount, let's set the new score.
+    oldHomeScore = game.get('homeScore')
+    oldAwayScore = game.get('awayScore')
+    game.set('homeScore', oldHomeScore - homeScoreSubtract)
+    game.set('awayScore', oldAwayScore - awayScoreSubtract)
+    #Now we set this as the current round, and save the game.
+    rounds.push(
+      homeScore: theRound.homeScore
+      awayScore: theRound.awayScore
+      isCurrent: true
+      index: newRoundIndex
+    )
+    game.set('rounds', rounds)
+    game.save()
   actions:
     addPointHome: ->
       game = @get('model')
@@ -79,6 +123,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         awayScore: round.awayScore
         isComplete: false
         isCurrent: true
+        index: currentRoundIndex
 
       #set the round object, and save.
       rounds[currentRoundIndex] = updatedRounds
@@ -103,6 +148,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         awayScore: round.awayScore
         isComplete: false
         isCurrent: true
+        index: currentRoundIndex
 
       #set the round object and save
       rounds[currentRoundIndex] = updatedRounds
@@ -125,6 +171,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         awayScore: score
         isComplete: false
         isCurrent: true
+        index: currentRoundIndex
 
       #set the round obect and save.
       rounds[currentRoundIndex] = updatedRounds
@@ -149,8 +196,49 @@ App.CurrentGameController = Ember.ObjectController.extend
         awayScore: score
         isComplete: false
         isCurrent: true
-
+        index: currentRoundIndex
+        
       #set the round obect and save.
+      rounds[currentRoundIndex] = updatedRounds
+      game.set('rounds', rounds.toArray())
+      game.save()
+    homeScoreChanges: (score) ->
+      if score < 0
+        return
+      if score > 99
+        return
+      game = @get('model')
+      currentRound = @get('currentRound')
+      currentRoundIndex = currentRound - 1
+      rounds = game.get('rounds')
+      round = rounds[currentRoundIndex]
+      updatedRounds =
+        homeScore: score * 1
+        awayScore: round.awayScore
+        isComplete: false
+        isCurrent: true
+        index: currentRoundIndex
+
+      rounds[currentRoundIndex] = updatedRounds
+      game.set('rounds', rounds.toArray())
+      game.save()
+    awayScoreChanges: (score) ->
+      if score < 0
+        return
+      if score > 99
+        return
+      game = @get('model')
+      currentRound = @get('currentRound')
+      currentRoundIndex = currentRound - 1
+      rounds = game.get('rounds')
+      round = rounds[currentRoundIndex]
+      updatedRounds =
+        homeScore: round.homeScore
+        awayScore: score * 1
+        isComplete: false
+        isCurrent: true
+        index: currentRoundIndex
+
       rounds[currentRoundIndex] = updatedRounds
       game.set('rounds', rounds.toArray())
       game.save()
@@ -168,6 +256,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         updatedRounds =
           homeScore: currentRound.homeScore
           awayScore: currentRound.awayScore
+          index: currentRoundIndex
           isComplete: true
 
         rounds[currentRoundIndex] = updatedRounds
@@ -185,6 +274,8 @@ App.CurrentGameController = Ember.ObjectController.extend
           homeScore: currentRound.homeScore
           awayScore: currentRound.awayScore
           isComplete: true
+          index: currentRoundIndex
+
         rounds[currentRoundIndex] = updatedRounds
         game.set('rounds', rounds.toArray())
         game.set('awayScore', score)
@@ -199,6 +290,8 @@ App.CurrentGameController = Ember.ObjectController.extend
         homeScore: 0
         awayScore: 0
         isComplete: false
+        index: rounds.length - 1
+
       rounds.push(new_round)
       game.set('rounds', rounds)
       game.save()
@@ -241,6 +334,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         @gameOver()
       return
     cancelGame: ->
+      @set('cancelGameConfirm', false)
       game = @get('model')
       game.delete()
       @transitionTo("/")
@@ -248,4 +342,21 @@ App.CurrentGameController = Ember.ObjectController.extend
       @set('cancelGameConfirm', true)
     undoCancelGameConfirm: ->
       @set('cancelGameConfirm', false)
-
+    confirmOpenRoundAction: ->
+      @set('confirmOpenRound', true)
+    cancelConfirmOpenRoundAction: ->
+      @set('confirmOpenRound', false)
+    cancelRound: (round) ->
+      console.log round
+      if round.index < 1
+        return
+      currentRoundIndex = @get('currentRound')
+      game = @get('model')
+      rounds = game.get('rounds')
+      rounds = rounds.toArray()
+      if currentRoundIndex > 1
+        currentRoundIndex = currentRoundIndex - 2
+      oldRound = rounds[currentRoundIndex]
+      @openRound(oldRound)
+    openRoundAction: (round)->
+      @openRound(round)

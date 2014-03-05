@@ -184,3 +184,23 @@
     border-bottom: 1px solid #ccc;
   }
 }
+.score--input {
+  border: 1px solid #eee;
+  width: 2em;
+  font-size: 2.5rem;
+  border-radius: 13px;
+  padding: .2em;
+  text-align: center;
+}
+.score--text{
+  font-size: 2.5rem;
+  padding: .2em;
+  text-align: center;
+  border: 0px none;
+}
+.game--cancel {
+  text-align: center;
+}
+.gameview--end {
+  clear: both;
+}
