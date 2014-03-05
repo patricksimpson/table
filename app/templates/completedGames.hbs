@@ -13,7 +13,7 @@
     <span class="game--person-name">
 {{/if}}
       <img {{bind-attr src=home.avatar alt=home.name title=home.name }} class="game--person--avatar">
-      {{home.name}}
+{{#link-to 'person' home}}{{home.name}}{{/link-to}}
     </span>
   </span> 
   <span class="game--person">
@@ -26,7 +26,7 @@
     <span class="game--person-name">
 {{/if}}
       <img {{bind-attr src=away.avatar alt=away.name title=away.name }} class="game--person--avatar">
-      {{away.name}} 
+{{#link-to 'person' away}}{{away.name}}{{/link-to}}
     </span>
   </span> 
   <span class="game--date">
