@@ -1,6 +1,6 @@
 require 'mina/git'
 
-set :domain, 'thetable.io'
+set :domain, '192.241.172.114'
 set :deploy_to, '/var/www/thetable.io'
 set :repository, 'git@github.com:patricksimpson/table'
 set :branch, 'master'
