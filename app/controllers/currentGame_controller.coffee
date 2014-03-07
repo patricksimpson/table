@@ -20,10 +20,11 @@ App.CurrentGameController = Ember.ObjectController.extend
     if !rounds?
       @transitionTo("/games")
       return
-    currentRound = @get('currentRound')
-    @set('currentRound', rounds.length)
-    
+    currentRound = game.get('currentRound')
     @get('rounds').map((round, index) =>
+      console.log "re calc rounds..."
+      console.log index + 1
+      console.log currentRound
       round:
         homeWon: round.homeScore > round.awayScore
         awayWon: round.homeScore < round.awayScore
@@ -70,7 +71,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       console.log "ERROR WITH INDEX?"
       return
     newRoundIndex = round.index
-    howManyToPop = (@get('currentRound') - 1) - newRoundIndex
+    howManyToPop = (game.get('currentRound') - 1) - newRoundIndex
     rounds = game.get('rounds')
     rounds = rounds.toArray()
     homeScoreSubtract = 0
@@ -100,6 +101,7 @@ App.CurrentGameController = Ember.ObjectController.extend
     rounds.push(
       homeScore: theRound.homeScore
       awayScore: theRound.awayScore
+      isComplete: false
       isCurrent: true
       index: newRoundIndex
     )
@@ -108,7 +110,7 @@ App.CurrentGameController = Ember.ObjectController.extend
   actions:
     addPointHome: ->
       game = @get('model')
-      currentRound = @get('currentRound')
+      currentRound = game.get('currentRound')
       currentRoundIndex = currentRound - 1
       #Get rounds, and current round.
       rounds = game.get('rounds')
@@ -131,7 +133,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       game.save()
     subtractPointHome: ->
       game = @get('model')
-      currentRound = @get('currentRound')
+      currentRound = game.get('currentRound')
       currentRoundIndex = currentRound - 1
       #Get rounds, and current round
       rounds = game.get('rounds')
@@ -156,7 +158,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       game.save()
     addPointAway: ->
       game = @get('model')
-      currentRound = @get('currentRound')
+      currentRound = game.get('currentRound')
       currentRoundIndex = currentRound - 1
       #Get rounds, and current round
       rounds = game.get('rounds')
@@ -179,7 +181,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       game.save()
     subtractPointAway: ->
       game = @get('model')
-      currentRound = @get('currentRound')
+      currentRound = game.get('currentRound')
       currentRoundIndex = currentRound - 1
       #Get rounds, and current round
       rounds = game.get('rounds')
@@ -208,7 +210,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       if score > 99
         return
       game = @get('model')
-      currentRound = @get('currentRound')
+      currentRound = game.get('currentRound')
       currentRoundIndex = currentRound - 1
       rounds = game.get('rounds')
       round = rounds[currentRoundIndex]
@@ -228,7 +230,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       if score > 99
         return
       game = @get('model')
-      currentRound = @get('currentRound')
+      currentRound = game.get('currentRound')
       currentRoundIndex = currentRound - 1
       rounds = game.get('rounds')
       round = rounds[currentRoundIndex]
@@ -245,7 +247,7 @@ App.CurrentGameController = Ember.ObjectController.extend
 
     endRound: (round) ->
       game = @get('model')
-      currentRound = @get('currentRound')
+      currentRound = game.get('currentRound')
       currentRoundIndex = currentRound - 1
       if round.homeScore > round.awayScore + 1
         score = game.get('homeScore')
@@ -291,6 +293,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         awayScore: 0
         isComplete: false
         index: rounds.length - 1
+        isCurrent: true
 
       rounds.push(new_round)
       game.set('rounds', rounds)
@@ -347,10 +350,10 @@ App.CurrentGameController = Ember.ObjectController.extend
     cancelConfirmOpenRoundAction: ->
       @set('confirmOpenRound', false)
     cancelRound: (round) ->
+      game = @get('model')
       if round.index < 1
         return
-      currentRoundIndex = @get('currentRound')
-      game = @get('model')
+      currentRoundIndex = game.get('currentRound')
       rounds = game.get('rounds')
       rounds = rounds.toArray()
       if currentRoundIndex > 1

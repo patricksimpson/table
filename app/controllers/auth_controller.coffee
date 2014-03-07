@@ -4,8 +4,10 @@ App.AuthController = Ember.Controller.extend
   userId: 0
   isAdmin: false
   isNotAuthorized: false
+  # authRoot: "https://glaring-fire-8110.firebaseio.com"
+  authRoot: "https://thetable.firebaseio.com"
   getAllows: (->
-    ref = new Firebase('https://glaring-fire-8110.firebaseio.com')
+    ref = new Firebase(@get('authRoot'))
     allow = ref.child('allowed')
     @set('allowData', allow)
     allow.on('value', (list) =>
@@ -13,7 +15,7 @@ App.AuthController = Ember.Controller.extend
     )
   ).on('init')
   setupAuth:( ->
-    slRef = new Firebase('https://glaring-fire-8110.firebaseio.com')
+    slRef = new Firebase(@get('authRoot'))
     @authClient = new FirebaseSimpleLogin(slRef, (err, user) =>
       if !err && user
         @pickUser(user)

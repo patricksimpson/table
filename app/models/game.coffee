@@ -7,3 +7,7 @@ App.Game = FP.Model.extend
   rounds: FP.attr 'hash'
   homeScore: FP.attr 'number'
   awayScore: FP.attr 'number'
+  currentRound: (->
+    rounds = @get('rounds')
+    rounds.length
+  ).property('rounds')
