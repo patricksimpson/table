@@ -1,10 +1,10 @@
 require 'mina/git'
 
-set :domain, 'sweet-domain.io'
-set :deploy_to, '/srv/project_name'
-set :repository, 'git@github.com:you/project_name'
+set :domain, 'thetable.io'
+set :deploy_to, '/var/www/thetable.io'
+set :repository, 'git@github.com:patricksimpson/table'
 set :branch, 'master'
-set :user, 'deploy'
+set :user, 'patrick'
 set :forward_agent, true
 
 set :shared_paths, ['node_modules']
