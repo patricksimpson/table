@@ -18,13 +18,11 @@ App.CurrentGameController = Ember.ObjectController.extend
       if authPerson.get('id') == homePerson.get('id') or authPerson.get('id') == awayPerson.get('id')
         @set('isMe', true)
     if !rounds?
-      @transitionTo("/games")
+      if(!@get('authPerson').get('id') == "1410921259")
+        @transitionTo("/games")
       return
     currentRound = game.get('currentRound')
     @get('rounds').map((round, index) =>
-      console.log "re calc rounds..."
-      console.log index + 1
-      console.log currentRound
       round:
         homeWon: round.homeScore > round.awayScore
         awayWon: round.homeScore < round.awayScore
@@ -63,7 +61,7 @@ App.CurrentGameController = Ember.ObjectController.extend
     tweetCompleted.save()
 
     game.delete()
-    @transitionTo('/')
+    @transitionTo('/games')
   openRound: (round) ->
     @set('confirmOpenRound', false)
     game = @get('model')
@@ -340,7 +338,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       @set('cancelGameConfirm', false)
       game = @get('model')
       game.delete()
-      @transitionTo("/")
+      @transitionTo("/games")
     cancelGameConfirm: ->
       @set('cancelGameConfirm', true)
     undoCancelGameConfirm: ->
