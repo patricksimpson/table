@@ -5,8 +5,8 @@ require 'config/router'
 require 'config/fastclick'
 
 App.Store = FP.Store.extend
-  firebaseRoot: "https://thetable.firebaseio.com"
-  # firebaseRoot: "https://glaring-fire-8110.firebaseio.com"
+  # firebaseRoot: "https://thetable.firebaseio.com"
+  firebaseRoot: "https://glaring-fire-8110.firebaseio.com"
 
 # Load all modules in order automagically. Ember likes things to work this
 # way so everything is in the App.* namespace.

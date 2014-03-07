@@ -31,6 +31,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         index: index
         isComplete: round.isComplete
         isCurrent: (index + 1) == currentRound
+        isFirst: index == 0
         isMe: @get('isMe')
       index: index + 1
     ).reverse()

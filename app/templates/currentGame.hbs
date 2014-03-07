@@ -70,7 +70,7 @@
         {{#unless this.isComplete}}
         {{#if isCurrent}}
           <button {{action endRound this}} class="endround button grey">End Round</button>
-          <button {{action cancelRound this}} class="button black">Cancel Round</button>
+          {{#if isFirst}}{{else}}<button {{action cancelRound this}} class="button black">Cancel Round</button>{{/if}}
         {{else}}
         {{/if}}
         {{/unless}}
