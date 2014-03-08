@@ -1,5 +1,5 @@
 App.PersonController = Ember.ObjectController.extend
-  needs: ['auth','challenge', 'wait']
+  needs: ['auth','challenge', 'wait', 'game', 'completedGames']
   challengeData: Ember.computed.alias('controllers.challenge')
   authedPerson: Ember.computed.alias('controllers.auth.person')
   isAuthAdmin: Ember.computed.alias('controllers.auth.isAdmin')
@@ -7,7 +7,44 @@ App.PersonController = Ember.ObjectController.extend
   iAmSure: false
   isEditing: false
   isChallenged: false
-  hasChallenges: (->
+  games: []
+  lastStatus: ""
+  lastPlayed: "Never"
+  completedGames: ( ->
+    person = @get('model')
+    @get('store').fetch('completedGame').then ((games) =>
+      person = @get('model')
+      gameHistory = games.filter (game) =>
+        game.get('home').get('id') == person.get('id') or
+        game.get('away').get('id') == person.get('id')
+      totalGames = gameHistory.map((game) ->
+        hs = game.get('homeScore')
+        as = game.get('awayScore')
+        game.set('homeWinner', hs > as)
+        game.set('awayWinner', as > hs)
+        status = "lost"
+        if (game.get('home').get('id') == person.get('id')) and (game.get('homeWinner'))
+          status = "won"
+        if (game.get('away').get('id') == person.get('id')) and (game.get('awayWinner'))
+          status = "won"
+        completed = game.get('completedAt')
+        game.set('date', moment(completed).fromNow())
+        game.status = status
+        game
+      ).reverse()
+      if totalGames.length > 0
+        status = totalGames[0].status
+        last = totalGames[0].get('date')
+      else
+        last = "Never"
+      
+      @set('lastStatus', status)
+      @set('lastPlayed', last)
+      @set('games', totalGames)
+    )
+    ""
+  ).property('content', 'controllers.completedGames.games.@each')
+  hasChallenges: ( ->
     person = @get('model')
     authedPerson = @get('authedPerson')
     challenges = person.get('challenges')

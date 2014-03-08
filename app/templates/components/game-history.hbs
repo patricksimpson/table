@@ -1,0 +1,35 @@
+<ul class="completedGames gameListing">
+{{#each games}}
+<li class="game">
+  <span class="game--person">
+    <span class="game--stats">
+      <span class="game--score">{{homeScore}}</span>
+    </span>
+{{#if homeWinner}} 
+    <span class="game--person-name person--won">
+{{else}}
+    <span class="game--person-name">
+{{/if}}
+      <img {{bind-attr src=home.avatar alt=home.name title=home.name }} class="game--person--avatar">
+{{#link-to 'person' home}}{{home.name}}{{/link-to}}
+    </span>
+  </span> 
+  <span class="game--person">
+    <span class="game--stats">
+      <span class="game--score">{{awayScore}}</span>
+    </span>
+{{#if awayWinner}} 
+    <span class="game--person-name person--won">
+{{else}}
+    <span class="game--person-name">
+{{/if}}
+      <img {{bind-attr src=away.avatar alt=away.name title=away.name }} class="game--person--avatar">
+{{#link-to 'person' away}}{{away.name}}{{/link-to}}
+    </span>
+  </span> 
+  <span class="game--date">
+    {{date}}
+  </span>
+</li>
+{{/each}}
+</ul>
