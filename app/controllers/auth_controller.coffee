@@ -3,9 +3,8 @@ App.AuthController = Ember.Controller.extend
   isAuthed: false
   userId: 0
   isAdmin: false
+  authRoot: TAPAS_ENV.db
   isNotAuthorized: false
-  authRoot: "https://glaring-fire-8110.firebaseio.com"
-  # authRoot: "https://thetable.firebaseio.com"
   getAllows: (->
     ref = new Firebase(@get('authRoot'))
     allow = ref.child('allowed')
