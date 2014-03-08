@@ -20,9 +20,8 @@ App.ApplicationController = Ember.Controller.extend
     return currentGames
   ).property('currentGame.content.@each', 'clock.minute', 'controllers.auth.person')
   waitingList: (->
+    theWaits = @get('waits')
     @get('waits').map (wait) =>
-      wait.set 'updatetime', new Date()
-      wait.get('person')
       person = wait.get('person')
       auth_id = @get('controllers.auth.person.id')
       if auth_id
@@ -33,8 +32,10 @@ App.ApplicationController = Ember.Controller.extend
       wait
   ).property('waits.content.@each', 'controllers.person.content', 'controllers.auth.person')
   pendingChallenges: (->
+    cd = @get('challengeData')
     c = @get('challengeData').map((challenge) =>
       homePerson = challenge.get('home')
+      awayPerson = challenge.get('away')
       auth_id = @get('controllers.auth.person.id')
       if auth_id?
         challenge.set('isMe', auth_id == homePerson.get('id'))
@@ -42,6 +43,14 @@ App.ApplicationController = Ember.Controller.extend
     )
     return c
   ).property('challengeData.content.@each', 'controllers.auth.person')
+  myChallenges: (->
+    mc = @get('controllers.auth.person.challenges')
+    if mc?
+      newMc = mc.filter (challenge) =>
+        challenge.get('id') != "undefined"
+      return newMc
+    return false
+  ).property('controllers.auth.person.challenges.@each', 'controllers.auth.person')
   pendingGames: (->
     games = @get('pendingGameData').map((game) =>
       awayPerson = game.get('away')

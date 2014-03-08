@@ -8,7 +8,7 @@
         <li class="banner--navigation--item banner--navigation--login">
           {{#if auth.person}}
             Hi, {{#link-to 'person' auth.person}}{{auth.person.name}}{{/link-to}} 
-            {{#if auth.person.challenges.length}}<a class="notifications" {{action goToLink "application" "#person-actions"}} >{{auth.person.challenges.length}}</a>{{/if}}
+            {{#if myChallenges.length}}<a class="notifications" {{action goToLink "application" "#person-actions"}} >{{myChallenges.length}}</a>{{/if}}
             <button {{action "logout"}} class="button grey">Logout</button>
           {{else}}
             {{#if auth.isNotAuthorized}}
@@ -72,11 +72,11 @@
     {{/if}}
   {{/each}}
   {{/if}}
-  {{#if auth.person.challenges.length}}
+  {{#if myChallenges.length}}
   <div class="challenges">
     <h4 class="action--header">Your Challenges ({{auth.person.challenges.length}})</h4>
     <ul class="action--list">
-    {{#each auth.person.challenges}}
+    {{#each myChallenges}}
       <li> 
         {{home.name}}
         <div class="challenge--actions">
