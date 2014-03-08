@@ -96,16 +96,16 @@
   padding: 0 1em;
 }
 .personalGameHistory{
-  & .game {
+  .game {
     padding: .25em;
   }
-  & .game--person-name {
+  .game--person-name {
     width: 100%;
     display: block;
     float: none;
     clear: both;
     @include sb-media(37em){
-      width: 55%;
+      width: 60%;
       display: inline-block;
     }
   }
