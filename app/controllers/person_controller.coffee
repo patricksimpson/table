@@ -22,11 +22,23 @@ App.PersonController = Ember.ObjectController.extend
         as = game.get('awayScore')
         game.set('homeWinner', hs > as)
         game.set('awayWinner', as > hs)
-        status = "lost"
-        if (game.get('home').get('id') == person.get('id')) and (game.get('homeWinner'))
-          status = "won"
-        if (game.get('away').get('id') == person.get('id')) and (game.get('awayWinner'))
-          status = "won"
+        status = "Lost"
+        isHome = false
+        isAway= false
+        won = false
+        if game.get('home').get('id') == person.get('id')
+          isHome = true
+        if game.get('away').get('id') == person.get('id')
+          isAway = true
+        if (isHome) and (game.get('homeWinner'))
+          status = "Won"
+          won = true
+        if (isAway) and (game.get('awayWinner'))
+          status = "Won"
+          won = true
+        game.won = won
+        game.isHome = isHome
+        game.isAway = isAway
         completed = game.get('completedAt')
         game.set('date', moment(completed).fromNow())
         game.status = status

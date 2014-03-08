@@ -5,7 +5,7 @@
     <span class="person--name">{{name}}</span>
   </h2>
   <div class="profile--content">
-  <span class="date person--lastPlayed">Last game ({{lastStatus}}) {{lastPlayed}}</span>
+  <span class="date person--lastPlayed"><b>{{lastStatus}}</b> last game {{lastPlayed}} </span>
     {{hasChallenges}}
     <h4 class="profile--content--header">Actions</h4>
     <div class="profile--actions">
@@ -41,39 +41,70 @@
   </div>
   {{completedGames}}
   <h3>Game History ({{games.length}})</h3>
-<ul class="completedGames gameListing">
-{{#each games}}
-<li class="game">
+<ul class="completedGames gameListing personalGameHistory">
+{{#each game in games}}
+{{#with game}}
+{{#if won}}
+<li class="game game-won">
+{{else}}
+<li class="game game-lost">
+{{/if}}
   <span class="game--person">
     <span class="game--stats">
-      <span class="game--score">{{homeScore}}</span>
+      <span class="game--score">{{status}}</span>
     </span>
-{{#if homeWinner}} 
-    <span class="game--person-name person--won">
-{{else}}
+    <span class="game--points">
+      {{#if isHome}}
+      {{homeScore}} to {{awayScore}}
+      {{else}}
+      {{awayScore}} to {{homeScore}}
+      {{/if}}
+    </span>
+    vs.
+{{#unless isHome}} 
     <span class="game--person-name">
-{{/if}}
       <img {{bind-attr src=home.avatar alt=home.name title=home.name }} class="game--person--avatar">
-{{#link-to 'person' home}}{{home.name}}{{/link-to}}
+      {{#link-to 'person' home}}{{home.name}}{{/link-to}}
     </span>
-  </span> 
-  <span class="game--person">
-    <span class="game--stats">
-      <span class="game--score">{{awayScore}}</span>
-    </span>
-{{#if awayWinner}} 
-    <span class="game--person-name person--won">
-{{else}}
+{{/unless}}
+{{#unless isAway}} 
     <span class="game--person-name">
-{{/if}}
       <img {{bind-attr src=away.avatar alt=away.name title=away.name }} class="game--person--avatar">
-{{#link-to 'person' away}}{{away.name}}{{/link-to}}
+      {{#link-to 'person' away}}{{away.name}}{{/link-to}}
     </span>
+{{/unless}}
   </span> 
   <span class="game--date">
     {{date}}
   </span>
+<span class="rounds">
+{{#each round in game.rounds}}
+  <span class="round">
+    {{#if game.isHome}}
+      <span class="isMe round-score">
+      {{#with round}}
+      {{homeScore}}
+      </span>
+      <span class="round-score">
+      {{awayScore}}
+      </span>
+      {{/with}}
+    </span>
+    {{else}}
+      <span class="isMe round-score">
+      {{#with round}}
+      {{awayScore}}
+      </span>
+      <span class="round-score">
+      {{homeScore}}
+      </span>
+      {{/with}}
+    </span>
+  {{/if}}
+      
+{{/each}}
 </li>
+{{/with}}
 {{/each}}
 </ul>
 </div>

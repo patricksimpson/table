@@ -78,3 +78,38 @@
 .profile--content--header{
   margin: .75em 0;
 }
+.round {
+  margin-right: 1em;
+}
+.round .isMe{
+  font-weight: bold;
+}
+.game-won {
+  background-color: #D1F7D3;
+  background-color: #EAFCEB;
+}
+.game-lost {
+  background-color: #FFDDDD;
+  background-color: #FFF0F0;
+}
+.game--points{
+  padding: 0 1em;
+}
+.personalGameHistory{
+  & .game {
+    padding: .25em;
+  }
+  & .game--person-name {
+    width: 100%;
+    display: block;
+    float: none;
+    clear: both;
+    @include sb-media(37em){
+      width: 55%;
+      display: inline-block;
+    }
+  }
+  & .game--date {
+    bottom: 0;
+  }
+}
