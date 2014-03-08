@@ -90,7 +90,7 @@
 }
 .game-lost {
   background-color: #FFDDDD;
-  background-color: #FFF0F0;
+  background-color: #FCE2E2;
 }
 .game--points{
   padding: 0 1em;
@@ -98,6 +98,12 @@
 .personalGameHistory{
   .game {
     padding: .25em;
+  }
+  .game--person{
+    width: 100%;
+    @include sb-media(37em){
+      width: 60%;
+    }
   }
   .game--person-name {
     width: 100%;

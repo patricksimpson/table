@@ -11,6 +11,7 @@ App.PersonController = Ember.ObjectController.extend
   lastStatus: ""
   lastPlayed: "Never"
   completedGames: ( ->
+    @set('games', [])
     person = @get('model')
     @get('store').fetch('completedGame').then ((games) =>
       person = @get('model')
