@@ -64,7 +64,7 @@ task :deploy => :environment do
     queue 'bower install'
     queue 'echo "-----> Building with Tapas and Brunch"'
     queue 'cake build'
-    queue 'echo "-----> Deleting files not need for deploy"'
-    queue 'ls -1 | grep -v public | xargs rm -rf'
+    # queue 'echo "-----> Deleting files not need for deploy"'
+    # queue 'ls -1 | grep -v public | xargs rm -rf'
   end
 end
