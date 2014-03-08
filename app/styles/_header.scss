@@ -31,7 +31,19 @@
       background-color: #fff;
       padding-left: 0em;
     }
-
+    &.notifications {
+      display: inline-block;
+      background-color: #e33;
+      border: 1px solid #f00;
+      text-decoration: none;
+      font-size: .7rem;
+      color: white;
+      border-radius: 4px;
+      padding: .25em .5em;
+      &:hover{
+        cursor: pointer;
+      }
+    }
   }
   display: block;
   @include sb-media(37em){  

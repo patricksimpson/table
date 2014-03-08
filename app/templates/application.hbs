@@ -7,7 +7,8 @@
       <ul class="banner--navigation">
         <li class="banner--navigation--item banner--navigation--login">
           {{#if auth.person}}
-            Hi, {{#link-to 'person' auth.person}}{{auth.person.name}}{{/link-to}}
+            Hi, {{#link-to 'person' auth.person}}{{auth.person.name}}{{/link-to}} 
+            {{#if auth.person.challenges.length}}<a class="notifications" {{action goToLink "application" "#person-actions"}} >{{auth.person.challenges.length}}</a>{{/if}}
             <button {{action "logout"}} class="button grey">Logout</button>
           {{else}}
             {{#if auth.isNotAuthorized}}
@@ -39,7 +40,7 @@
   </div>
   {{/if}}
   {{outlet}}
-  <aside class="content--other">
+  <aside id="person-actions" class="content--other">
   {{#if pendingGames.length}}
     <div class="pendinggames">
       <h4>pending games ({{pendingGames.length}})</h4>
