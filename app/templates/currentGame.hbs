@@ -22,7 +22,7 @@
         <div class="match--action">
           {{#if controller.authPerson}}
           {{#unless controller.confirmEndMatch}}
-            <button {{action newRound}} class="button blue">New Round</button>
+            <button {{action newRound}} class="button blue">New Game</button>
             <button {{action confirmEndGame}} class="button grey">End Match</button>
           {{else}}
             <p>Please check game scores and press ok to confirm:</p>
@@ -69,8 +69,8 @@
         {{#if controller.authPerson}}
         {{#unless this.isComplete}}
         {{#if isCurrent}}
-          <button {{action endRound this}} class="endround button grey">End Round</button>
-          {{#if isFirst}}{{else}}<button {{action cancelRound this}} class="button black">Cancel Round</button>{{/if}}
+          <button {{action endRound this}} class="endround button grey">End Game</button>
+          {{#if isFirst}}{{else}}<button {{action cancelRound this}} class="button black">Cancel Game</button>{{/if}}
         {{else}}
         {{/if}}
         {{/unless}}
