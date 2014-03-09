@@ -41,7 +41,7 @@
   </div>
   {{completedGames}}
   <h3>Game History ({{games.length}})</h3>
-<ul class="completedGames gameListing personalGameHistory">
+<ul class="completedGames gameListing">
 {{#each game in games}}
 {{#with game}}
 {{#if won}}
@@ -55,9 +55,9 @@
     </span>
     <span class="game--points">
       {{#if isHome}}
-      {{homeScore}} to {{awayScore}}
+      <span class="isMe">{{homeScore}}</span> to {{awayScore}}
       {{else}}
-      {{awayScore}} to {{homeScore}}
+      <span class="isMe">{{awayScore}}</span> to {{homeScore}}
       {{/if}}
     </span>
     vs.
