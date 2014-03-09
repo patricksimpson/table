@@ -29,6 +29,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         homeScore: round.homeScore
         awayScore: round.awayScore
         index: index
+        hIndex: index + 1
         isComplete: round.isComplete
         isCurrent: (index + 1) == currentRound
         isFirst: index == 0

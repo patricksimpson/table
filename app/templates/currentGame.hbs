@@ -69,8 +69,8 @@
         {{#if controller.authPerson}}
         {{#unless this.isComplete}}
         {{#if isCurrent}}
-          <button {{action endRound this}} class="endround button grey">End Game {{index}}</button>
-          {{#if isFirst}}{{else}}<button {{action cancelRound this}} class="button black">Cancel Game {{index}}</button>{{/if}}
+          <button {{action endRound this}} class="endround button grey">End Game {{hIndex}}</button>
+          {{#if isFirst}}{{else}}<button {{action cancelRound this}} class="button black">Cancel Game {{hIndex}}</button>{{/if}}
         {{else}}
         {{/if}}
         {{/unless}}
