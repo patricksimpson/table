@@ -32,10 +32,12 @@
     <h4 class="profile--content--header">Stats</h4>
     <div class="person--stats">
       <p>
-        <span class="person--stat">Wins:</span><span class="stat-wins">{{wins}}</span>
+        <span class="person--stat-wrap"><span class="person--stat">Wins:</span><span class="stat">{{wins}}</span></span>
+        <span class="person--stat-wrap"><span class="person--stat">Losses:</span><span class="stat">{{losses}}</span></span>
       </p>
       <p>
-        <span class="person--stat">Losses:</span><span class="person--stat stat-losses">{{losses}}</span>
+        <span class="person--stat-wrap"><span class="person--stat">Weight:</span><span class="stat">{{percentage}}</span></span>
+        <span class="person--stat-wrap"><span class="person--stat" title="Wins To Losses (wins / losses)">WTL:</span><span class="stat">{{winstoloss}}</span></span>
       </p>
     </div>
   </div>

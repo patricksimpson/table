@@ -57,9 +57,21 @@
 .person--stats{
   font-size: 1.25rem;  
 }
+.person--stat-wrap{
+  display: block;
+  @include sb-media(27em){
+    display: inline-block;
+  }
+}
 .person--stat {
   width: 5em;
   display:inline-block;
+}
+.stat{
+  font-weight: bold;
+  display: inline-block;
+  width: 3em;
+  margin-right: 1em;
 }
 .you {
   font-size: .8rem;
