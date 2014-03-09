@@ -1,5 +1,6 @@
 App.ChallengeController = Ember.ArrayController.extend
-  needs: ['game']
+  needs: ['game', 'auth']
+  authPerson: Ember.computed.alias('controllers.auth.person')
   game: Ember.computed.alias('controllers.game')
   declineChallenge: (challenge) ->
     
@@ -16,13 +17,27 @@ App.ChallengeController = Ember.ArrayController.extend
     homePerson.get('responses').addObject challenge
     homePerson.save()
   removeResponse: (challenge) ->
-    homePerson = challenge.get('home')
-    homePerson.get('responses').removeObject challenge
-    homePerson.save()
-    challenge.delete()
+    if challenge?
+      homePerson = challenge.get('home')
+      if homePerson == null
+       if @get('authPerson') != null
+         homePerson = @get('authPerson')
+       else
+        console.log "Failed Object Host"
+        return
+      homePerson.get('responses').removeObject challenge
+      homePerson.save()
+      challenge.delete()
+    else
+      console.log challenge
   removeChallenge: (challenge) ->
-    
     awayPerson = challenge.get('away')
+    if awayPerson == null
+      if @get('authPerson') != null
+        awayPerson = @get('authPerson')
+      else
+        console.log "Failed Object Host"
+        return
     awayPerson.get('challenges').removeObject challenge
     awayPerson.save()
 
