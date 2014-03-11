@@ -40,7 +40,7 @@
       <div class="actions actions--home">
         <span class="score">
           {{#if isCurrent}}
-            {{input type="number" value=homeScore class="score--input" focus-out="homeScoreChanges" min="0" max="99"}}
+            {{input type="number" value=homeScore class="score--input score--home" focus-in="clearTempHome" focus-out="homeScoreChanges" min="0" max="99"}}
           {{else}}
             <span class="score--text">{{homeScore}}</span>
           {{/if}}
@@ -62,7 +62,7 @@
           <div class="actions actions--away">
             <span class="score">
             {{#if isCurrent}}
-              {{input type="number" value=awayScore class="score--input" focus-out="awayScoreChanges" min="0" max="99"}}
+              {{input type="number" value=awayScore class="score--input score--away" focus-in="clearTempAway" focus-out="awayScoreChanges" min="0" max="99"}}
             {{else}}
               <span class="score--text">{{awayScore}}</span>
             {{/if}}

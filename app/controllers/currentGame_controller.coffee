@@ -205,6 +205,9 @@ App.CurrentGameController = Ember.ObjectController.extend
       game.set('rounds', rounds.toArray())
       game.save()
     homeScoreChanges: (score) ->
+      if score == ""
+        $('.score--home').val(@get('tempHomeScore'))
+        score = @get('tempHomeScore')
       if score < 0
         return
       if score > 99
@@ -225,6 +228,10 @@ App.CurrentGameController = Ember.ObjectController.extend
       game.set('rounds', rounds.toArray())
       game.save()
     awayScoreChanges: (score) ->
+      console.log score
+      if score == ""
+        $('.score--away').val(@get('tempAwayScore'))
+        score = @get('tempAwayScore')
       if score < 0
         return
       if score > 99
@@ -362,3 +369,11 @@ App.CurrentGameController = Ember.ObjectController.extend
       @openRound(oldRound)
     openRoundAction: (round)->
       @openRound(round)
+    clearTempHome: (val) ->
+      $('.score--home').val("")
+      @set('tempHomeScore', val)
+    clearTempAway: (val) ->
+      $('.score--away').val("")
+      @set('tempAwayScore', val)
+
+      

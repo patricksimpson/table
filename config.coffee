@@ -31,7 +31,6 @@ exports.config =
           "vendor/scripts/firebase-simple-login.js"
           "vendor/scripts/emberfire.js"
           "vendor/scripts/ember-fastclick.js"
-          # "bower_components/fastclick/lib/fastclick.js"
         ]
 
     stylesheets:
