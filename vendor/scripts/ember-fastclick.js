@@ -118,18 +118,15 @@
       rootElement.delegate('[data-ember-action]', event + '.ember', function(evt) {
         var actionId = Ember.$(evt.currentTarget).attr('data-ember-action'),
           action   = Ember.Handlebars.ActionHelper.registeredActions[actionId],
-          handler;          
-          
-          //handler  = action.handler;
+          handler  = action.handler;
 
-        if (action && action.eventName === eventName) {
-          handler = action.handler;
+        if (action.eventName === eventName) {
           if (touch.enabled)
             disableTouch();
           else
             return false;
           
-          return action.handler(evt);            
+          return handler(evt);            
         }
       });
     }
