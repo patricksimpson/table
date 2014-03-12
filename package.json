@@ -26,7 +26,6 @@
     "coffee-script-brunch": "~1.7.3",
     "css-brunch": "~1.7.0",
     "stylus-brunch": "~1.7.0",
-    "uglify-js-brunch": "~1.7.6",
     "clean-css-brunch": "~1.7.1",
     "auto-reload-brunch": "~1.7.1",
     "ember-handlebars-brunch": "~1.2.0",
