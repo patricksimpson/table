@@ -5,6 +5,7 @@ App.CurrentGameController = Ember.ObjectController.extend
   confirmEndMatch: false
   message: ""
   gameOverFlag: false
+  gameStartedFlag: false
   confirmOpenRound: false
   cancelGameConfirm: false
   isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
@@ -12,6 +13,7 @@ App.CurrentGameController = Ember.ObjectController.extend
     rounds = @get('rounds')
     authPerson = @get('authPerson')
     game = @get('model')
+    @set('gameStartedFlag', true)
     @recountMatchScores()
     homePerson = game.get('home')
     awayPerson = game.get('away')
@@ -70,8 +72,10 @@ App.CurrentGameController = Ember.ObjectController.extend
   recountMatchScores: ->
     if @get('gameOverFlag')
       return
+    if !@get('gameStartedFlag')
+      return
     game = @get('model')
-     
+
     rounds = game.get('rounds')
     if rounds? or rounds == null
       return
@@ -382,6 +386,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       @set('cancelGameConfirm', false)
       game = @get('model')
       game.delete()
+      @set('gameOverFlag', true)
       @transitionTo("/games")
     cancelGameConfirm: ->
       @set('cancelGameConfirm', true)
