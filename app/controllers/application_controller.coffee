@@ -29,8 +29,10 @@ App.ApplicationController = Ember.Controller.extend
           wait.set 'isMe', true
       else
         wait.set 'isMe', false
+      date = wait.get('createdAt')
+      wait.set('time', moment(date).fromNow())
       wait
-  ).property('waits.content.@each', 'controllers.person.content', 'controllers.auth.person')
+  ).property('waits.content.@each', 'controllers.person.content', 'controllers.auth.person', 'clock.minute')
   pendingChallenges: (->
     cd = @get('challengeData')
     c = @get('challengeData').map((challenge) =>
@@ -45,7 +47,7 @@ App.ApplicationController = Ember.Controller.extend
       challenge
     )
     return c
-  ).property('challengeData.content.@each', 'controllers.auth.person')
+  ).property('challengeData.content.@each', 'controllers.auth.person', 'clock.minute')
   myChallenges: (->
     mc = @get('controllers.auth.person.challenges')
     if mc?
@@ -62,10 +64,12 @@ App.ApplicationController = Ember.Controller.extend
       auth_id = @get('controllers.auth.person.id')
       if auth_id?
         game.set('isMe', (auth_id == homePerson.get('id')) or (auth_id == awayPerson.get('id')))
+      date = game.get('createdAt')
+      game.set('time', moment(date).fromNow())
       game
     )
     return games
-  ).property('currentGames', 'pendingGameData.content.@each', 'controllers.auth.person')
+  ).property('currentGames', 'pendingGameData.content.@each', 'controllers.auth.person', 'clock.minute')
   actions:
     login: ->
       @get('controllers.auth').login()

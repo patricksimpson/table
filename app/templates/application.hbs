@@ -45,19 +45,21 @@
     <div class="pendinggames">
       <h4>pending games ({{pendingGames.length}})</h4>
       {{#each game in pendingGames}}
-      <div class="game">
-        <span class="player home">{{game.home.name}}</span>
+      <div class="game action--container">
+      
+        <span class="player home"><img {{bind-attr src=game.home.avatar alt=game.home.name title=game.home.name }} class="game--person--avatar"></span>
         <span class="vs">vs</span>
-        <span class="player away">{{game.away.name}}</span>
-      </div>
+        <span class="player away"><img {{bind-attr src=game.away.avatar alt=game.away.name title=game.away.name }} class="game--person--avatar"></span>
+        <span class="pending--time time">{{game.time}}</span>
       {{#if game.isMe}}
-      <div class="action--button--container">
+        <div class="action--button--container">
         {{#if game.isEmpty}}
         <button class="button blue" {{action startPendingGame game}}>Start</button>
         {{/if}}
         <button class="button black" {{action cancelPendingGame game}}>Cancel</button>
-      </div>
+        </div>
       {{/if}}
+        </div>
         {{/each}}
       </div>
     {{/if}}
@@ -107,16 +109,18 @@
     <h4 class="action--header">Waiting List ({{waitingList.length}})</h4>
     {{#each wait in waitingList}}
     {{#if wait.person.isWaiting}}
-      <p class="action--container action--container--ping">
+      <div class="action--container action--container--ping">
       {{#unless wait.isMe}}
         <img {{bind-attr src=wait.person.avatar alt=wait.person.name title=wait.person.name }} class="game--person--avatar"> Ping?
+        <span class="ping--time time">{{wait.time}}</span>
         {{#if auth.person.name}} 
           <button {{action 'acceptGame' wait.person auth.person}} class="button blue">Pong!</button>
         {{/if}}
       {{else}}
         <img {{bind-attr src=auth.person.avatar alt=auth.person.name title=auth.person.name }} class="game--person--avatar"> Ping?
+        <span class="ping--time time">{{wait.time}}</span>
       {{/unless}}
-      </p>
+      </div>
     {{/if}}
     {{/each}}
   {{/if}}
