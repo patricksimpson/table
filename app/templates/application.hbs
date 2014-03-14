@@ -107,14 +107,14 @@
     <h4 class="action--header">Waiting List ({{waitingList.length}})</h4>
     {{#each wait in waitingList}}
     {{#if wait.person.isWaiting}}
-      <p>
+      <p class="action--container">
       {{#unless wait.isMe}}
-        {{wait.person.name}}: Ping?
+        <img {{bind-attr src=wait.person.avatar alt=wait.person.name title=wait.person.name }} class="game--person--avatar"> Ping?
         {{#if auth.person.name}} 
           <button {{action 'acceptGame' wait.person auth.person}} class="button blue">Pong!</button>
         {{/if}}
       {{else}}
-        {{auth.person.name}}: Ping?
+        <img {{bind-attr src=auth.person.avatar alt=auth.person.name title=auth.person.name }} class="game--person--avatar"> Ping?
       {{/unless}}
       </p>
     {{/if}}
