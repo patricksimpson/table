@@ -13,6 +13,8 @@ App.PersonController = Ember.ObjectController.extend
   completedGames: ( ->
     @set('games', [])
     person = @get('model')
+    recountWins = 0
+    recountLosses = 0
     @get('store').fetch('completedGame').then ((games) =>
       person = @get('model')
       gameHistory = games.filter (game) =>
@@ -38,6 +40,11 @@ App.PersonController = Ember.ObjectController.extend
           status = "Won"
           won = true
         game.won = won
+        if game.won
+          recountWins++
+        else
+         recountLosses++
+
         game.isHome = isHome
         game.isAway = isAway
         completed = game.get('completedAt')
@@ -54,6 +61,16 @@ App.PersonController = Ember.ObjectController.extend
       @set('lastStatus', status)
       @set('lastPlayed', last)
       @set('games', totalGames)
+
+      console.log recountWins
+      console.log recountLosses
+      wins = @get('wins')
+      losses = @get('losses')
+      if recountWins != wins or recountLosses != losses
+        person = @get('model')
+        person.set('wins', recountWins)
+        person.set('losses', recountLosses)
+        person.save()
     )
     ""
   ).property('content', 'controllers.completedGames.games.@each')
