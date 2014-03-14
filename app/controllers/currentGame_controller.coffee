@@ -12,6 +12,7 @@ App.CurrentGameController = Ember.ObjectController.extend
     rounds = @get('rounds')
     authPerson = @get('authPerson')
     game = @get('model')
+    @recountMatchScores()
     homePerson = game.get('home')
     awayPerson = game.get('away')
     @set('isMe', false)
@@ -65,6 +66,27 @@ App.CurrentGameController = Ember.ObjectController.extend
 
     game.delete()
     @transitionTo('/games')
+  recountMatchScores: ->
+    game = @get('model')
+    rounds = game.get('rounds').toArray()
+    #recalc score...
+    recountAwayScore = 0
+    recountHomeScore = 0
+    for round in rounds
+      if not round.isCurrent
+        if round.awayScore > round.homeScore
+          recountAwayScore++
+        else
+          if round.homeScore > round.awayScore
+            recountHomeScore++
+          else
+            console.log "Scoring error, scores equal or not valid."
+
+    game.set('awayScore', recountAwayScore)
+    game.set('homeScore', recountHomeScore)
+    game.save()
+    @set('awayScore', recountAwayScore)
+    @set('homeScore', recountHomeScore)
   openRound: (round) ->
     @set('confirmOpenRound', false)
     game = @get('model')
@@ -293,9 +315,13 @@ App.CurrentGameController = Ember.ObjectController.extend
         return
       console.log "Must win by 2, cannot be a tie/draw"
       return false
+
     newRound: ->
       game = @get('model')
       rounds = game.get('rounds').toArray()
+
+      @recountMatchScores()
+
       new_round =
         homeScore: 0
         awayScore: 0
@@ -369,6 +395,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         currentRoundIndex = currentRoundIndex - 2
       oldRound = rounds[currentRoundIndex]
       @openRound(oldRound)
+      @recountMatchScores()
     openRoundAction: (round)->
       @openRound(round)
     clearTempHome: (val) ->

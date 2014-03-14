@@ -22,8 +22,12 @@
         <div class="match--action">
           {{#if controller.authPerson}}
           {{#unless controller.confirmEndMatch}}
-            <button {{action newRound}} class="button blue">New Game</button>
+            <p>
             <button {{action confirmEndGame}} class="button grey">End Match</button>
+            </p>
+            <p>
+            <button {{action newRound}} class="button blue">New Game</button>
+            </p>
           {{else}}
             <p>Please check game scores and press ok to confirm:</p>
             {{#if gameOverFlag}}
