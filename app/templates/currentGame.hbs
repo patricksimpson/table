@@ -29,6 +29,7 @@
             <button {{action newRound}} class="button grey">New Game</button>
             </p>
           {{else}}
+            <p>Are you sure you want to end the match?</p>
             <p>Please check game scores and press ok to confirm:</p>
             {{#if gameOverFlag}}
               Game over...
@@ -95,16 +96,22 @@
           {{#if controller.authPerson}}
             {{#unless this.isComplete}}
               {{#if isCurrent}}
+                <p>
                 <button {{action endRound this}} class="endround button blue">End Game {{hIndex}}</button>
+                </p>
                 {{#if isFirst}}
                 {{else}}
+                  <p>
                   <button {{action cancelRound this}} class="button red">Cancel Game {{hIndex}}</button>
+                  </p>
                 {{/if}}
               {{else}}
               {{/if}}
             {{else}}
               {{#if isCurrent}}
+                <p>
                 <button {{action cancelRound this}} class="button red">Cancel Game {{hIndex}}</button>
+                </p>
               {{/if}}
             {{/unless}}
           {{/if}}

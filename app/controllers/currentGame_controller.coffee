@@ -40,6 +40,7 @@ App.CurrentGameController = Ember.ObjectController.extend
     ).reverse()
   ).property('rounds', 'content', 'authPerson')
   gameOver: ->
+    @set('gameOverFlag', true)
     game = @get('model')
     completedGame = @get('store').createRecord("completedGame",
       home: game.get('home')
@@ -63,10 +64,12 @@ App.CurrentGameController = Ember.ObjectController.extend
       awayScore: game.get('awayScore')
     )
     tweetCompleted.save()
-
+    
     game.delete()
     @transitionTo('/games')
   recountMatchScores: ->
+    if @get('gameOverFlag')
+      return
     game = @get('model')
      
     rounds = game.get('rounds')
@@ -256,7 +259,6 @@ App.CurrentGameController = Ember.ObjectController.extend
       game.set('rounds', rounds.toArray())
       game.save()
     awayScoreChanges: (score) ->
-      console.log score
       if score == ""
         $('.score--away').val(@get('tempAwayScore'))
         score = @get('tempAwayScore')

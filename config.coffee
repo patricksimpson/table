@@ -30,6 +30,7 @@ exports.config =
           "vendor/scripts/fireplace.min.js"
           "vendor/scripts/firebase-simple-login.js"
           "vendor/scripts/emberfire.js"
+          "vendor/scripts/fastclick.js"
         ]
 
     stylesheets:
