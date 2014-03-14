@@ -114,4 +114,7 @@
 </div>
 {{else}}
   <div class="content--container"><p>No active games</p></div>
+{{#if auth.person.is_admin}}
+  Your admin
+{{/if}}
 {{/if}}
