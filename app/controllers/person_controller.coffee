@@ -62,8 +62,6 @@ App.PersonController = Ember.ObjectController.extend
       @set('lastPlayed', last)
       @set('games', totalGames)
 
-      console.log recountWins
-      console.log recountLosses
       wins = @get('wins')
       losses = @get('losses')
       if recountWins != wins or recountLosses != losses
