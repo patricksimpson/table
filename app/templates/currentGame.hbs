@@ -23,10 +23,10 @@
           {{#if controller.authPerson}}
           {{#unless controller.confirmEndMatch}}
             <p>
-            <button {{action confirmEndGame}} class="button grey">End Match</button>
+            <button {{action confirmEndGame}} class="button blue">End Match</button>
             </p>
             <p>
-            <button {{action newRound}} class="button blue">New Game</button>
+            <button {{action newRound}} class="button grey">New Game</button>
             </p>
           {{else}}
             <p>Please check game scores and press ok to confirm:</p>
@@ -56,7 +56,7 @@
         {{#if controller.authPerson}}
           {{#unless this.isComplete}}
             {{#if this.isCurrent}}
-              <button {{action addPointHome}} class="button green button-add">+</button>
+              <button {{action addPointHome}} class="button grey button-add">+</button>
             {{/if}}
           {{/unless}}
           {{#if isComplete}}{{#if homeWon}}W{{/if}}{{/if}}
@@ -81,7 +81,7 @@
             {{#if controller.authPerson}}
               {{#unless this.isComplete}}
                 {{#if isCurrent}}
-                  <button {{action addPointAway}} class="button green button-add">+</button>
+                  <button {{action addPointAway}} class="button grey button-add">+</button>
                 {{/if}}
               {{/unless}}
               {{#unless this.isComplete}}
@@ -95,12 +95,16 @@
           {{#if controller.authPerson}}
             {{#unless this.isComplete}}
               {{#if isCurrent}}
-                <button {{action endRound this}} class="endround button grey">End Game {{hIndex}}</button>
+                <button {{action endRound this}} class="endround button blue">End Game {{hIndex}}</button>
                 {{#if isFirst}}
                 {{else}}
-                  <button {{action cancelRound this}} class="button black">Cancel Game {{hIndex}}</button>
+                  <button {{action cancelRound this}} class="button red">Cancel Game {{hIndex}}</button>
                 {{/if}}
               {{else}}
+              {{/if}}
+            {{else}}
+              {{#if isCurrent}}
+                <button {{action cancelRound this}} class="button red">Cancel Game {{hIndex}}</button>
               {{/if}}
             {{/unless}}
           {{/if}}
@@ -115,7 +119,7 @@
       <button {{action cancelGame}} class="endround button grey">Ok</button>
       <button {{action undoCancelGameConfirm}} class="button black">Nevermind</button>
     {{else}}
-      <button {{action cancelGameConfirm}} class="button black endround">Cancel Match</button>
+      <button {{action cancelGameConfirm}} class="button red endround">Cancel Match</button>
     {{/if}}
     </div>
   </div>

@@ -68,7 +68,12 @@ App.CurrentGameController = Ember.ObjectController.extend
     @transitionTo('/games')
   recountMatchScores: ->
     game = @get('model')
-    rounds = game.get('rounds').toArray()
+     
+    rounds = game.get('rounds')
+    if rounds? or rounds == null
+      return
+
+    rounds = rounds.toArray()
     #recalc score...
     recountAwayScore = 0
     recountHomeScore = 0
@@ -386,13 +391,16 @@ App.CurrentGameController = Ember.ObjectController.extend
       @set('confirmOpenRound', false)
     cancelRound: (round) ->
       game = @get('model')
-      if round.index < 1
+      if round.index < 0
+        console.log "round index is less than 0?"
         return
       currentRoundIndex = game.get('currentRound')
       rounds = game.get('rounds')
       rounds = rounds.toArray()
       if currentRoundIndex > 1
         currentRoundIndex = currentRoundIndex - 2
+      else
+        currentRoundIndex = 0
       oldRound = rounds[currentRoundIndex]
       @openRound(oldRound)
       @recountMatchScores()
