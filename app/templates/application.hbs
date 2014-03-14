@@ -107,7 +107,7 @@
     <h4 class="action--header">Waiting List ({{waitingList.length}})</h4>
     {{#each wait in waitingList}}
     {{#if wait.person.isWaiting}}
-      <p class="action--container">
+      <p class="action--container action--container--ping">
       {{#unless wait.isMe}}
         <img {{bind-attr src=wait.person.avatar alt=wait.person.name title=wait.person.name }} class="game--person--avatar"> Ping?
         {{#if auth.person.name}} 
