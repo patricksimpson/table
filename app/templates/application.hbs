@@ -64,12 +64,13 @@
   {{#if pendingChallenges.length}}
   <h4>Challenges</h4>
   {{#each pendingChallenges}}
-    <p>{{#if isMe}}You {{else}}{{home.name}}{{/if}} challenged {{away.name}}!</p>
+    <div class="action--container">{{#if isMe}}You {{else}}<img {{bind-attr src=home.avatar alt=home.name title=home.name }} class="game--person--avatar"> {{/if}} challenged <img {{bind-attr src=away.avatar alt=away.name title=away.name }} class="game--person--avatar"><br><span class="time challenge--time">{{time}}</span>
     {{#if isMe}}
     <div class="action--button--container">
       <button class="button black" {{action cancelChallenge this}}>Cancel</button>
     </div>
     {{/if}}
+    </div>
   {{/each}}
   {{/if}}
   {{#if myChallenges.length}}

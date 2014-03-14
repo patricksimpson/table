@@ -36,6 +36,9 @@ App.ApplicationController = Ember.Controller.extend
     c = @get('challengeData').map((challenge) =>
       homePerson = challenge.get('home')
       awayPerson = challenge.get('away')
+      date = challenge.get('createdAt')
+      console.log date
+      challenge.set('time', moment(date).fromNow())
       auth_id = @get('controllers.auth.person.id')
       if auth_id?
         challenge.set('isMe', auth_id == homePerson.get('id'))

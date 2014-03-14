@@ -153,6 +153,18 @@
 .game--person-name{
  display: inline-block;
 }
+.time {
+  color: #666;
+  font-style: italic;
+  position: relative;
+  bottom: 1em;
+  font-size: .75rem;
+}
+.challenge--time {
+  padding: 1.25em 1em;
+  padding-bottom: 0;
+  display: inline-block;
+}
 .game--date {
   float: right;
   color: #666;
