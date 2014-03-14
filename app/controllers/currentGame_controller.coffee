@@ -76,7 +76,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       return
     game = @get('model')
     rounds = game.get('rounds')
-    if rounds == undefined or rounds == null
+    if rounds == undefined or rounds == null or !rounds
       return
 
     rounds = rounds.toArray()
