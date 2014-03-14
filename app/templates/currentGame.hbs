@@ -2,7 +2,7 @@
 <div class="content--container--game gameview">
   <h2 class="gameview--main">Current Match</h2>
   <div class="gameview--current">
-  <div class="player--content player--home">
+ <div class="player--content player--home">
     <span class="overall--score">{{homeScore}}</span>
     <img {{bind-attr src=home.avatar alt=home.name title=home.name}} class="gameview--person--avatar"> 
     <span class="player--name">{{home.name}}</span>
@@ -26,8 +26,12 @@
             <button {{action confirmEndGame}} class="button grey">End Match</button>
           {{else}}
             <p>Please check game scores and press ok to confirm:</p>
+            {{#if gameOverFlag}}
+              Game over...
+            {{else}}
             <button {{action endGame}} class="button grey">Ok</button>
             <button {{action undoEndGame}} class="button black">Cancel</button>
+            {{/if}}
           {{/unless}}          
           {{/if}}
         </div>

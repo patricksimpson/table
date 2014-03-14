@@ -4,6 +4,7 @@ App.CurrentGameController = Ember.ObjectController.extend
   authPerson: Ember.computed.alias('controllers.auth.person')
   confirmEndMatch: false
   message: ""
+  gameOverFlag: false
   confirmOpenRound: false
   cancelGameConfirm: false
   isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
@@ -310,6 +311,7 @@ App.CurrentGameController = Ember.ObjectController.extend
     undoEndGame: ->
       @set('confirmEndMatch', false)
     endGame: ->
+      @set('gameOverFlag', true)
       game = @get('model')
       homePerson = game.get('home')
       awayPerson = game.get('away')
