@@ -41,6 +41,7 @@ App.AuthController = Ember.Controller.extend
         twitter: user.username
         email: ''
         isWaiting: false
+        isModerator: false
         isAdmin: false
         createdAt: new Date()
         wins: 0

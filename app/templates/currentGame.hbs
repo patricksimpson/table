@@ -132,8 +132,9 @@
   </div>
 </div>
 {{else}}
-  <div class="content--container"><p>No active games</p></div>
-  {{#if auth.person.isModerator}}
+  <div class="content--container"><p>No active games</p>
+  {{#if controller.authPerson.isModerator}}
     Your a moderator
   {{/if}}
+  </div>
 {{/if}}
