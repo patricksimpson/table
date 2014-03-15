@@ -134,7 +134,17 @@
 {{else}}
   <div class="content--container"><p>No active games</p>
   {{#if controller.authPerson.isModerator}}
-    Your a moderator
+    <h2>Moderator Options</h2>
+    <h3>Start a game</h3>
+    {{getPeople}}
+    <p>
+    {{view Ember.Select content=people optionValuePath="content.id" optionLabelPath="content.name"}}
+     vs 
+    {{view Ember.Select content=people optionValuePath="content.id" optionLabelPath="content.name"}}
+    </p>
+    <p>
+    <button {{action createAGame}} class="button blue">Start</button>
+    </p>
   {{/if}}
   </div>
 {{/if}}

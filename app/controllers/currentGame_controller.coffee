@@ -6,7 +6,19 @@ App.CurrentGameController = Ember.ObjectController.extend
   message: ""
   gameOverFlag: false
   gameStartedFlag: false
+  people: []
   confirmOpenRound: false
+  getPeople: (->
+    people = []
+    @set('people', people)
+    @get('store').fetch('person').then (peopleList) =>
+      people = peopleList.map (person) =>
+        name: person.get('name')
+        id: person.get('id')
+      console.log people
+      @set('people', people)
+    return ""
+  ).property('getPeople')
   cancelGameConfirm: false
   isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
   roundsWithIndex: ( ->
