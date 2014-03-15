@@ -3,6 +3,7 @@ App.Person = FP.Model.extend
   twitter: FP.attr 'string'
   email: FP.attr 'string'
   createdAt: FP.attr 'date'
+  isModerator: FP.attr 'boolean'
   isAdmin: FP.attr 'boolean'
   isWaiting: FP.attr 'boolean'
   waiting_time: FP.attr 'date'
