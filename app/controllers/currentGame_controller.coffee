@@ -15,7 +15,6 @@ App.CurrentGameController = Ember.ObjectController.extend
       people = peopleList.map (person) =>
         name: person.get('name')
         id: person.get('id')
-      console.log people
       @set('people', people)
     return ""
   ).property('getPeople')
@@ -430,5 +429,6 @@ App.CurrentGameController = Ember.ObjectController.extend
     clearTempAway: (val) ->
       $('.score--away').val("")
       @set('tempAwayScore', val)
-
+    createNewGame: ->
+      console.log "ok"
       
