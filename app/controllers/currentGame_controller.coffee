@@ -1,7 +1,8 @@
 App.CurrentGameController = Ember.ObjectController.extend
-  needs: ['person', 'people', 'auth', 'challenge', 'application']
+  needs: ['person', 'people', 'auth', 'challenge', 'application', 'game']
   currentRound: 1
   authPerson: Ember.computed.alias('controllers.auth.person')
+  game: Ember.computed.alias('controllers.game')
   confirmEndMatch: false
   message: ""
   gameOverFlag: false
@@ -434,5 +435,7 @@ App.CurrentGameController = Ember.ObjectController.extend
     createNewGame: ->
       homePerson = @get('homePersonSelect')
       awayPerson = @get('awayPersonSelect')
-      console.log homePerson.name
-      console.log awayPerson.name
+      if homePerson != awayPerson
+        @get('game').addGame(homePerson, awayPerson)
+      else
+        console.log "Cannot be the same person"

@@ -69,7 +69,7 @@ App.ApplicationController = Ember.Controller.extend
       game
     )
     return games
-  ).property('currentGames', 'pendingGameData.content.@each', 'controllers.auth.person', 'clock.minute')
+  ).property('currentGames', 'pendingGameData.content.@each', 'controllers.auth.person')
   actions:
     login: ->
       @get('controllers.auth').login()
