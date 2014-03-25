@@ -28,7 +28,7 @@ App.AuthController = Ember.Controller.extend
       person.setProperties(
         name: user.name
         twitter: user.username
-        avatar: photo 
+        avatar: photo
       )
       person.save()
       @set('isAdmin', person.get('isAdmin'))

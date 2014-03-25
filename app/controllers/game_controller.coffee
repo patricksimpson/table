@@ -14,6 +14,7 @@ App.GameController = Ember.ObjectController.extend
 
   newGame: (game) ->
     # Check for a current game
+    debugger
     @get('store').fetch('currentGame').then ((currentGame) =>
       if currentGame.content.length < 1
         @setCurrentGame(game)

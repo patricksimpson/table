@@ -37,7 +37,7 @@ App.CurrentGameController = Ember.ObjectController.extend
         @set('isMe', true)
     if !rounds?
       if(!@get('authPerson').get('id') == "1410921259")
-        @transitionTo("/games")
+        @transitionToRoute("/games")
       return
     currentRound = game.get('currentRound')
     @get('rounds').map((round, index) =>
@@ -82,7 +82,7 @@ App.CurrentGameController = Ember.ObjectController.extend
     tweetCompleted.save()
     
     game.delete()
-    @transitionTo('/games')
+    @transitionToRoute('/games')
   recountMatchScores: ->
     if @get('gameOverFlag')
       return
@@ -400,7 +400,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       game = @get('model')
       game.delete()
       @set('gameOverFlag', true)
-      @transitionTo("/games")
+      @transitionToRoute("/games")
     cancelGameConfirm: ->
       @set('cancelGameConfirm', true)
     undoCancelGameConfirm: ->
@@ -437,5 +437,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       awayPerson = @get('awayPersonSelect')
       if homePerson != awayPerson
         @get('game').addGame(homePerson, awayPerson)
+        @transitionToRoute("/current")
       else
         console.log "Cannot be the same person"
+      return
