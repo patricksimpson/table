@@ -1,23 +1,27 @@
 App.GameController = Ember.ObjectController.extend
   needs: ['person']
   addGame: (home, away) ->
+    newGame = @addNewGame(home, away)
+    @newGame(newGame)
+  removeGame: (game) ->
+    game.delete()
+  addNewGame: (home, away) ->
     newGame = @get('store').createRecord("pendingGame",
       home: home
       away: away
       createdAt: new Date()
     )
     newGame.save()
-    @newGame(newGame)
-
-  removeGame: (game) ->
-    game.delete()
+    newGame
+  createGame: (home, away) ->
+    newGame = @addGame(home, away)
 
   newGame: (game) ->
     # Check for a current game
-    debugger
     @get('store').fetch('currentGame').then ((currentGame) =>
       if currentGame.content.length < 1
-        @setCurrentGame(game)
+        #create a lock here, and hold for the next game in queue.
+        theGame = @setCurrentGame(game)
     ), (error) =>
       console.log error
   setCurrentGame: (pendingGame) ->
@@ -46,6 +50,7 @@ App.GameController = Ember.ObjectController.extend
     currentGame.save()
     @startGame(currentGame)
     @removePending(pendingGame)
+    currentGame
 
   removePending: (pendingGame) ->
     # this fixes a bizare firebase bug. 

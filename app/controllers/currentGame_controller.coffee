@@ -16,8 +16,7 @@ App.CurrentGameController = Ember.ObjectController.extend
     @set('people', people)
     @get('store').fetch('person').then (peopleList) =>
       people = peopleList.map (person) =>
-        name: person.get('name')
-        id: person.get('id')
+       person
       @set('people', people)
     return ""
   ).property('getPeople')
@@ -436,8 +435,8 @@ App.CurrentGameController = Ember.ObjectController.extend
       homePerson = @get('homePersonSelect')
       awayPerson = @get('awayPersonSelect')
       if homePerson != awayPerson
-        @get('game').addGame(homePerson, awayPerson)
-        @transitionToRoute("/current")
+        @get('game').createGame(homePerson, awayPerson)
       else
         console.log "Cannot be the same person"
+      @transitionToRoute("/current")
       return
