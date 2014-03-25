@@ -23,12 +23,12 @@ App.AuthController = Ember.Controller.extend
   pickUser: (user) ->
     @get('store').fetch('person', user.id).then ((person) =>
       photo = "http://thetable.io/img/def.jpg"
-      if user.photos
-        photo = user.photos[0].value.replace("_normal","")
+      if user.profile_image_url
+        photo = user.profile_image_url
       person.setProperties(
         name: user.name
         twitter: user.username
-        avatar: user.photos[0].value.replace("_normal", "")
+        avatar: photo 
       )
       person.save()
       @set('isAdmin', person.get('isAdmin'))
