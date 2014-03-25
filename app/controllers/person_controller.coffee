@@ -139,4 +139,3 @@ App.PersonController = Ember.ObjectController.extend
       @get('wait').removePerson(person)
     challengeRequest: ->
       @get('controllers.challenge').createChallenge(@get('authedPerson'), @get('model'))
-

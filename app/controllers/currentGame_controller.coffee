@@ -8,6 +8,8 @@ App.CurrentGameController = Ember.ObjectController.extend
   gameStartedFlag: false
   people: []
   confirmOpenRound: false
+  homePersonSelect: null
+  awayPersonSelect: null
   getPeople: (->
     people = []
     @set('people', people)
@@ -430,5 +432,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       $('.score--away').val("")
       @set('tempAwayScore', val)
     createNewGame: ->
-      console.log "ok"
-      
+      homePerson = @get('homePersonSelect')
+      awayPerson = @get('awayPersonSelect')
+      console.log homePerson.name
+      console.log awayPerson.name
