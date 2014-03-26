@@ -22,7 +22,6 @@ App.GameController = Ember.ObjectController.extend
     @get('store').fetch('currentGame').then ((currentGame) =>
         console.log "Check for multiple current games"
         console.log currentGame
-        @transitionToRoute('/current')
     ), (error) =>
       console.log error
     theGame

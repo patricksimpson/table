@@ -24,6 +24,9 @@
       </ul>
     </nav>
   </header>
+  {{#if auth.person.isModerator}}
+    {{#link-to 'moderator'}}Schedule Game{{/link-to}}
+  {{/if}}
   {{#if currentGames.length}}
   <div class="currentGame">
   {{#each game in currentGames }}

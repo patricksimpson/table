@@ -1,0 +1,15 @@
+Hello Moderator
+  {{#if authPerson.isModerator}}
+    <h2>Moderator Options</h2>
+    <h3>Start a game</h3>
+    {{getPeople}}
+    <p>
+    {{view Ember.Select content=people optionValuePath="content.id" optionLabelPath="content.name" selectionBinding=homePersonSelect}}
+     vs 
+    {{view Ember.Select content=people optionValuePath="content.id" optionLabelPath="content.name" selectionBinding=awayPersonSelect}}
+    </p>
+    <p>
+    <button {{action createNewGame}} class="button blue">Start</button>
+    </p>
+  {{/if}}
+{{authPerson.name}}

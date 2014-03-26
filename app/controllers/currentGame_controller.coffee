@@ -7,10 +7,8 @@ App.CurrentGameController = Ember.ObjectController.extend
   message: ""
   gameOverFlag: false
   gameStartedFlag: false
-  people: []
   confirmOpenRound: false
-  homePersonSelect: null
-  awayPersonSelect: null
+  people: []
   getPeople: (->
     people = []
     @set('people', people)
@@ -431,11 +429,3 @@ App.CurrentGameController = Ember.ObjectController.extend
     clearTempAway: (val) ->
       $('.score--away').val("")
       @set('tempAwayScore', val)
-    createNewGame: ->
-      homePerson = @get('homePersonSelect')
-      awayPerson = @get('awayPersonSelect')
-      if homePerson != awayPerson
-        game = @get('game').createGame(homePerson, awayPerson)
-      else
-        console.log "Cannot be the same person"
-      return
