@@ -435,8 +435,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       homePerson = @get('homePersonSelect')
       awayPerson = @get('awayPersonSelect')
       if homePerson != awayPerson
-        @get('game').createGame(homePerson, awayPerson)
+        game = @get('game').createGame(homePerson, awayPerson)
       else
         console.log "Cannot be the same person"
-      @transitionToRoute("/current")
       return

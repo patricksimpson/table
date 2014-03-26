@@ -18,12 +18,14 @@ App.GameController = Ember.ObjectController.extend
 
   newGame: (game) ->
     # Check for a current game
+    theGame = @setCurrentGame(game)
     @get('store').fetch('currentGame').then ((currentGame) =>
-      if currentGame.content.length < 1
-        #create a lock here, and hold for the next game in queue.
-        theGame = @setCurrentGame(game)
+        console.log "Check for multiple current games"
+        console.log currentGame
+        @transitionToRoute('/current')
     ), (error) =>
       console.log error
+    theGame
   setCurrentGame: (pendingGame) ->
     newRounds = [
       {
@@ -64,7 +66,6 @@ App.GameController = Ember.ObjectController.extend
     #Notify players.
     home = currentGame.get('home')
     away = currentGame.get('away')
-    #Tweet
 
   gameOver: (game) ->
     # Move game to game completed.
