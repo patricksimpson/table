@@ -22,7 +22,7 @@ App.CurrentGameController = Ember.ObjectController.extend
   isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
   roundsWithIndex: ( ->
     if @get('gameOverFlag')
-      return
+      return false
     rounds = @get('rounds')
     authPerson = @get('authPerson')
     game = @get('model')
@@ -396,9 +396,9 @@ App.CurrentGameController = Ember.ObjectController.extend
       return
     cancelGame: ->
       @set('cancelGameConfirm', false)
+      @set('gameOverFlag', true)
       game = @get('model')
       game.delete()
-      @set('gameOverFlag', true)
       @transitionToRoute("/games")
     cancelGameConfirm: ->
       @set('cancelGameConfirm', true)
