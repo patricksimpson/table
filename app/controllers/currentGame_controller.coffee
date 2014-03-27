@@ -21,6 +21,8 @@ App.CurrentGameController = Ember.ObjectController.extend
   cancelGameConfirm: false
   isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
   roundsWithIndex: ( ->
+    if @get('gameOverFlag')
+      return
     rounds = @get('rounds')
     authPerson = @get('authPerson')
     game = @get('model')
