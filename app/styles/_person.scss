@@ -15,10 +15,7 @@
   }
 }
 
-.link--person--avatar {
-  margin-left: .25em;
-  text-decoration: none;
-}
+
 @-webkit-keyframes dance{
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
@@ -55,7 +52,7 @@
   border: 2px solid #DBD7D7;
 }
 .person--stats{
-  font-size: 1.25rem;  
+  font-size: 1.25rem;
 }
 .person--stat-wrap{
   display: block;
