@@ -1,0 +1,30 @@
+// for main navigation
+
+.nav{
+  width: 100%;
+  max-width: 60em;
+  clear: both;
+  display: table;
+  margin: 0 auto;
+}
+
+.nav--item{
+  text-align: center;
+  display: table-cell;
+  &:first-child{
+    background: #ccc;
+  }
+  &:nth-child(2){
+    background: #666;
+  }
+  &:last-child{
+    background: #333;
+  }
+}
+
+.nav--link{
+  padding: .55em 0;
+  display: block;
+  color: #fff;
+  text-decoration: none;
+}
