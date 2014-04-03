@@ -19,6 +19,17 @@ App.CurrentGameController = Ember.ObjectController.extend
     return ""
   ).property('getPeople')
   cancelGameConfirm: false
+  startUp: ( ->
+    @reset()
+  ).on('init')
+  reset: ->
+    @set('gameOverFlag', false)
+    @set('gameStartedFlag', false)
+    @set('confirmOpenRound', false)
+    @set('message', "")
+    @set('confirmEndMatch', false)
+    @set('currentRound', 1)
+
   isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
   roundsWithIndex: ( ->
     if @get('gameOverFlag')
