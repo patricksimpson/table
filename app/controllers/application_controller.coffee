@@ -6,6 +6,7 @@ App.ApplicationController = Ember.Controller.extend
   game: Ember.computed.alias('controllers.game')
   currentGames: (->
     currentGames = @get('currentGame').map((game) =>
+      console.log "poo"
       startedAt = game.get('startedAt')
       game.set('time', moment(startedAt).fromNow())
       auth_id = @get('controllers.auth.person.id')
