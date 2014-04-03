@@ -5,8 +5,6 @@ App.GameController = Ember.ObjectController.extend
   addGame: (home, away) ->
     newGame = @addNewGame(home, away)
     @set('pendingGame', newGame)
-    console.log "Setting pending game..."
-    console.log @get('pendingGame')
     @checkCurrent()
   removeGame: (game) ->
     game.delete()
@@ -24,24 +22,17 @@ App.GameController = Ember.ObjectController.extend
     # Check for a current game
     @get('store').fetch('currentGame').then ((currentGame) =>
         if currentGame.content.length > 0
-          console.log "There's a game!"
           @set('currentGame', currentGame)
         else
           @newGame()
           @set('currentGame', false)
     ), (error) =>
-      console.log "No games.."
       @set('currentGame', false)
   newGame: ->
-    console.log "do I get called?"
     if !@get('currentGame') && @get('pendingGame')
       @setCurrentGame()
     else
-      console.log "current:"
-      console.log @get('currentGame')
-      console.log "pending:"
-      console.log @get('pendingGame')
-  
+      console.log "No games to add?"
   setCurrentGame: ->
     pendingGame = @get('pendingGame')
     @set('pendingGame', false)
