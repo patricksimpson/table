@@ -11,6 +11,11 @@ App.ModeratorController = Ember.ObjectController.extend
     @get('store').fetch('person').then (peopleList) =>
       people = peopleList.map (person) =>
        person
+      
+      people.unshift(
+        id: 0
+        name: "--Select--"
+      )
       @set('people', people)
     return ""
   ).property('getPeople')
