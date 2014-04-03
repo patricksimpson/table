@@ -1,4 +1,4 @@
-Handlebars.registerHelper "conditionals", (v1, operator, v2, options) ->
+Handlebars.registerHelper "ifCond", (v1, operator, v2, options) ->
   switch operator
     when "=="
       (if (v1 is v2) then options.fn(this) else options.inverse(this))

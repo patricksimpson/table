@@ -56,14 +56,14 @@
         <span class="vs">vs</span>
         <span class="player away"><img {{bind-attr src=game.away.avatar alt=game.away.name title=game.away.name }} class="game--person--avatar"></span>
         <span class="pending--time time">{{game.time}}</span>
-      {{#if game.isMe or auth.person.isModerator}}
+      {{#ifCond game.isMe "||" auth.person.isModerator}}
         <div class="action--button--container">
         {{#if game.isEmpty}}
         <button class="button blue" {{action startPendingGame game}}>Start</button>
         {{/if}}
         <button class="button black" {{action cancelPendingGame game}}>Cancel</button>
         </div>
-      {{/if}}
+      {{/ifCond}}
         </div>
         {{/each}}
       </div>
