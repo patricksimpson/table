@@ -82,10 +82,10 @@ App.ApplicationController = Ember.Controller.extend
       home.set('isWaiting', false)
       home.save()
     startPendingGame: (theGame) ->
-      ctlCurrentGame = @get('controllers.currentGame')
-      ctlCurrentGame.reset()
       game = @get('controllers.game')
       game.startPendingGame(theGame)
+      ctlCurrentGame = @get('controllers.currentGame')
+      ctlCurrentGame.reset()
 
     cancelPendingGame: (theGame) ->
       game = @get('controllers.game')

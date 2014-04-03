@@ -24,8 +24,8 @@ App.GameController = Ember.ObjectController.extend
         if currentGame.content.length > 0
           @set('currentGame', currentGame)
         else
-          @newGame()
           @set('currentGame', false)
+          @newGame()
     ), (error) =>
       @set('currentGame', false)
   startPendingGame: (game) ->
