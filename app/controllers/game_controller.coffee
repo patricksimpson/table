@@ -28,6 +28,9 @@ App.GameController = Ember.ObjectController.extend
           @set('currentGame', false)
     ), (error) =>
       @set('currentGame', false)
+  startPendingGame: (game) ->
+    @set('pendingGame', game)
+    @checkCurrent()
   newGame: ->
     if !@get('currentGame') && @get('pendingGame')
       @setCurrentGame()

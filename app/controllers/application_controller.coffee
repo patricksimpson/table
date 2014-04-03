@@ -82,7 +82,7 @@ App.ApplicationController = Ember.Controller.extend
       home.save()
     startPendingGame: (theGame) ->
       game = @get('controllers.game')
-      game.newGame(theGame)
+      game.startPendingGame(theGame)
     cancelPendingGame: (theGame) ->
       game = @get('controllers.game')
       game.removePending(theGame)
