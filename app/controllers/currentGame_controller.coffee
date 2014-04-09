@@ -285,6 +285,8 @@ App.CurrentGameController = Ember.ObjectController.extend
       rounds[currentRoundIndex] = updatedRounds
       game.set('rounds', rounds.toArray())
       game.save()
+      $('.modal--scoring').hide()
+
     awayScoreChanges: (score) ->
       if score == ""
         $('.score--away').val(@get('tempAwayScore'))
@@ -308,6 +310,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       rounds[currentRoundIndex] = updatedRounds
       game.set('rounds', rounds.toArray())
       game.save()
+      $('.modal--scoring').hide()
 
     endRound: (round) ->
       game = @get('model')
@@ -439,6 +442,9 @@ App.CurrentGameController = Ember.ObjectController.extend
     clearTempHome: (val) ->
       $('.score--home').val("")
       @set('tempHomeScore', val)
+      $('.modal--scoring').show()
     clearTempAway: (val) ->
       $('.score--away').val("")
       @set('tempAwayScore', val)
+      $('.modal--scoring').show()
+      
