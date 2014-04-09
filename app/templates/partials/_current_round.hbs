@@ -32,8 +32,8 @@
 <div class="gameview--content clearfix">
   <div class="actions actions--home">
     <span class="score">
+        {{input type="number" value=homeScore class="score--input score--home" focus-in="clearTempHome" focus-out="homeScoreChanges" min="0" max="99" }}
       {{#if isCurrent}}
-        {{input type="number" value=homeScore class="score--input score--home" focus-in="clearTempHome" focus-out="homeScoreChanges" min="0" max="99"}}
       {{else}}
         <span class="score--text">{{homeScore}}</span>
       {{/if}}
@@ -54,8 +54,8 @@
       </div> 
       <div class="actions actions--away">
         <span class="score">
+          {{input type="number" value=awayScore class="score--input score--away" focus-in="clearTempAway" focus-out="awayScoreChanges" min="0" max="99" }}
         {{#if isCurrent}}
-          {{input type="number" value=awayScore class="score--input score--away" focus-in="clearTempAway" focus-out="awayScoreChanges" min="0" max="99"}}
         {{else}}
           <span class="score--text">{{awayScore}}</span>
         {{/if}}
