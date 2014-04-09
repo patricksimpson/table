@@ -1,37 +1,51 @@
 <header class="hero">
-<h1 class="hero--text">{{#link-to 'people'}}Table{{/link-to}}</h1>
-</header>
-<div class="main">
-  <header class="banner">
-    <nav>
-      <ul class="banner--navigation">
-        <li class="banner--navigation--item banner--navigation--login">
+  <h1 class="heading--large heading--table pl-lspace">{{#link-to 'people' classNames="heading--link default-link"}}Table{{/link-to}}</h1>
+
+
+  <div class="utility--auth">
+
+    <ul class="utility--list">
+      <li class="utility--list-item">
+        {{#if auth.person}}
+        {{#link-to "person" auth.person classNames="avatar--link"}}
+        <img {{bind-attr src=auth.person.avatar alt=auth.person.name title=auth.person.name}} class="avatar--small border--med_white">
+        {{/link-to}}
+        {{/if}}
+      </li>
+      <li class="utility--list-item">
+        <div class="button--auth">
           {{#if auth.person}}
-            Hi, {{#link-to 'person' auth.person}}{{auth.person.name}}{{/link-to}} 
-            {{#if myChallenges.length}}<a class="notifications" {{action goToLink "application" "#person-actions"}} >{{myChallenges.length}}</a>{{/if}}
-            <button {{action "logout"}} class="button grey">Logout</button>
+          {{#if myChallenges.length}}<a class="notifications" {{action goToLink "application" "#person-actions"}} >{{myChallenges.length}}</a>{{/if}}
+          <button {{action "logout"}} class="button--login">Logout</button>
           {{else}}
-            {{#if auth.isNotAuthorized}}
-            <span class="warning">You're not authorized. Contact <a href="https://twitter.com/SparkTable">@SparkTable</a> to request access.</span>
-            <button {{action "login"}} class="button red">Login or Signup</button>
-            {{else}}
-            <button {{action "login"}} class="button grey">Login or Signup</button>
-            {{/if}}
+          {{#if auth.isNotAuthorized}}
+          <span class="warning">You're not authorized. Contact <a href="https://twitter.com/SparkTable">@SparkTable</a> to request access.</span>
+          <button {{action "login"}} class="button--login">Login or Signup</button>
+          {{else}}
+          <button {{action "login"}} class="button--login">Login or Signup</button>
           {{/if}}
-          </li>
-        <li class="banner--navigation--item"><a href="#/">Leaderboard</a></li>
-        <li class="banner--navigation--item"><a href="#/games">Game History</a></li>
+          {{/if}}
+        </li>
       </ul>
-    </nav>
-  </header>
+    </div>
+  </div>
+</header>
+<nav>
+  <ul class="nav sp">
+    <li class="nav--item"><a class="nav--link" href="#/">PING</a></li>
+    <li class="nav--item"><a class="nav--link" href="#/">Leaderboard</a></li>
+    <li class="nav--item"><a class="nav--link" href="#/games">Game History</a></li>
+  </ul>
+</nav>
+<div class="main">
   <div class="moderator">
   {{#if auth.person.isModerator}}
-    {{#link-to 'moderator'}}Schedule Game{{/link-to}}
+  {{#link-to 'moderator'}}Schedule Game{{/link-to}}
   {{/if}}
   </div>
   {{#if currentGames.length}}
   <div class="currentGame">
-  {{#each game in currentGames }}
+    {{#each game in currentGames }}
     <h4 class="currentGame--header">Current Match</h4>
     <div class="game">
       {{#link-to 'currentGame' class="game--current"}}
@@ -41,17 +55,16 @@
       {{/link-to}}
       <span class="game--time">Game started {{game.time}}</span>
     </div>
-  {{/each}}
+    {{/each}}
   </div>
   {{/if}}
   {{outlet}}
   <aside id="person-actions" class="content--other">
-  {{#if pendingGames.length}}
+    {{#if pendingGames.length}}
     <div class="pendinggames">
       <h4>pending games ({{pendingGames.length}})</h4>
       {{#each game in pendingGames}}
       <div class="game action--container">
-      
         <span class="player home"><img {{bind-attr src=game.home.avatar alt=game.home.name title=game.home.name }} class="game--person--avatar"></span>
         <span class="vs">vs</span>
         <span class="player away"><img {{bind-attr src=game.away.avatar alt=game.away.name title=game.away.name }} class="game--person--avatar"></span>
@@ -64,78 +77,78 @@
         <button class="button black" {{action cancelPendingGame game}}>Cancel</button>
         </div>
       {{/ifCond}}
-        </div>
-        {{/each}}
       </div>
+      {{/each}}
+    </div>
     {{/if}}
-  {{#if pendingChallenges.length}}
-  <h4>Challenges</h4>
-  {{#each pendingChallenges}}
+    {{#if pendingChallenges.length}}
+    <h4>Challenges</h4>
+    {{#each pendingChallenges}}
     <div class="action--container">{{#if isMe}}You {{else}}<img {{bind-attr src=home.avatar alt=home.name title=home.name }} class="game--person--avatar"> {{/if}} challenged <img {{bind-attr src=away.avatar alt=away.name title=away.name }} class="game--person--avatar"><br><span class="time challenge--time">{{time}}</span>
-    {{#if isMe}}
-    <div class="action--button--container">
-      <button class="button black" {{action cancelChallenge this}}>Cancel</button>
+      {{#if isMe}}
+      <div class="action--button--container">
+        <button class="button black" {{action cancelChallenge this}}>Cancel</button>
+      </div>
+      {{/if}}
+    </div>
+    {{/each}}
+    {{/if}}
+    {{#if myChallenges.length}}
+    <div class="challenges">
+      <h4 class="action--header">Your Challenges ({{auth.person.challenges.length}})</h4>
+      <ul class="action--list">
+        {{#each myChallenges}}
+        <li>
+          {{home.name}}
+          <div class="challenge--actions">
+            <button {{action 'acceptChallenge' this bubbles=false}} class="button blue">Accept</button>
+            <button {{action 'declineChallenge' this bubbles=false}} class="button black">Decline</button>
+          </div>
+        </li>
+        {{/each}}
+      </ul>
     </div>
     {{/if}}
+    {{#if auth.person.responses.length}}
+    <div class="responses">
+      <h4 class="action--header">Responses ({{auth.person.responses.length}})</h4>
+      <ul class="action--list">
+        {{#each auth.person.responses}}
+        <li>
+          challenge declined by {{away.name}}
+          <button {{action 'removeResponse' this}} class="button black">Ok</button>
+        </li>
+        {{/each}}
+      </ul>
     </div>
-  {{/each}}
-  {{/if}}
-  {{#if myChallenges.length}}
-  <div class="challenges">
-    <h4 class="action--header">Your Challenges ({{auth.person.challenges.length}})</h4>
-    <ul class="action--list">
-    {{#each myChallenges}}
-      <li> 
-        {{home.name}}
-        <div class="challenge--actions">
-          <button {{action 'acceptChallenge' this bubbles=false}} class="button blue">Accept</button>
-          <button {{action 'declineChallenge' this bubbles=false}} class="button black">Decline</button>
-        </div>
-      </li>
-    {{/each}}
-    </ul>
-  </div>
-  {{/if}}
-  {{#if auth.person.responses.length}}
-  <div class="responses">
-    <h4 class="action--header">Responses ({{auth.person.responses.length}})</h4>
-    <ul class="action--list">
-    {{#each auth.person.responses}}
-      <li> 
-      challenge declined by {{away.name}}
-      <button {{action 'removeResponse' this}} class="button black">Ok</button>
-      </li>
-    {{/each}}
-    </ul>
-  </div>
-  {{/if}}
-  {{#if waitingList.length}}
-  <div class="waitinglist">
-    <h4 class="action--header">Waiting List ({{waitingList.length}})</h4>
-    {{#each wait in waitingList}}
-    {{#if wait.person.isWaiting}}
+    {{/if}}
+    {{#if waitingList.length}}
+    <div class="waitinglist">
+      <h4 class="action--header">Waiting List ({{waitingList.length}})</h4>
+      {{#each wait in waitingList}}
+      {{#if wait.person.isWaiting}}
       <div class="action--container action--container--ping">
-      {{#unless wait.isMe}}
+        {{#unless wait.isMe}}
         <img {{bind-attr src=wait.person.avatar alt=wait.person.name title=wait.person.name }} class="game--person--avatar"> Ping?
         <span class="ping--time time">{{wait.time}}</span>
-        {{#if auth.person.name}} 
-          <button {{action 'acceptGame' wait.person auth.person}} class="button blue">Pong!</button>
+        {{#if auth.person.name}}
+        <button {{action 'acceptGame' wait.person auth.person}} class="button blue">Pong!</button>
         {{/if}}
-      {{else}}
+        {{else}}
         <img {{bind-attr src=auth.person.avatar alt=auth.person.name title=auth.person.name }} class="game--person--avatar"> Ping?
         <span class="ping--time time">{{wait.time}}</span>
-      {{/unless}}
+        {{/unless}}
       </div>
-    {{/if}}
-    {{/each}}
-  {{/if}}
-  </div>
+      {{/if}}
+      {{/each}}
+      {{/if}}
+    </div>
 
   </aside><!-- sidebar -->
 </div> <!-- main -->
 <footer class="clearfix footer">
-<p>
-<a href="https://github.com/patricksimpson/table">View on GitHub</a> | <a href="https://github.com/patricksimpson/table/issues">Idea or Issue?</a>
-</p>
-Table - 2014 - by Patrick Simpson 
+  <p>
+    <a href="https://github.com/patricksimpson/table">View on GitHub</a> | <a href="https://github.com/patricksimpson/table/issues">Idea or Issue?</a>
+  </p>
+  Table - 2014 - by Patrick Simpson
 </footer>

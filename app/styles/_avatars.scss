@@ -1,0 +1,13 @@
+// global styling for avatar images
+
+.avatar--small{
+  height: 1.6em;
+  width: 1.6em;
+  @include round-borders;
+  margin: 0;
+  padding: 0;
+}
+
+.avatar--link {
+  display: inline-block;
+}

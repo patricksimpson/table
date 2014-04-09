@@ -46,13 +46,22 @@
     }
   }
   display: block;
-  @include sb-media(37em){  
+  @include sb-media(37em){
     border: 0px none;
     display: inline-block;
   }
 }
-    
-.banner--navigation--login{
-  float: right;
-  text-align: right;
+
+.utility--auth{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.utility--list{}
+.utility--list-item{
+  display: inline;
+  float: left;
+  &:first-child{
+    margin: .7em 1em 0 0;
+  }
 }
