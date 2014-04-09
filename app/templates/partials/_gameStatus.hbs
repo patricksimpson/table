@@ -1,0 +1,13 @@
+<div class="currentGame">
+  {{#each game in currentGames }}
+  <h4 class="currentGame--header">Current Match</h4>
+  <div class="game">
+    {{#link-to 'currentGame' class="game--current"}}
+    <span class="player home">{{game.home.name}}</span>
+    <span class="vs">vs</span>
+    <span class="player away">{{game.away.name}}</span>
+    {{/link-to}}
+    <span class="game--time">Game started {{game.time}}</span>
+  </div>
+  {{/each}}
+</div>

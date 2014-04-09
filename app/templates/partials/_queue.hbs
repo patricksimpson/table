@@ -1,0 +1,9 @@
+  <aside id="person-actions" class="content--other">
+    {{#if pendingGames.length}}
+    {{partial "partials/queue_pendingGame"}}
+    {{/if}}
+    {{partial "partials/queue_challenge"}}
+    {{#if waitingList.length}}
+    {{partial "partials/queue_waiting"}}
+    {{/if}}
+  </aside><!-- sidebar -->

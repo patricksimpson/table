@@ -1,0 +1,19 @@
+    <div class="pendinggames">
+      <h4>pending games ({{pendingGames.length}})</h4>
+      {{#each game in pendingGames}}
+      <div class="game action--container">
+        <span class="player home"><img {{bind-attr src=game.home.avatar alt=game.home.name title=game.home.name }} class="game--person--avatar"></span>
+        <span class="vs">vs</span>
+        <span class="player away"><img {{bind-attr src=game.away.avatar alt=game.away.name title=game.away.name }} class="game--person--avatar"></span>
+        <span class="pending--time time">{{game.time}}</span>
+      {{#ifCond game.isMe "||" auth.person.isModerator}}
+        <div class="action--button--container">
+        {{#if game.isEmpty}}
+        <button class="button blue" {{action startPendingGame game}}>Start</button>
+        {{/if}}
+        <button class="button black" {{action cancelPendingGame game}}>Cancel</button>
+        </div>
+      {{/ifCond}}
+      </div>
+      {{/each}}
+    </div>
