@@ -12,7 +12,7 @@ set :shared_paths, ['node_modules', 'bower_components']
 task :environment do
   queue %{
     echo "-----> Loading environment"
-    #{echo_cmd %[source ~/.profile]}
+    #{echo_cmd %[source ~/.bash_profile]}
   }
 end
 
