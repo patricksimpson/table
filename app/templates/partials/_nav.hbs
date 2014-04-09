@@ -1,7 +1,14 @@
 <nav>
   <ul class="nav sp">
-    <li class="nav--item"><a class="nav--link" href="#/">PING</a></li>
-    <li class="nav--item"><a class="nav--link" href="#/">Leaderboard</a></li>
-    <li class="nav--item"><a class="nav--link" href="#/games">Game History</a></li>
+    <li class="nav--item">
+    {{#if auth.person}} 
+    {{#if auth.person.isWaiting}}
+      <a class="nav--link" {{action personCancelWaitingList}}>Cancel</a></li>
+    {{else}}
+      <a class="nav--link" {{action personJoinWaitingList}}>PING</a></li>
+    {{/if}}
+    {{/if}}
+    <li class="nav--item">{{#link-to 'people' class="nav--link"}}Leaderboard{{/link-to}}</li>
+    <li class="nav--item">{{#link-to 'completedGames' class="nav--link"}}Game History{{/link-to}}</li>
   </ul>
 </nav>

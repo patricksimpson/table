@@ -103,6 +103,23 @@ App.PersonController = Ember.ObjectController.extend
   isMe: (->
     return @get('id') == @get('authedPerson.id')
   ).property('content', 'authedPerson')
+  ping: (person) ->
+    if person.get('isWaiting')
+      return
+    person.setProperties(
+      isWaiting: true
+      waiting_time: new Date()
+    )
+    person.save()
+    @get('wait').addPerson(person)
+  cancelPing: (person) ->
+    person.setProperties(
+      isWaiting: false
+      waiting_time: null
+    )
+    person.save()
+    @get('wait').removePerson(person)
+
   actions:
     deleteMe: ->
       yousure = @get('iAmSure')
@@ -121,21 +138,9 @@ App.PersonController = Ember.ObjectController.extend
       @set('isEditing', false)
     joinWaitingList: ->
       person = @get('model')
-      if person.get('isWaiting')
-        return
-      person.setProperties(
-        isWaiting: true
-        waiting_time: new Date()
-      )
-      person.save()
-      @get('wait').addPerson(person)
+      @ping(person)
     leaveWaitingList: ->
       person = @get('model')
-      person.setProperties(
-        isWaiting: false
-        waiting_time: null
-      )
-      person.save()
-      @get('wait').removePerson(person)
+      @cancelPing(person)
     challengeRequest: ->
       @get('controllers.challenge').createChallenge(@get('authedPerson'), @get('model'))

@@ -72,6 +72,12 @@ App.ApplicationController = Ember.Controller.extend
     return games
   ).property('currentGames', 'pendingGameData.content.@each', 'controllers.auth.person')
   actions:
+    personJoinWaitingList: ->
+      authPerson = @get('controllers.auth.person')
+      @get('controllers.person').ping(authPerson)
+    personCancelWaitingList: ->
+      authPerson = @get('controllers.auth.person')
+      @get('controllers.person').cancelPing(authPerson)
     login: ->
       @get('controllers.auth').login()
     logout: ->
