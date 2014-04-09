@@ -1,0 +1,9 @@
+<div class="game--cancel">
+{{#if controller.cancelGameConfirm}}
+  <p>Are you sure you want to cancel this match?</p>
+  <button {{action cancelGame}} class="endround button grey">Ok</button>
+  <button {{action undoCancelGameConfirm}} class="button black">Nevermind</button>
+{{else}}
+  <button {{action cancelGameConfirm}} class="button red endround">Cancel Match</button>
+{{/if}}
+</div>

@@ -1,134 +1,14 @@
-{{#if isActiveGame}}
 <div class="content--container--game gameview">
   <h2 class="gameview--main">Current Match</h2>
   <div class="gameview--current">
- <div class="player--content player--home">
-    <span class="overall--score">{{homeScore}}</span>
-    <img {{bind-attr src=home.avatar alt=home.name title=home.name}} class="gameview--person--avatar"> 
-    <span class="player--name">{{home.name}}</span>
-  </div>
-  <div class="player--content player--away">
-    <span class="overall--score">{{awayScore}}</span>
-    <img {{bind-attr src=away.avatar alt=away.name title=away.name}} class="gameview--person--avatar"> 
-    <span class="player--name">{{away.name}}</span>
-  </div>
+{{#if isActiveGame}}
+  {{partial "partials/current_header"}}
   <div class="gameview--actions">
     {{#each roundsWithIndex}}
-    {{#with round}}
-      {{#unless this.isComplete}}
-      {{#if this.isCurrent}}Game Active{{/if}}
-        {{else}}
-        {{#if this.isCurrent}}
-        <div class="match--action">
-          {{#if controller.authPerson}}
-          {{#unless controller.confirmEndMatch}}
-            <p>
-            <button {{action confirmEndGame}} class="button blue">End Match</button>
-            </p>
-            <p>
-            <button {{action newRound}} class="button grey">New Game</button>
-            </p>
-          {{else}}
-            <p>Are you sure you want to end the match?</p>
-            <p>Please check game scores and press ok to confirm:</p>
-            {{#if gameOverFlag}}
-              Game over...
-            {{else}}
-            <button {{action endGame}} class="button grey">Ok</button>
-            <button {{action undoEndGame}} class="button black">Cancel</button>
-            {{/if}}
-          {{/unless}}          
-          {{/if}}
-        </div>
-        {{/if}}
-      {{/unless}}
-    {{/with}}
-    <h3 class="gameview--header clearfix">Game {{index}}</h3>
-    {{#with round}}
-    <div class="gameview--content clearfix">
-      <div class="actions actions--home">
-        <span class="score">
-          {{#if isCurrent}}
-            {{input type="number" value=homeScore class="score--input score--home" focus-in="clearTempHome" focus-out="homeScoreChanges" min="0" max="99"}}
-          {{else}}
-            <span class="score--text">{{homeScore}}</span>
-          {{/if}}
-        </span>
-        {{#if controller.authPerson}}
-          {{#unless this.isComplete}}
-            {{#if this.isCurrent}}
-              <button {{action addPointHome}} class="button grey button-add">+</button>
-            {{/if}}
-          {{/unless}}
-          {{#if isComplete}}{{#if homeWon}}W{{/if}}{{/if}}
-            {{#unless this.isComplete}}
-              {{#if this.isCurrent}}
-                <button {{action subtractPointHome}} class="button black button-minus">-</button>
-              {{/if}}
-            {{/unless}}
-          {{/if}}
-          </div> 
-          <div class="actions actions--away">
-            <span class="score">
-            {{#if isCurrent}}
-              {{input type="number" value=awayScore class="score--input score--away" focus-in="clearTempAway" focus-out="awayScoreChanges" min="0" max="99"}}
-            {{else}}
-              <span class="score--text">{{awayScore}}</span>
-            {{/if}}
-            </span>
-            {{#if isComplete}}
-              {{#if awayWon}}W{{/if}}
-            {{/if}}
-            {{#if controller.authPerson}}
-              {{#unless this.isComplete}}
-                {{#if isCurrent}}
-                  <button {{action addPointAway}} class="button grey button-add">+</button>
-                {{/if}}
-              {{/unless}}
-              {{#unless this.isComplete}}
-                {{#if isCurrent}}
-                  <button {{action subtractPointAway}} class="button black button-minus">-</button>
-                {{/if}}
-              {{/unless}}
-            {{/if}}
-          </div>
-          <div class="gameview--end">
-          {{#if controller.authPerson}}
-            {{#unless this.isComplete}}
-              {{#if isCurrent}}
-                <p>
-                <button {{action endRound this}} class="endround button blue needsclick">End Game {{hIndex}}</button>
-                </p>
-                {{#if isFirst}}
-                {{else}}
-                  <p>
-                  <button {{action cancelRound this}} class="button red">Cancel Game {{hIndex}}</button>
-                  </p>
-                {{/if}}
-              {{else}}
-              {{/if}}
-            {{else}}
-              {{#if isCurrent}}
-                <p>
-                <button {{action cancelRound this}} class="button red">Cancel Game {{hIndex}}</button>
-                </p>
-              {{/if}}
-            {{/unless}}
-          {{/if}}
-          </div>
-        </div>
-      {{/with}}
+    {{partial "partials/current_round"}}
     {{/each}}
     </div>
-    <div class="game--cancel">
-    {{#if controller.cancelGameConfirm}}
-      <p>Are you sure you want to cancel this match?</p>
-      <button {{action cancelGame}} class="endround button grey">Ok</button>
-      <button {{action undoCancelGameConfirm}} class="button black">Nevermind</button>
-    {{else}}
-      <button {{action cancelGameConfirm}} class="button red endround">Cancel Match</button>
-    {{/if}}
-    </div>
+    {{partial "partials/current_footer"}}
   </div>
 </div>
 {{else}}
