@@ -19,8 +19,21 @@ App.CurrentGameController = Ember.ObjectController.extend
     return ""
   ).property('getPeople')
   cancelGameConfirm: false
+  startUp: ( ->
+    @reset()
+  ).on('init')
+  reset: ->
+    @set('gameOverFlag', false)
+    @set('gameStartedFlag', false)
+    @set('confirmOpenRound', false)
+    @set('message', "")
+    @set('confirmEndMatch', false)
+    @set('currentRound', 1)
+
   isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
   roundsWithIndex: ( ->
+    if @get('gameOverFlag')
+      return false
     rounds = @get('rounds')
     authPerson = @get('authPerson')
     game = @get('model')
@@ -272,6 +285,8 @@ App.CurrentGameController = Ember.ObjectController.extend
       rounds[currentRoundIndex] = updatedRounds
       game.set('rounds', rounds.toArray())
       game.save()
+      $('.modal--scoring').hide()
+
     awayScoreChanges: (score) ->
       if score == ""
         $('.score--away').val(@get('tempAwayScore'))
@@ -295,6 +310,7 @@ App.CurrentGameController = Ember.ObjectController.extend
       rounds[currentRoundIndex] = updatedRounds
       game.set('rounds', rounds.toArray())
       game.save()
+      $('.modal--scoring').hide()
 
     endRound: (round) ->
       game = @get('model')
@@ -394,9 +410,9 @@ App.CurrentGameController = Ember.ObjectController.extend
       return
     cancelGame: ->
       @set('cancelGameConfirm', false)
+      @set('gameOverFlag', true)
       game = @get('model')
       game.delete()
-      @set('gameOverFlag', true)
       @transitionToRoute("/games")
     cancelGameConfirm: ->
       @set('cancelGameConfirm', true)
@@ -426,6 +442,9 @@ App.CurrentGameController = Ember.ObjectController.extend
     clearTempHome: (val) ->
       $('.score--home').val("")
       @set('tempHomeScore', val)
+      $('.modal--scoring').show()
     clearTempAway: (val) ->
       $('.score--away').val("")
       @set('tempAwayScore', val)
+      $('.modal--scoring').show()
+      

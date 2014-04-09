@@ -1,6 +1,6 @@
 App.ApplicationController = Ember.Controller.extend
   clock: 'components/clock'
-  needs: ['auth', 'challenge', 'people', 'person', 'wait', 'game']
+  needs: ['auth', 'challenge', 'people', 'person', 'wait', 'game', 'currentGame']
   authBinding: "controllers.auth"
   waitList: Ember.computed.alias('controllers.wait')
   game: Ember.computed.alias('controllers.game')
@@ -13,6 +13,8 @@ App.ApplicationController = Ember.Controller.extend
         homePerson = game.get('home')
         awayPerson = game.get('away')
         if (auth_id == homePerson.get('id')) or (auth_id == awayPerson.get('id'))
+          ctlCurrentGame = @get('controllers.currentGame')
+          ctlCurrentGame.reset()
           @transitionToRoute('currentGame')
       game
     )
@@ -39,7 +41,6 @@ App.ApplicationController = Ember.Controller.extend
       homePerson = challenge.get('home')
       awayPerson = challenge.get('away')
       date = challenge.get('createdAt')
-      console.log date
       challenge.set('time', moment(date).fromNow())
       auth_id = @get('controllers.auth.person.id')
       if auth_id?
@@ -82,7 +83,10 @@ App.ApplicationController = Ember.Controller.extend
       home.save()
     startPendingGame: (theGame) ->
       game = @get('controllers.game')
-      game.newGame(theGame)
+      game.startPendingGame(theGame)
+      ctlCurrentGame = @get('controllers.currentGame')
+      ctlCurrentGame.reset()
+
     cancelPendingGame: (theGame) ->
       game = @get('controllers.game')
       game.removePending(theGame)

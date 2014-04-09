@@ -1,8 +1,11 @@
 App.GameController = Ember.ObjectController.extend
   needs: ['person']
+  pendingGame: false
+  currentGame: false
   addGame: (home, away) ->
     newGame = @addNewGame(home, away)
-    @newGame(newGame)
+    @set('pendingGame', newGame)
+    @checkCurrent()
   removeGame: (game) ->
     game.delete()
   addNewGame: (home, away) ->
@@ -14,18 +17,28 @@ App.GameController = Ember.ObjectController.extend
     newGame.save()
     newGame
   createGame: (home, away) ->
-    newGame = @addGame(home, away)
-
-  newGame: (game) ->
+    @addGame(home, away)
+  checkCurrent: ->
     # Check for a current game
-    theGame = @setCurrentGame(game)
     @get('store').fetch('currentGame').then ((currentGame) =>
-        console.log "Check for multiple current games"
-        console.log currentGame
+        if currentGame.content.length > 0
+          @set('currentGame', currentGame)
+        else
+          @set('currentGame', false)
+          @newGame()
     ), (error) =>
-      console.log error
-    theGame
-  setCurrentGame: (pendingGame) ->
+      @set('currentGame', false)
+  startPendingGame: (game) ->
+    @set('pendingGame', game)
+    @checkCurrent()
+  newGame: ->
+    if !@get('currentGame') && @get('pendingGame')
+      @setCurrentGame()
+    else
+      console.log "No games to add?"
+  setCurrentGame: ->
+    pendingGame = @get('pendingGame')
+    @set('pendingGame', false)
     newRounds = [
       {
         homeScore: 0
@@ -43,14 +56,10 @@ App.GameController = Ember.ObjectController.extend
       awayScore: 0
       rounds: newRounds
     )
-    # round = @get('store').createRecord("round",
-    #   homeScore: 0
-    #   awayScore: 0
-    # )
-    #round.save()
     currentGame.save()
     @startGame(currentGame)
     @removePending(pendingGame)
+    @set('currentGame', currentGame)
     currentGame
 
   removePending: (pendingGame) ->
