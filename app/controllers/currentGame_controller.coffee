@@ -285,7 +285,8 @@ App.CurrentGameController = Ember.ObjectController.extend
       rounds[currentRoundIndex] = updatedRounds
       game.set('rounds', rounds.toArray())
       game.save()
-      $('.modal--scoring').hide()
+      $('.button').removeClass("disabled")
+      $('#activeGameContainer').removeClass("scoring--active")
 
     awayScoreChanges: (score) ->
       if score == ""
@@ -310,7 +311,8 @@ App.CurrentGameController = Ember.ObjectController.extend
       rounds[currentRoundIndex] = updatedRounds
       game.set('rounds', rounds.toArray())
       game.save()
-      $('.modal--scoring').hide()
+      $('.button').removeClass("disabled")
+      $('#activeGameContainer').removeClass("scoring--active")
 
     endRound: (round) ->
       game = @get('model')
@@ -443,8 +445,12 @@ App.CurrentGameController = Ember.ObjectController.extend
       $('.score--home').val("")
       @set('tempHomeScore', val)
       $('.modal--scoring').show()
+      $('#activeGameContainer').addClass("scoring--active")
+      $('.button').addClass("disabled")
     clearTempAway: (val) ->
       $('.score--away').val("")
       @set('tempAwayScore', val)
       $('.modal--scoring').show()
+      $('#activeGameContainer').addClass("scoring--active")
+      $('.button').addClass("disabled")
       

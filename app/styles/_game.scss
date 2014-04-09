@@ -214,6 +214,7 @@
   border-radius: 13px;
   padding: .2em;
   text-align: center;
+  z-index: 5;
 }
 .score--text{
   font-size: 2rem;
@@ -227,11 +228,28 @@
 .gameview--end {
   clear: both;
 }
-.modal--scoring {
+.scoring--active{
+  background-color: #777;
+}
+.disabled{
+  background-color: #333 !important;
+  color: #ccc;
+  opacity: .125;
+}
+.scoring--text{
+  display: none;
+}
+.scoring--active{
+  position: relative;
+}
+.scoring--active .scoring--text{
+  display: block;
   position: absolute;
-  top: -6em;
-  background-color: #eee;
-  left: 0%;
-  width: 80%;
-  height: 6em;
+  top: 40%;
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  width: 100%;
+  left: 0;
 }

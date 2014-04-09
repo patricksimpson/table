@@ -1,9 +1,10 @@
 <div class="content--container--game gameview">
   <h2 class="gameview--main">Current Match</h2>
-  <div class="gameview--current">
+  <div id="activeGameContainer" class="gameview--current">
 {{#if isActiveGame}}
   {{partial "partials/current_header"}}
   <div class="gameview--actions">
+    <div class="scoring--text">Scoring, focus out to save score.</div>
     {{#each roundsWithIndex}}
     {{partial "partials/current_round"}}
     {{/each}}

@@ -3,9 +3,9 @@
     <li class="nav--item">
     {{#if auth.person}} 
     {{#if auth.person.isWaiting}}
-      <a class="nav--link" {{action personCancelWaitingList}}>Cancel</a></li>
+      <button class="nav--link" {{action personCancelWaitingList}}>Cancel</button></li>
     {{else}}
-      <a class="nav--link" {{action personJoinWaitingList}}>PING</a></li>
+      <button class="nav--link" {{action personJoinWaitingList}}>PING</button></li>
     {{/if}}
     {{/if}}
     <li class="nav--item">{{#link-to 'people' class="nav--link"}}Leaderboard{{/link-to}}</li>

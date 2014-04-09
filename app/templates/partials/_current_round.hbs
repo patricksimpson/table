@@ -81,12 +81,12 @@
         {{#unless this.isComplete}}
           {{#if isCurrent}}
             <p>
-            <button {{action endRound this}} class="endround button blue needsclick">End Game {{hIndex}}</button>
+            <button {{action endRound this}} class="endround button blue ">End Game {{hIndex}}</button>
             </p>
             {{#if isFirst}}
             {{else}}
               <p>
-              <button {{action cancelRound this}} class="button red">Cancel Game {{hIndex}}</button>
+              <button {{action cancelRound this}} class="button red needsclick">Cancel Game {{hIndex}}</button>
               </p>
             {{/if}}
           {{else}}
