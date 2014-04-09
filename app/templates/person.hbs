@@ -7,107 +7,11 @@
   <div class="profile--content">
   <span class="date person--lastPlayed"><b>{{lastStatus}}</b> last game {{lastPlayed}} </span>
     {{hasChallenges}}
-    <h4 class="profile--content--header">Actions</h4>
-    <div class="profile--actions">
-    {{#if isMe}}<!--<button {{action 'editPerson'}} class="button grey">Edit</button>-->{{/if}}
-    {{#unless isMe}}
-      {{#if isChallenged}}
-        You challenged {{name}}
-      {{else}}
-        {{#if authedPerson}}
-          <button {{action 'challengeRequest'}} class="button blue">Challenge!</button>
-        {{/if}}
-      {{/if}}
-    {{else}}
-      {{#if authedPerson}}
-        {{#unless isWaiting}}
-          <button {{action 'joinWaitingList'}} class="button green">Ping?</button>
-        {{else}}
-          <button {{action 'leaveWaitingList'}} class="button black">Cancel Ping</button>
-        {{/unless}}
-      {{/if}}
-    {{/unless}}
-    </div>
-    {{outlet}}
-    <h4 class="profile--content--header">Stats</h4>
-    <div class="person--stats">
-      <p>
-        <span class="person--stat-wrap"><span class="person--stat">Wins:</span><span class="stat">{{wins}}</span></span>
-        <span class="person--stat-wrap"><span class="person--stat">Losses:</span><span class="stat">{{losses}}</span></span>
-      </p>
-      <p>
-        <span class="person--stat-wrap"><span class="person--stat">Score:</span><span class="stat">{{percentage}}</span></span>
-        <span class="person--stat-wrap"><span class="person--stat" title="Wins over Losses">W/L:</span><span class="stat">{{winstoloss}}</span></span> </p>
-    </div>
+    {{partial "partials/person_actions"}}
+    {{partial "partials/person_stats"}}
   </div>
   {{completedGames}}
-  <h3>Game History ({{games.length}})</h3>
-<ul class="personalGameHistory completedGames gameListing">
-{{#each game in games}}
-{{#with game}}
-{{#if won}}
-<li class="game game-won">
-{{else}}
-<li class="game game-lost">
-{{/if}}
-  <span class="game--person">
-    <span class="game--stats">
-      <span class="game--score">{{status}}</span>
-    </span>
-    <span class="game--points">
-      {{#if isHome}}
-      <span class="isMe">{{homeScore}}</span> to {{awayScore}}
-      {{else}}
-      <span class="isMe">{{awayScore}}</span> to {{homeScore}}
-      {{/if}}
-    </span>
-    vs.
-{{#unless isHome}} 
-    <span class="game--person-name">
-      <img {{bind-attr src=home.avatar alt=home.name title=home.name }} class="game--person--avatar">
-      {{#link-to 'person' home}}{{home.name}}{{/link-to}}
-    </span>
-{{/unless}}
-{{#unless isAway}} 
-    <span class="game--person-name">
-      <img {{bind-attr src=away.avatar alt=away.name title=away.name }} class="game--person--avatar">
-      {{#link-to 'person' away}}{{away.name}}{{/link-to}}
-    </span>
-{{/unless}}
-  </span> 
-  <span class="game--date">
-    {{date}}
-  </span>
-<span class="rounds">
-{{#each round in game.rounds}}
-  <span class="round">
-    {{#if game.isHome}}
-      <span class="isMe round-score">
-      {{#with round}}
-      {{homeScore}}
-      </span>
-      <span class="round-score">
-      {{awayScore}}
-      </span>
-      {{/with}}
-    </span>
-    {{else}}
-      <span class="isMe round-score">
-      {{#with round}}
-      {{awayScore}}
-      </span>
-      <span class="round-score">
-      {{homeScore}}
-      </span>
-      {{/with}}
-    </span>
-  {{/if}}
-      
-{{/each}}
-</li>
-{{/with}}
-{{/each}}
-</ul>
+  {{partial "partials/person_history"}}
 </div>
 {{#if isEditing}}
   <h3>Edit User</h3>

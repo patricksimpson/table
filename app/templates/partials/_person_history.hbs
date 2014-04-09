@@ -1,0 +1,67 @@
+<h3>Game History ({{games.length}})</h3>
+<ul class="personalGameHistory completedGames gameListing">
+{{#each game in games}}
+{{#with game}}
+{{#if won}}
+<li class="game game-won">
+{{else}}
+<li class="game game-lost">
+{{/if}}
+  <span class="game--person">
+    <span class="game--stats">
+      <span class="game--score">{{status}}</span>
+    </span>
+    <span class="game--points">
+      {{#if isHome}}
+      <span class="isMe">{{homeScore}}</span> to {{awayScore}}
+      {{else}}
+      <span class="isMe">{{awayScore}}</span> to {{homeScore}}
+      {{/if}}
+    </span>
+    vs.
+{{#unless isHome}} 
+    <span class="game--person-name">
+      <img {{bind-attr src=home.avatar alt=home.name title=home.name }} class="game--person--avatar">
+      {{#link-to 'person' home}}{{home.name}}{{/link-to}}
+    </span>
+{{/unless}}
+{{#unless isAway}} 
+    <span class="game--person-name">
+      <img {{bind-attr src=away.avatar alt=away.name title=away.name }} class="game--person--avatar">
+      {{#link-to 'person' away}}{{away.name}}{{/link-to}}
+    </span>
+{{/unless}}
+  </span> 
+  <span class="game--date">
+    {{date}}
+  </span>
+<span class="rounds">
+{{#each round in game.rounds}}
+  <span class="round">
+    {{#if game.isHome}}
+      <span class="isMe round-score">
+      {{#with round}}
+      {{homeScore}}
+      </span>
+      <span class="round-score">
+      {{awayScore}}
+      </span>
+      {{/with}}
+    </span>
+    {{else}}
+      <span class="isMe round-score">
+      {{#with round}}
+      {{awayScore}}
+      </span>
+      <span class="round-score">
+      {{homeScore}}
+      </span>
+      {{/with}}
+    </span>
+  {{/if}}
+      
+{{/each}}
+</li>
+{{/with}}
+{{/each}}
+</ul>
