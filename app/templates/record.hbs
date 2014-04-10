@@ -1,30 +1,37 @@
   <h2>Record Game</h2>
   {{getPeople}}
   <div class="scores">
-  <form {{action recordNewGame target="controller"}}>
+  <form {{action recordNewGame target="controller" on="submit"}}>
   <p class="error">{{error}}</p>
   <ul class="record">
     <li class="header">
       <span class="first--person person">You</span>
       <span class="vs">vs</span>
-      <span class="person">{{view Ember.Select content=people optionValuePath="content.id" optionLabelPath="content.name" selectionBinding=awayPersonSelect}}</span>
+      <span class="person" {{action clearConfirm on="focusIn"}}>{{view Ember.Select content=people optionValuePath="content.id" optionLabelPath="content.name" selectionBinding=awayPersonSelect}}</span>
     </li>
     <li><span class="label">Game 1:</span>
-      {{input type="text" value=gameOneHome class="input--score"}}
-      {{input type="text" value=gameOneAway class="input--score"}}
+      {{input type="text" value=gameOneHome class="input--score" focus-in="clearConfirm"}}
+      {{input type="text" value=gameOneAway class="input--score" focus-in="clearConfirm"}}
     </li>
     <li><span class="label">Game 2:</span>
-      {{input type="text" value=gameTwoHome class="input--score"}}
-      {{input type="text" value=gameTwoAway class="input--score"}}
+      {{input type="text" value=gameTwoHome class="input--score" focus-in="clearConfirm"}}
+      {{input type="text" value=gameTwoAway class="input--score" focus-in="clearConfirm"}}
     </li>
     <li><span class="label">Game 3:</span>
-      {{input type="text" value=gameThreeHome class="input--score"}}
+      {{input type="text" value=gameThreeHome class="input--score" focus-in="clearConfirm"}}
 
-      {{input type="text" value=gameThreeAway class="input--score"}}
+      {{input type="text" value=gameThreeAway class="input--score" focus-in="clearConfirm"}}
     </li>
   </ul>
   </div>
   <p>
-  <button {{action recordNewGame target="controller"}} class="button blue">Add Game</button>
+{{#if mustConfirm}}
+<p>Please check the scores for accuracy.</p>
+<p>{{confirm}} is correct?</p>
+<button id="confirmGame" class="button grey" {{action confirmGame}}>Ok</button>
+<button class="button black" {{action cancelConfirm}}>Nevermind</button>
+{{else}}
+<button {{action recordNewGame target="controller"}} class="button blue">Add Game</button>
+{{/if}}
   </p>
   </form>
