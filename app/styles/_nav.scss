@@ -12,19 +12,24 @@
   text-align: center;
   display: table-cell;
   &:first-child{
-    background: #ccc;
+    background: #FF4040;
   }
   &:nth-child(2){
-    background: #666;
+    background: #163B42;
   }
   &:last-child{
-    background: #333;
+    background: #71cedf;
   }
 }
 
 .nav--link{
+  font-family: $f-avenir;
+  font-size: .7em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   padding: .55em 0;
-  display: block;
+  display: inline-block;
   color: #fff;
   text-decoration: none;
+  width: 100%;
 }

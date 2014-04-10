@@ -1,6 +1,9 @@
  .currentGame {
    clear: both;
-   margin: .25em 0;
+   margin: 0;
+   background-color: #81C791;
+   text-align: center;
+   color: #fff;
  }
 
 .gameview{
@@ -133,7 +136,8 @@
     color: #333;
   }
   a.game--current{
-    color: #C95454;
+    color: #fff;
+    text-decoration: none;
   }
 }
 .game--person {

@@ -1,10 +1,11 @@
+{{#if currentGames.length}}
+{{partial "partials/gameStatus"}}
+{{/if}}
 {{partial "partials/header"}}
 {{partial "partials/nav"}}
 <div class="main">
   {{partial "partials/moderator"}}
-  {{#if currentGames.length}}
-  {{partial "partials/gameStatus"}}
-  {{/if}}
+
   {{outlet}}
 </div> <!-- main -->
 {{partial "partials/queue"}}

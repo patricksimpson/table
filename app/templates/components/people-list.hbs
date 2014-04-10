@@ -11,8 +11,8 @@
       Loss
       </span>
     </span>
-  </li> 
-  {{#each people}}  
+  </li>
+  {{#each people}}
   {{#if isMe}}
   <li class="leaderboard--person isMe">
   {{else}}
@@ -20,7 +20,7 @@
   {{/if}}
   <span class="effect--person">
     {{#link-to "person" this classNames="link--person--avatar"}}
-      <img {{bind-attr src=avatar alt=name title=name}} class="leaderboard--person--avatar"> 
+      <img {{bind-attr src=avatar alt=name title=name}} class="avatar--med">
     {{/link-to}}
     <span class="">
     {{#link-to "person" this classNames="leaderboard--person--name link--person"}}
