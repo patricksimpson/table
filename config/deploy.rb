@@ -60,10 +60,13 @@ task :deploy => :environment do
   deploy do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
-    queue 'echo "-----> Installing npm packages"'
+  
+    queue 'echo "-----> nstalling npm packages"'
     queue 'npm install'
+    queue 'echo "-----> Installing bundle components"'
+    queue 'bundle'
     queue 'echo "-----> Installing bower components"'
-    queue 'bower install'
+    # queue 'bower install'
     queue 'echo "-----> Building with Tapas and Brunch"'
     queue 'cake build'
     # queue 'BRUNCH_ENV=production ./node_modules/.bin/brunch b -P'

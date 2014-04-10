@@ -5,3 +5,4 @@ module.exports = App.Router.map ->
   @resource "currentGame", path: '/current'
   @resource "completedGames", path: '/games'
   @resource "moderator", path: '/moderator'
+  @resource "record", path: '/record'

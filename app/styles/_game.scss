@@ -253,3 +253,31 @@
   width: 100%;
   left: 0;
 }
+
+.record{
+  li {
+    list-style: none;
+    padding: .5em;
+  }
+  .header {
+    border-bottom: 1px solid #ccc;
+  }
+  .person {
+    display: inline-block;
+    width: 5em;
+  }
+  .first--person {
+    padding-left: 7.5em;
+  }
+  .vs {
+    margin: 0 2.5em;
+  }
+  .input--score{
+    width: 5em;
+    margin-right: 6em;
+  }
+  .label {
+    width: 7em;
+    display: inline-block;
+  }
+}
