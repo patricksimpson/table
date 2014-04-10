@@ -6,11 +6,11 @@
 
 .leaderboard--person {
   display: block;
-  margin: .5em 2em;
+  margin: .5em 0;
   margin-left: 0;
   background-color: #fff;
 }
-.leaderboard{ 
+.leaderboard{
 }
 .leaderboard--person--name {
   display: inline-block;
@@ -66,5 +66,6 @@
   }
   .link--person {
     color: #3E6DB3;
+    text-decoration: none;
   }
 }

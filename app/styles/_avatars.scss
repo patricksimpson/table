@@ -8,6 +8,14 @@
   padding: 0;
 }
 
+.avatar--med{
+  height: 2em;
+  width: 2em;
+  @include round-borders;
+  margin: 0;
+  padding: 0;
+}
+
 .avatar--link {
   display: inline-block;
 }
