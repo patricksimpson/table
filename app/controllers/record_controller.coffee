@@ -8,11 +8,11 @@ App.RecordController = Ember.ObjectController.extend
   gameTwoAway: null
   gameThreeHome: null
   gameThreeAway: null
-  pendingHome: []
-  pendingAway: []
+  pendingRounds: []
   pendingHomeScore: 0
   pendingAwayScore: 0
-  pendingPerson: null
+  pendingHomePerson: null
+  pendingAwayPerson: null
   error: null
   authPerson: Ember.computed.alias('controllers.auth.person')
   game: Ember.computed.alias('controllers.game')
@@ -39,6 +39,9 @@ App.RecordController = Ember.ObjectController.extend
       @set('mustConfirm', false)
       homePerson = @get('authPerson')
       awayPerson = @get('awayPersonSelect')
+      @set('pendingHomePerson', homePerson)
+      @set('pendingAwayPerson', awayPerson)
+      debugger
       awayName = awayPerson.get('name')
       h = []
       a = []
@@ -51,15 +54,15 @@ App.RecordController = Ember.ObjectController.extend
       homeScore = 0
       awayScore = 0
       thirdPlayed = false
-      
+      rounds = []
       if homePerson != null && awayPerson != null
         if homePerson.get('id') != awayPerson.get('id')
           # game = @get('game').createGame(homePerson, awayPerson)
           if h[0] == a[0]
-            @set('error', 'Game 1: Scores cannot be equal')
+            @set('error', 'Game 1: Score cannot be equal')
             return
           if h[1] == a[1]
-            @set('error', 'Game 2: Scores cannot be equal')
+            @set('error', 'Game 2: Score cannot be equal')
             return
           if (h[0]+1) == a[0] or h[0] == (a[0]+1)
             @set('error', 'Game 1: Must win by 2')
@@ -70,7 +73,7 @@ App.RecordController = Ember.ObjectController.extend
           if h[2] != 0 or a[2] != 0
             thirdPlayed = true
             if h[2] == a[2]
-              @set('error', 'Game 3: Scores cannot be equal')
+              @set('error', 'Game 3: Score cannot be equal')
               return
             if (h[2]+1) == a[2] or h[2] == (a[2]+1)
               @set('error', 'Game 3: Must win by 2')
@@ -80,15 +83,33 @@ App.RecordController = Ember.ObjectController.extend
             homeScore++
           else
             awayScore++
+          rounds.push(
+            index: 2
+            homeScore: h[0]
+            awayScore: a[0]
+            isComplete: true
+          )
           if h[1] > a[1]
             homeScore++
           else
             awayScore++
+          rounds.push(
+            index: 2
+            homeScore: h[1]
+            awayScore: a[1]
+            isComplete: true
+          )
           if thirdPlayed
             if h[2] > a[2]
               homeScore++
             else
               awayScore++
+            rounds.push(
+              index: 3
+              homeScore: h[2]
+              awayScore: a[2]
+              isComplete: true
+            )
           if homeScore == awayScore
             @set('error', 'Cannot tie the match, enter 3rd game.')
             return
@@ -98,13 +119,10 @@ App.RecordController = Ember.ObjectController.extend
             @set('confirm', "You beat " + awayName + " " + homeScore + " to " + awayScore)
           else
             @set('confirm', awayName + " beat you " + homeScore + " to " + awayScore)
-          @set('pendingHome', h)
-          @set('pendingAway', a)
+          @set('pendingRounds', rounds)
           @set('pendingHomeScore', homeScore)
           @set('pendingAwayScore', awayScore)
-          @set('pendingPerson', awayPerson)
           setTimeout( ->
-            console.log "focus!"
             $("#confirmGame").focus()
           , 200)
           return
@@ -118,7 +136,25 @@ App.RecordController = Ember.ObjectController.extend
       @set('confirm', null)
       @set('mustConfirm', false)
     confirmGame: ->
-
+      rounds = @get('pendingRounds')
+      homeScore = @get('pendingHomeScore')
+      awayScore = @get('pendingAwayScore')
+      homePerson = @get('pendingHomePerson')
+      console.log homePerson
+      debugger
+      awayPerson = @get('pendingAwayPerson')
+      completedGame = @get('store').createRecord('completedGame',
+      home: homePerson
+      away: awayPerson
+      createdAt: new Date()
+      startedAt: new Date()
+      completedAt: new Date()
+      homeScore: homeScore
+      awayScore: awayScore
+      rounds: rounds
+      )
+      completedGame.save()
+      @transitionToRoute("completedGames")
     cancelConfirm: ->
       @set('confirm', null)
       @set('mustConfirm', false)
