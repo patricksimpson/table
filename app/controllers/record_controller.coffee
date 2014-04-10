@@ -41,9 +41,31 @@ App.RecordController = Ember.ObjectController.extend
       awayPerson = @get('awayPersonSelect')
       @set('pendingHomePerson', homePerson)
       @set('pendingAwayPerson', awayPerson)
+      if awayPerson is null or awayPerson is undefined
+        @set('error', 'Please choose an opponent.')
+        return
+
       awayName = awayPerson.get('name')
       h = []
       a = []
+      if @get('gameOneHome') == ""
+        @set('error', 'Game 1: Score contains an invalid entry')
+        return
+      if @get('gameOneAway') == ""
+        @set('error', 'Game 1: Score contains an invalid entry')
+        return
+      if @get('gameTwoHome') == ""
+        @set('error', 'Game 2: Score contains an invalid entry')
+        return
+      if @get('gameTwoAway') == ""
+        @set('error', 'Game 2: Score contains an invalid entry')
+        return
+      if @get('gameThreeHome') == ""
+        @set('error', 'Game 3: Score contains an invalid entry')
+        return
+      if @get('gameThreeAway') == ""
+        @set('error', 'Game 3: Score contains an invalid entry')
+        return
       h.push(@get('gameOneHome')*1)
       a.push(@get('gameOneAway')*1)
       h.push(@get('gameTwoHome')*1)
@@ -126,7 +148,7 @@ App.RecordController = Ember.ObjectController.extend
           , 200)
           return
         else
-          @set('error', 'Please set game values!')
+          @set('error', 'Invalid game settings, please check your inputs.')
       else
         @set('error', "You can't play yourself... doofus.")
         return
@@ -139,7 +161,6 @@ App.RecordController = Ember.ObjectController.extend
       homeScore = @get('pendingHomeScore')
       awayScore = @get('pendingAwayScore')
       homePerson = @get('pendingHomePerson')
-      console.log homePerson
       awayPerson = @get('pendingAwayPerson')
       completedGame = @get('store').createRecord('completedGame',
       home: homePerson

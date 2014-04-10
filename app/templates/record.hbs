@@ -1,3 +1,4 @@
+{{#if authPerson}}
   <h2>Record Game</h2>
   {{getPeople}}
   <div class="scores">
@@ -10,17 +11,17 @@
       <span class="person" {{action clearConfirm on="focusIn"}}>{{view Ember.Select content=people optionValuePath="content.id" optionLabelPath="content.name" selectionBinding=awayPersonSelect}}</span>
     </li>
     <li><span class="label">Game 1:</span>
-      {{input type="text" value=gameOneHome class="input--score" focus-in="clearConfirm"}}
-      {{input type="text" value=gameOneAway class="input--score" focus-in="clearConfirm"}}
+      {{input type="number" value=gameOneHome class="input--score" focus-in="clearConfirm"}}
+      {{input type="number" value=gameOneAway class="input--score" focus-in="clearConfirm"}}
     </li>
     <li><span class="label">Game 2:</span>
-      {{input type="text" value=gameTwoHome class="input--score" focus-in="clearConfirm"}}
-      {{input type="text" value=gameTwoAway class="input--score" focus-in="clearConfirm"}}
+      {{input type="number" value=gameTwoHome class="input--score" focus-in="clearConfirm"}}
+      {{input type="number" value=gameTwoAway class="input--score" focus-in="clearConfirm"}}
     </li>
     <li><span class="label">Game 3:</span>
-      {{input type="text" value=gameThreeHome class="input--score" focus-in="clearConfirm"}}
+      {{input type="number" value=gameThreeHome class="input--score" focus-in="clearConfirm"}}
 
-      {{input type="text" value=gameThreeAway class="input--score" focus-in="clearConfirm"}}
+      {{input type="number" value=gameThreeAway class="input--score" focus-in="clearConfirm"}}
     </li>
   </ul>
   </div>
@@ -35,3 +36,4 @@
 {{/if}}
   </p>
   </form>
+{{/if}}
