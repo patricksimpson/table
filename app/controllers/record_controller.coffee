@@ -41,11 +41,14 @@ App.RecordController = Ember.ObjectController.extend
       awayPerson = @get('awayPersonSelect')
       @set('pendingHomePerson', homePerson)
       @set('pendingAwayPerson', awayPerson)
-      if awayPerson is null or awayPerson is undefined
+      if awayPerson is null or awayPerson is undefined or !awayPerson?
         @set('error', 'Please choose an opponent.')
         return
-
-      awayName = awayPerson.get('name')
+      try
+        awayName = awayPerson.get('name')
+      catch
+        @set('error', 'Please choose an opponent.')
+        return
       h = []
       a = []
       if @get('gameOneHome') == ""
