@@ -41,7 +41,6 @@ App.RecordController = Ember.ObjectController.extend
       awayPerson = @get('awayPersonSelect')
       @set('pendingHomePerson', homePerson)
       @set('pendingAwayPerson', awayPerson)
-      debugger
       awayName = awayPerson.get('name')
       h = []
       a = []
@@ -141,7 +140,6 @@ App.RecordController = Ember.ObjectController.extend
       awayScore = @get('pendingAwayScore')
       homePerson = @get('pendingHomePerson')
       console.log homePerson
-      debugger
       awayPerson = @get('pendingAwayPerson')
       completedGame = @get('store').createRecord('completedGame',
       home: homePerson
