@@ -1,6 +1,7 @@
  .currentGame {
    clear: both;
    margin: 0;
+   padding: .75em 0;
    background-color: #81C791;
    text-align: center;
    color: #fff;
@@ -129,7 +130,7 @@
   padding-right: 1em;
 }
 .game {
-  padding: .5em 0;
+  padding: .25em 0 0 0;
   font-size: 1.1rem;
   list-style: none;
   a {
@@ -180,13 +181,16 @@
   font-style: italic;
   position: relative;
   bottom: 1em;
-  font-size: .75rem;
+  font-size: .5rem;
 }
 .game--time {
+  font-family: $f-avenir;
+  text-transform: uppercase;
+  font-weight: regular;
   display: block;
-  font-size: .75rem;
-  color: #666;
-  font-style: italic;
+  font-size: .5rem;
+  color: #5E916A;
+  margin-top: .5em;
 }
 .game--stats {
   width: 2em;
@@ -203,13 +207,18 @@
   font-weight: bold;
 }
 .currentGame--header {
-  margin: .25em 0em;
+  font-family: $f-avenir;
+  font-size: .5em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
 }
 .completedGames {
   .game{
     border-bottom: 1px solid #ccc;
   }
 }
+
 .score--input {
   border-bottom: 1px solid #eee;
   border-right: 0px none;
