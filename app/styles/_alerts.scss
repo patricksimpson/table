@@ -1,3 +1,15 @@
+.alert--current-game{
+ clear: both;
+ margin: 0;
+ padding: .75em 0;
+ background-color: #81C791;
+ text-align: center;
+ color: #fff;
+ .game{
+  padding: 0;
+ }
+}
+
 .alert--player-name{
   font-family: $f-adelle;
   text-transform: uppercase;
