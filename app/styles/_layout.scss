@@ -31,20 +31,7 @@
   padding: 0;
 }
 
-.action--container {
-  .action--button--container{
-    text-align: center;
-  }
-  &:after {
-    content: " ";
-    display: block;
-    clear: both;
-  }
-  padding: .5em;
-  background-color: #eee;
-  margin-bottom: .5em;
-  text-align: center;
-}
+
 .action--container--ping {
   background-color: #D7FFD3;
 }
