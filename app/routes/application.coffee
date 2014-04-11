@@ -1,11 +1,20 @@
 module.exports = App.ApplicationRoute = Ember.Route.extend
+  model: ->
+    Ember.RSVP.all [
+      @get('store').fetch('person')
+      @get('store').fetch('wait')
+      @get('store').fetch('currentGame')
+      @get('store').fetch('pendingGame')
+      @get('store').fetch('challenge')
+    ]
+    
   setupController: (controller, model) ->
-    controller.set('people', @get('store').findAll('person'))
-    controller.set('waits', @get('store').findAll('wait'))
-    controller.set('currentGame', @get('store').findAll('currentGame'))
-    controller.set('pendingGameData', @get('store').findAll('pendingGame'))
-    controller.set('challengeData', @get('store').findAll('challenge'))
-  events:
+    controller.set('people', model[0] )
+    controller.set('waits', model[1])
+    controller.set('currentGame', model[2])
+    controller.set('pendingGameData', model[3])
+    controller.set('challengeData', model[4])
+  actions:
     goToLink: (item, anchor) ->
       $elem = $(anchor)
       $scrollTo = $('body').scrollTop($elem.offset().top)
