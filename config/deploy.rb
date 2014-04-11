@@ -84,7 +84,7 @@ task :rollback => :environment do
   # Delete existing sym link and create a new symlink pointing to the previous release
   queue %[echo -n "-----> Creating new symlink from the previous release: "]
   queue "echo `cat #{deploy_to}/last_version` | ruby -e 'p gets.to_i-1'"
-  queue! "echo `cat #{deploy_to}/last_version` | ruby -e 'p gets.to_i-1' | xargs -I active ln -nfs #{deploy_to}/releases/active #{deploy_to}/current"
+  queue! "echo `cat #{deploy_to}/last_version` | ruby -e 'p gets.to_i-1' | xargs -I active ln -nfs '#{deploy_to}/releases/active' '#{deploy_to}/current'"
 
   # Remove latest release folder (active release)
   queue %[echo -n "-----> Deleting active release: "]
