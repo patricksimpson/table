@@ -22,21 +22,6 @@ task :setup => :environment do
     queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/#{path}"]
   end
 end
-desc "Rolls back the latest release"
-
-task :rollback => :environment do
-  queue! %[echo "-----> Rolling back to previous release for instance: #{domain}"]
-
-  # Delete existing sym link and create a new symlink pointing to the previous release
-  queue %[echo -n "-----> Creating new symlink from the previous release: "]
-  queue %[ls "#{deploy_to}/releases" -Art | sort | tail -n 2 | head -n 1]
-  queue! %[ls -Art "#{deploy_to}/releases" | sort | tail -n 2 | head -n 1 | xargs -I active ln -nfs "#{deploy_to}/releases/active" "#{deploy_to}/current"]
-
-  # Remove latest release folder (active release)
-  queue %[echo -n "-----> Deleting active release: "]
-  queue %[ls "#{deploy_to}/releases" -Art | sort | tail -n 1]
-  queue! %[ls "#{deploy_to}/releases" -Art | sort | tail -n 1 | xargs -I active rm -rf "#{deploy_to}/releases/active"]
-end
 
 def yes_or_exit(message)
   print "#{message} (yN) "
@@ -79,7 +64,6 @@ task :deploy => :environment do
     queue 'echo "-----> nstalling npm packages"'
     queue 'npm install'
     queue 'echo "-----> Installing bundle components"'
-    queue ''
     queue 'echo "-----> Installing bower components"'
     # queue 'bower install'
     queue 'echo "-----> Building with Tapas and Brunch"'
@@ -87,5 +71,22 @@ task :deploy => :environment do
     # queue 'BRUNCH_ENV=production ./node_modules/.bin/brunch b -P'
     # queue 'echo "-----> Deleting files not need for deploy"'
     # queue 'ls -1 | grep -v public | xargs rm -rf'
+    queue 'echo "-----> Cleaning up the old crap"'
+    invoke :'deploy:cleanup'
   end
+end
+
+desc "Rolls back the latest release"
+task :rollback => :environment do
+  queue! %[echo "-----> Rolling back to previous release for instance: #{domain}"]
+
+  # Delete existing sym link and create a new symlink pointing to the previous release
+  # queue %[echo -n "-----> Creating new symlink from the previous release: "]
+  # queue %[ls "#{deploy_to}/releases" -Art | sort | tail -n 2 | head -n 1]
+  queue! %[ls -Art "#{deploy_to}/releases" | sort | tail -n 2 | head -n 1 | xargs -I active ln -nfs "#{deploy_to}/releases/active" "#{deploy_to}/current"]
+
+  # Remove latest release folder (active release)
+  queue %[echo -n "-----> Deleting active release: "]
+  queue %[ls "#{deploy_to}/releases" -Art | sort | tail -n 1]
+  queue! %[ls "#{deploy_to}/releases" -Art | sort | tail -n 1 | xargs -I active rm -rf "#{deploy_to}/releases/active"]
 end
