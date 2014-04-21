@@ -165,103 +165,46 @@ App.CurrentGameController = Ember.ObjectController.extend
     )
     game.set('rounds', rounds)
     game.save()
+  computePoint:(which, add) ->
+    game = @get('model')
+    currentRound = game.get('currentRound')
+    currentRoundIndex = currentRound - 1
+    #Get rounds, and current round.
+    rounds = game.get('rounds')
+    @set('currentRound', rounds.length)
+    round = rounds[currentRoundIndex]
+    if add
+      if which == "home"
+        round.homeScore = round.homeScore + 1
+      else
+        round.awayScore = round.awayScore + 1
+    else
+      if which == "home"
+        round.homeScore = round.homeScore - 1
+        if round.homeScore < 0
+          return
+      else
+        round.awayScore = round.awayScore - 1
+        if round.awayScore < 0
+          return
+    updatedRounds =
+      homeScore: round.homeScore
+      awayScore: round.awayScore
+      isComplete: false
+      isCurrent: true
+      index: currentRoundIndex
+    rounds[currentRoundIndex] = updatedRounds
+    game.set('rounds', rounds.toArray())
+    game.save()
   actions:
     addPointHome: ->
-      game = @get('model')
-      currentRound = game.get('currentRound')
-      currentRoundIndex = currentRound - 1
-      #Get rounds, and current round.
-      rounds = game.get('rounds')
-      @set('currentRound', rounds.length)
-      round = rounds[currentRoundIndex]
-      #Add pointz
-      score = round.homeScore
-      score = score + 1
-      #create new round object 
-      updatedRounds =
-        homeScore: score
-        awayScore: round.awayScore
-        isComplete: false
-        isCurrent: true
-        index: currentRoundIndex
-
-      #set the round object, and save.
-      rounds[currentRoundIndex] = updatedRounds
-      game.set('rounds', rounds.toArray())
-      game.save()
+      @computePoint("home", true)
     subtractPointHome: ->
-      game = @get('model')
-      currentRound = game.get('currentRound')
-      currentRoundIndex = currentRound - 1
-      #Get rounds, and current round
-      rounds = game.get('rounds')
-      @set('currentRound', rounds.length)
-      round = rounds[currentRoundIndex]
-      #Subtract score 
-      score = round.homeScore
-      score = score - 1
-      if score < 0
-        return
-      #create new round object
-      updatedRounds =
-        homeScore: score
-        awayScore: round.awayScore
-        isComplete: false
-        isCurrent: true
-        index: currentRoundIndex
-
-      #set the round object and save
-      rounds[currentRoundIndex] = updatedRounds
-      game.set('rounds', rounds.toArray())
-      game.save()
+      @computePoint("home", false)
     addPointAway: ->
-      game = @get('model')
-      currentRound = game.get('currentRound')
-      currentRoundIndex = currentRound - 1
-      #Get rounds, and current round
-      rounds = game.get('rounds')
-      @set('currentRound', rounds.length)
-      round = rounds[currentRoundIndex]
-      #Add points
-      score = round.awayScore
-      score = score + 1
-      #create new round object
-      updatedRounds =
-        homeScore: round.homeScore
-        awayScore: score
-        isComplete: false
-        isCurrent: true
-        index: currentRoundIndex
-
-      #set the round obect and save.
-      rounds[currentRoundIndex] = updatedRounds
-      game.set('rounds', rounds.toArray())
-      game.save()
+      @computePoint("away", true)
     subtractPointAway: ->
-      game = @get('model')
-      currentRound = game.get('currentRound')
-      currentRoundIndex = currentRound - 1
-      #Get rounds, and current round
-      rounds = game.get('rounds')
-      @set('currentRound', rounds.length)
-      round = rounds[currentRoundIndex]
-      #Subtract points
-      score = round.awayScore
-      score = score - 1
-      if score < 0
-        return
-      #create new round object
-      updatedRounds =
-        homeScore: round.homeScore
-        awayScore: score
-        isComplete: false
-        isCurrent: true
-        index: currentRoundIndex
-        
-      #set the round obect and save.
-      rounds[currentRoundIndex] = updatedRounds
-      game.set('rounds', rounds.toArray())
-      game.save()
+      @computePoint("away", false)
     homeScoreChanges: (score) ->
       if score == ""
         $('.score--home').val(@get('tempHomeScore'))
