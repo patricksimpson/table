@@ -313,34 +313,27 @@ App.CurrentGameController = Ember.ObjectController.extend
       homePerson = game.get('home')
       awayPerson = game.get('away')
       #And the winner is..
+      homeWins = homePerson.get('wins')
+      homeLoss = homePerson.get('losses')
+      awayWins = awayPerson.get('wins')
+      awayLoss = awayPerson.get('losses')
+      if not homeWins? or homeWins == NaN
+        homeWins = 0
+      if not homeLoss? or homeLoss == NaN
+        homeLoss = 0
+      if not awayWins? or awayWins == NaN
+        awayWins = 0
+      if not awayLoss? or awayLoss == NaN
+        awayLoss = 0
       if game.get('homeScore') > game.get('awayScore')
-        wins = homePerson.get('wins')
-        if not wins? or wins == NaN
-          wins = 0
-        loss = awayPerson.get('losses')
-        if not loss? or loss == NaN
-          loss = 0
-        w = wins + 1
-        l = loss + 1
-        homePerson.set('wins', w)
-        awayPerson.set('losses',l)
-        homePerson.save()
-        awayPerson.save()
-        @gameOver()
+        homePerson.set('wins', homeWins + 1)
+        awayPerson.set('losses', awayLoss + 1)
       if game.get('homeScore') < game.get('awayScore')
-        wins = awayPerson.get('wins')
-        if not wins? or wins == NaN
-          wins = 0
-        loss = homePerson.get('losses')
-        if not loss? or loss == NaN
-          loss = 0
-        w = wins + 1
-        l = loss + 1
-        awayPerson.set('wins', w)
-        homePerson.set('losses',l)
-        homePerson.save()
-        awayPerson.save()
-        @gameOver()
+        awayPerson.set('wins', awayWins + 1)
+        homePerson.set('losses', homeLoss + 1)
+      homePerson.save()
+      awayPerson.save()
+      @gameOver()
       return
     cancelGame: ->
       @set('cancelGameConfirm', false)
