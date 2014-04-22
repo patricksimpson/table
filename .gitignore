@@ -3,3 +3,4 @@ public/*
 .DS_Store
 .sass-cache/*
 deploy*
+_deploy*
