@@ -196,6 +196,35 @@ App.CurrentGameController = Ember.ObjectController.extend
     rounds[currentRoundIndex] = updatedRounds
     game.set('rounds', rounds.toArray())
     game.save()
+  changeScore: (score, which) ->
+    if score < 0
+      return
+    if score > 99
+      return
+    game = @get('model')
+    currentRound = game.get('currentRound')
+    currentRoundIndex = currentRound - 1
+    rounds = game.get('rounds')
+    round = rounds[currentRoundIndex]
+    homeScore = round.homeScore
+    awayScore = round.awayScore
+    if which == "home"
+      homeScore = score
+    else
+      awayScore = score
+    updatedRounds =
+      homeScore: score * 1
+      awayScore: round.awayScore
+      isComplete: false
+      isCurrent: true
+      index: currentRoundIndex
+
+    rounds[currentRoundIndex] = updatedRounds
+    game.set('rounds', rounds.toArray())
+    game.save()
+    $('.button').removeClass("disabled")
+    $('#activeGameContainer').removeClass("scoring--active")
+      
   actions:
     addPointHome: ->
       @computePoint("home", true)
@@ -209,53 +238,13 @@ App.CurrentGameController = Ember.ObjectController.extend
       if score == ""
         $('.score--home').val(@get('tempHomeScore'))
         score = @get('tempHomeScore')
-      if score < 0
-        return
-      if score > 99
-        return
-      game = @get('model')
-      currentRound = game.get('currentRound')
-      currentRoundIndex = currentRound - 1
-      rounds = game.get('rounds')
-      round = rounds[currentRoundIndex]
-      updatedRounds =
-        homeScore: score * 1
-        awayScore: round.awayScore
-        isComplete: false
-        isCurrent: true
-        index: currentRoundIndex
-
-      rounds[currentRoundIndex] = updatedRounds
-      game.set('rounds', rounds.toArray())
-      game.save()
-      $('.button').removeClass("disabled")
-      $('#activeGameContainer').removeClass("scoring--active")
+      @changeScore(score, "home")
 
     awayScoreChanges: (score) ->
       if score == ""
         $('.score--away').val(@get('tempAwayScore'))
         score = @get('tempAwayScore')
-      if score < 0
-        return
-      if score > 99
-        return
-      game = @get('model')
-      currentRound = game.get('currentRound')
-      currentRoundIndex = currentRound - 1
-      rounds = game.get('rounds')
-      round = rounds[currentRoundIndex]
-      updatedRounds =
-        homeScore: round.homeScore
-        awayScore: score * 1
-        isComplete: false
-        isCurrent: true
-        index: currentRoundIndex
-
-      rounds[currentRoundIndex] = updatedRounds
-      game.set('rounds', rounds.toArray())
-      game.save()
-      $('.button').removeClass("disabled")
-      $('#activeGameContainer').removeClass("scoring--active")
+      @changeScore(score, "home")
 
     endRound: (round) ->
       game = @get('model')
