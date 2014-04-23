@@ -1,15 +1,14 @@
-# Table
+# The Table
 
-Ping pong tracking application.
-====
+A Ping pong tracking application. 
 
 ## Features:
-  * Office Rankings.
-  * Challenge others.
-  * Keep score.
-  * View match.
-  * Record games
-  * Schedule matches.
+  * Office Rankings
+  * Challenge others
+  * Keep score
+  * View match
+  * Record matches
+  * Schedule matches
   * API
   
 ## Dependacies
@@ -19,7 +18,7 @@ The table is written on Ember and makes use of Tapas With Ember.
 The Table also uses the following libraries:
   * moment.js
   * firebase
-  * fireplace for firebase.
+  * fireplace (for firebase)
   * Sass/Scss
   * Compass
 
