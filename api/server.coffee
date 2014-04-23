@@ -16,7 +16,7 @@ table.auth(token, (error) ->
 )
 
 app = express()
-app.get "/game", (req, res) ->
+app.get "/match", (req, res) ->
   current = table.child('current_games')
   current.once('value', (nameSnapshot) ->
     game = nameSnapshot.val()
@@ -29,7 +29,7 @@ app.get "/game", (req, res) ->
     ]
   )
   return
-app.get "/game/away", (req, res) ->
+app.get "/match/away", (req, res) ->
   away = table.child('current_games')
   away.once('value', (nameSnapshot) ->
     game = nameSnapshot.val()
@@ -42,10 +42,9 @@ app.get "/game/away", (req, res) ->
         name: person.name
       ]
     )
-    
   )
   return
-app.get "/game/away/add", (req, res) ->
+app.get "/match/away/add", (req, res) ->
   awayAdd = table.child('current_games')
   awayAdd.once('value', (nameSnapshot) ->
     game = nameSnapshot.val()
@@ -55,14 +54,13 @@ app.get "/game/away/add", (req, res) ->
     game[id].away_score = score
     awayAdd.child(id).set(game[id], =>
       res.send [
-        score: score
+        away_score: score
       ]
     )
-    
   )
   return
 
-app.get "/game/home", (req, res) ->
+app.get "/match/home", (req, res) ->
   home = table.child('current_games')
   home.once('value', (nameSnapshot) ->
     game = nameSnapshot.val()
@@ -75,7 +73,43 @@ app.get "/game/home", (req, res) ->
         name: person.name
       ]
     )
-    
+  )
+  return
+
+app.get "/match/home/add", (req, res) ->
+  add = table.child('current_games')
+  add.once('value', (nameSnapshot) ->
+    game = nameSnapshot.val()
+    id = Object.keys(game)[0]
+    score = game[id].home_score
+    score = score + 1
+    game[id].home_score = score
+    add.child(id).set(game[id], =>
+      res.send [
+        home_score: score
+      ]
+    )
+  )
+  return
+
+app.get "/match/home/sub", (req, res) ->
+  add = table.child('current_games')
+  add.once('value', (nameSnapshot) ->
+    game = nameSnapshot.val()
+    id = Object.keys(game)[0]
+    score = game[id].home_score
+    score = score - 1
+    if score < 0
+      res.send [
+        error: "You can't go negative."
+      ]
+      return
+    game[id].home_score = score
+    add.child(id).set(game[id], =>
+      res.send [
+        home_score: score
+      ]
+    )
   )
   return
 
