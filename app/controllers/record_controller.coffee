@@ -1,3 +1,14 @@
+class RecordGame
+  home: null
+  away: null
+  constructor: (home = 0, away = 0) ->
+    @home = home
+    @away = away
+  setHome: (home) ->
+    @home = home
+  setAway: (away) ->
+    @away = away
+
 App.RecordController = Ember.ObjectController.extend
   needs: ['person', 'people', 'auth', 'application', 'game']
   homePersonSelect: null

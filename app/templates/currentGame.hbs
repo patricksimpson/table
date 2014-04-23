@@ -3,6 +3,7 @@
   <h2 class="gameview--main">Current Match</h2>
   <div id="activeGameContainer" class="gameview--current">
   {{partial "partials/current_header"}}
+  <div class="message">{{message}}</div>
   <div class="gameview--actions">
     <div class="scoring--text">Scoring, focus out to save score.</div>
     {{#each roundsWithIndex}}

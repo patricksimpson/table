@@ -245,48 +245,33 @@ App.CurrentGameController = Ember.ObjectController.extend
         $('.score--away').val(@get('tempAwayScore'))
         score = @get('tempAwayScore')
       @changeScore(score, "home")
-
     endRound: (round) ->
+      debugger
+      @set('message', "")
       game = @get('model')
-      currentRound = game.get('currentRound')
-      currentRoundIndex = currentRound - 1
+      if round.awayScore == round.homeScore or round.awayScore + 1 == round.homeScore or round.awayScore == round.homeScore + 1
+        @set('message', "Must win bt 2, cannot be a tie or draw")
+        return
       if round.homeScore > round.awayScore + 1
         score = game.get('homeScore')
-        score = score + 1
-        rounds = game.get('rounds')
-        @set('currentRound', rounds.length)
-        currentRound= rounds[currentRoundIndex]
-        updatedRounds =
-          homeScore: currentRound.homeScore
-          awayScore: currentRound.awayScore
-          index: currentRoundIndex
-          isComplete: true
-
-        rounds[currentRoundIndex] = updatedRounds
-        game.set('rounds', rounds.toArray())
-        game.set('homeScore', score)
-        game.save()
-        return
+        game.set('homeScore', score + 1)
       if round.awayScore  > round.homeScore + 1
         score = game.get('awayScore')
-        score = score + 1
-        rounds = game.get('rounds')
-        @set('currentRound', rounds.length)
-        currentRound = rounds[currentRoundIndex]
-        updatedRounds =
-          homeScore: currentRound.homeScore
-          awayScore: currentRound.awayScore
-          isComplete: true
-          index: currentRoundIndex
-
-        rounds[currentRoundIndex] = updatedRounds
-        game.set('rounds', rounds.toArray())
-        game.set('awayScore', score)
-        game.save()
-        return
-      console.log "Must win by 2, cannot be a tie/draw"
-      return false
-
+        game.set('awayScore', score + 1)
+      currentRound = game.get('currentRound')
+      currentRoundIndex = currentRound - 1
+      rounds = game.get('rounds')
+      @set('currentRound', rounds.length)
+      currentRound= rounds[currentRoundIndex]
+      updatedRounds =
+        homeScore: currentRound.homeScore
+        awayScore: currentRound.awayScore
+        index: currentRoundIndex
+        isComplete: true
+      rounds[currentRoundIndex] = updatedRounds
+      game.set('rounds', rounds.toArray())
+      game.save()
+      return
     newRound: ->
       game = @get('model')
       rounds = game.get('rounds').toArray()
