@@ -3,7 +3,7 @@ Firebase = require('firebase')
 table = new Firebase('https://thetable.firebaseio.com/')
 
 auth = (req) ->
-  mytoken = req.params.token
+  mytoken = req.query.token
   if mytoken == "" or mytoken is null or mytoken is undefined
    return false
   FirebaseTokenGenerator = require("firebase-token-generator")
@@ -17,7 +17,7 @@ auth = (req) ->
   )
 
 app = express()
-app.get "/:token/match", (req, res) ->
+app.get "/match", (req, res) ->
   auth req
   current = table.child('current_games')
   current.once('value', (nameSnapshot) ->
@@ -31,7 +31,7 @@ app.get "/:token/match", (req, res) ->
     ]
   )
   return
-app.get "/:token/match/away", (req, res) ->
+app.get "/match/away", (req, res) ->
   auth req
   away = table.child('current_games')
   away.once('value', (nameSnapshot) ->
@@ -47,7 +47,7 @@ app.get "/:token/match/away", (req, res) ->
     )
   )
   return
-app.get "/:token/match/away/add", (req, res) ->
+app.get "/match/away/add", (req, res) ->
   auth req
   awayAdd = table.child('current_games')
   awayAdd.once('value', (nameSnapshot) ->
@@ -63,7 +63,7 @@ app.get "/:token/match/away/add", (req, res) ->
     )
   )
   return
-app.get "/:token/match/away/sub", (req, res) ->
+app.get "/match/away/sub", (req, res) ->
   auth req
   add = table.child('current_games')
   add.once('value', (nameSnapshot) ->
@@ -84,7 +84,7 @@ app.get "/:token/match/away/sub", (req, res) ->
     )
   )
   return
-app.get "/:token/match/home", (req, res) ->
+app.get "/match/home", (req, res) ->
   auth req
   home = table.child('current_games')
   home.once('value', (nameSnapshot) ->
@@ -101,7 +101,7 @@ app.get "/:token/match/home", (req, res) ->
   )
   return
 
-app.get "/:token/match/home/add", (req, res) ->
+app.get "/match/home/add", (req, res) ->
   auth req
   add = table.child('current_games')
   add.once('value', (nameSnapshot) ->
@@ -118,7 +118,7 @@ app.get "/:token/match/home/add", (req, res) ->
   )
   return
 
-app.get "/:token/match/home/sub", (req, res) ->
+app.get "/match/home/sub", (req, res) ->
   auth req
   add = table.child('current_games')
   add.once('value', (nameSnapshot) ->
