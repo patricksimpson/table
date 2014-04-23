@@ -1,8 +1,13 @@
 <header class="hero">
   <h1 class="heading--large heading--table pl-lspace">{{#link-to 'people' classNames="heading--link default-link"}}Table{{/link-to}}</h1>
   <div class="utility--auth">
-
     <ul class="utility--list">
+      <li class="utility--list-item alert--notifications">
+        {{#if myChallenges.length}}<a class="alert--notifications-trigger" {{action goToLink "application" "#person-actions"}} >{{myChallenges.length}}</a>{{/if}}
+
+        {{partial "partials/queue"}}
+
+      </li>
       <li class="utility--list-item">
         {{#if auth.person}}
         {{#link-to "person" auth.person classNames="avatar--link"}}
@@ -13,7 +18,6 @@
       <li class="utility--list-item">
         <div class="button--auth">
           {{#if auth.person}}
-          {{#if myChallenges.length}}<a class="notifications" {{action goToLink "application" "#person-actions"}} >{{myChallenges.length}}</a>{{/if}}
           <button {{action "logout"}} class="button--login">Logout</button>
           {{else}}
           {{#if auth.isNotAuthorized}}

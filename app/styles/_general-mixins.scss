@@ -44,3 +44,8 @@
 @mixin round-borders{
   border-radius: 50%;
 }
+
+@mixin f-avenir{
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  letter-spacing: 1px;
+}

@@ -1,10 +1,10 @@
-<div class="alert--current-game">
+<div class="alert current-game">
   {{#each game in currentGames }}
-  <h4 class="currentGame--header">Current Match</h4>
+  <h4 class="alert--header">Current Match</h4>
   <div class="game">
     {{#link-to 'currentGame' class="game--current sp"}}
     <span class="alert--player-name home">{{game.home.name}}</span>
-    <span class="vs">vs</span>
+    <span class="alert--sub">vs</span>
     <span class="alert--player-name away">{{game.away.name}}</span>
     {{/link-to}}
     <span class="game--time">Game started {{game.time}}</span>

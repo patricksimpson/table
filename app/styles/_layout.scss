@@ -1,6 +1,6 @@
 .main {
   margin: 0em auto;
-  max-width: 60em;
+  max-width: 65em;
   padding: 0em 1em;
 }
 
@@ -31,20 +31,7 @@
   padding: 0;
 }
 
-.action--container {
-  .action--button--container{
-    text-align: center;
-  }
-  &:after {
-    content: " ";
-    display: block;
-    clear: both;
-  }
-  padding: .5em;
-  background-color: #eee;
-  margin-bottom: .5em;
-  text-align: center;
-}
+
 .action--container--ping {
   background-color: #D7FFD3;
 }

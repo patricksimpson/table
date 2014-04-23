@@ -1,41 +1,29 @@
-    {{#if pendingChallenges.length}}
-    <h4>Challenges</h4>
-    {{#each pendingChallenges}}
-    <div class="action--container">{{#if isMe}}You {{else}}<img {{bind-attr src=home.avatar alt=home.name title=home.name }} class="game--person--avatar"> {{/if}} challenged <img {{bind-attr src=away.avatar alt=away.name title=away.name }} class="game--person--avatar"><br><span class="time challenge--time">{{time}}</span>
-      {{#if isMe}}
-      <div class="action--button--container">
-        <button class="button black" {{action cancelChallenge this}}>Cancel</button>
+{{#if myChallenges.length}}
+<div class="challenges--container">
+  <h4 class="challenges--header pad-med">Your Challenges ({{auth.person.challenges.length}})</h4>
+  <ul class="action--list pad pad-med">
+    {{#each myChallenges}}
+    <li>
+      <span class="challenges--challenger">{{home.name}}</span>
+      <div class="challenge--actions">
+        <button {{action 'acceptChallenge' this bubbles=false}} class="button positive challenges--action">Accept</button>
+        <button {{action 'declineChallenge' this bubbles=false}} class="button negative challenges--action">Decline</button>
       </div>
-      {{/if}}
-    </div>
+    </li>
     {{/each}}
-    {{/if}}
-    {{#if myChallenges.length}}
-    <div class="challenges">
-      <h4 class="action--header">Your Challenges ({{auth.person.challenges.length}})</h4>
-      <ul class="action--list">
-        {{#each myChallenges}}
-        <li>
-          {{home.name}}
-          <div class="challenge--actions">
-            <button {{action 'acceptChallenge' this bubbles=false}} class="button blue">Accept</button>
-            <button {{action 'declineChallenge' this bubbles=false}} class="button black">Decline</button>
-          </div>
-        </li>
-        {{/each}}
-      </ul>
-    </div>
-    {{/if}}
-    {{#if auth.person.responses.length}}
-    <div class="responses">
-      <h4 class="action--header">Responses ({{auth.person.responses.length}})</h4>
-      <ul class="action--list">
-        {{#each auth.person.responses}}
-        <li>
-          challenge declined by {{away.name}}
-          <button {{action 'removeResponse' this}} class="button black">Ok</button>
-        </li>
-        {{/each}}
-      </ul>
-    </div>
-    {{/if}}
+  </ul>
+</div>
+{{/if}}
+{{#if auth.person.responses.length}}
+<div class="responses">
+  <h4 class="action--header">Responses ({{auth.person.responses.length}})</h4>
+  <ul class="action--list">
+    {{#each auth.person.responses}}
+    <li>
+      challenge declined by {{away.name}}
+      <button {{action 'removeResponse' this}} class="button black">Ok</button>
+    </li>
+    {{/each}}
+  </ul>
+</div>
+{{/if}}
