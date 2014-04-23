@@ -14,7 +14,7 @@ app._auth = (req) ->
   FirebaseTokenGenerator = require("firebase-token-generator")
   tokenGenerator = new FirebaseTokenGenerator(mytoken)
   token = tokenGenerator.createToken({name: "table-api"})
-  table.auth(token, (error) ->
+  app._table.auth(token, (error) ->
     if(error)
       console.log("failed to auth", error)
     else

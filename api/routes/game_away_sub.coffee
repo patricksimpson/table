@@ -1,16 +1,20 @@
 module.exports = (app) ->
-  app.get "/match/home/add", (req, res) ->
+  app.get "/game/away/sub", (req, res) ->
     app._auth req
     add = app._table.child('current_games')
     add.once('value', (nameSnapshot) ->
       game = nameSnapshot.val()
       id = Object.keys(game)[0]
-      score = game[id].home_score
+      rounds = game[id].rounds
+      roundNumber = rounds.length - 1
+      score = rounds[roundNumber].awayScore
       score = score + 1
-      game[id].home_score = score
+      rounds[roundNumber].awayScore = score
+      game[id].rounds = rounds
       add.child(id).set(game[id], =>
         res.send [
-          homeScore: score
+          awayScore: score
+          currentRound: roundNumber
         ]
       )
     )

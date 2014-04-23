@@ -10,7 +10,7 @@ module.exports = (app) ->
       game[id].away_score = score
       awayAdd.child(id).set(game[id], =>
         res.send [
-          away_score: score
+          awayScore: score
         ]
       )
     )
