@@ -2,21 +2,23 @@ express = require("express")
 Firebase = require('firebase')
 table = new Firebase('https://thetable.firebaseio.com/')
 
-mytoken = require("./private-token")
-
-FirebaseTokenGenerator = require("firebase-token-generator")
-tokenGenerator = new FirebaseTokenGenerator(mytoken)
-token = tokenGenerator.createToken({name: "table-api"}, {admin: true})
-
-table.auth(token, (error) ->
-  if(error)
-    console.log("failed to auth", error)
-   else
-    console.log("authed.")
-)
+auth = (req) ->
+  mytoken = req.params.token
+  if mytoken == "" or mytoken is null or mytoken is undefined
+   return false
+  FirebaseTokenGenerator = require("firebase-token-generator")
+  tokenGenerator = new FirebaseTokenGenerator(mytoken)
+  token = tokenGenerator.createToken({name: "table-api"})
+  table.auth(token, (error) ->
+    if(error)
+      console.log("failed to auth", error)
+    else
+      console.log("authed.")
+  )
 
 app = express()
-app.get "/match", (req, res) ->
+app.get "/:token/match", (req, res) ->
+  auth req
   current = table.child('current_games')
   current.once('value', (nameSnapshot) ->
     game = nameSnapshot.val()
@@ -29,7 +31,8 @@ app.get "/match", (req, res) ->
     ]
   )
   return
-app.get "/match/away", (req, res) ->
+app.get "/:token/match/away", (req, res) ->
+  auth req
   away = table.child('current_games')
   away.once('value', (nameSnapshot) ->
     game = nameSnapshot.val()
@@ -44,7 +47,8 @@ app.get "/match/away", (req, res) ->
     )
   )
   return
-app.get "/match/away/add", (req, res) ->
+app.get "/:token/match/away/add", (req, res) ->
+  auth req
   awayAdd = table.child('current_games')
   awayAdd.once('value', (nameSnapshot) ->
     game = nameSnapshot.val()
@@ -59,8 +63,29 @@ app.get "/match/away/add", (req, res) ->
     )
   )
   return
-
-app.get "/match/home", (req, res) ->
+app.get "/:token/match/away/sub", (req, res) ->
+  auth req
+  add = table.child('current_games')
+  add.once('value', (nameSnapshot) ->
+    game = nameSnapshot.val()
+    id = Object.keys(game)[0]
+    score = game[id].away_score
+    score = score - 1
+    if score < 0
+      res.send [
+        error: "You can't go negative."
+      ]
+      return
+    game[id].away_score = score
+    add.child(id).set(game[id], =>
+      res.send [
+        away_score: score
+      ]
+    )
+  )
+  return
+app.get "/:token/match/home", (req, res) ->
+  auth req
   home = table.child('current_games')
   home.once('value', (nameSnapshot) ->
     game = nameSnapshot.val()
@@ -76,7 +101,8 @@ app.get "/match/home", (req, res) ->
   )
   return
 
-app.get "/match/home/add", (req, res) ->
+app.get "/:token/match/home/add", (req, res) ->
+  auth req
   add = table.child('current_games')
   add.once('value', (nameSnapshot) ->
     game = nameSnapshot.val()
@@ -92,7 +118,8 @@ app.get "/match/home/add", (req, res) ->
   )
   return
 
-app.get "/match/home/sub", (req, res) ->
+app.get "/:token/match/home/sub", (req, res) ->
+  auth req
   add = table.child('current_games')
   add.once('value', (nameSnapshot) ->
     game = nameSnapshot.val()
