@@ -1,12 +1,17 @@
-.alert--current-game{
+.alert{
  clear: both;
  margin: 0;
  padding: .75em 0;
- background-color: #81C791;
  text-align: center;
  color: #fff;
  .game{
   padding: 0;
+ }
+ &.current-game{
+  background: #81C791;
+ }
+ &.incoming-challenge{
+  background: #FF4040;
  }
 }
 
@@ -15,8 +20,21 @@
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-.vs{
-  font-family: $f-avenir;
+.alert--sub{
+  @include f-avenir;
   font-size: .65em;
   vertical-align: center;
+  text-transform: uppercase;
 }
+
+.alert--header{
+  font-family: $f-avenir;
+  font-size: .5em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+
+
+///////

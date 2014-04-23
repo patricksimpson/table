@@ -1,0 +1,52 @@
+.alert--notifications{
+  position:relative;
+}
+
+.alert--notifications-trigger{
+  color: #fff;
+  font-size: .65em;
+  background-color: #FF4040;
+  border-radius: .25em;
+  padding: .25em .75em;
+  cursor: pointer;
+}
+
+.challenges--container{
+  color: #333;
+  text-align: left;
+  position: absolute;
+  top: 2em;
+  right: -1em;
+  width: 15em;
+  background: #fff;
+  border: 3px solid #ebebeb;
+  border-radius: .5em;
+  overflow: hidden;
+}
+
+.challenges--header{
+  font-family: $f-adelle;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #fff;
+  display: block;
+  margin: 0;
+  background: #163B42;
+}
+
+.challenges--challenger{
+  font-family: $f-adelle;
+}
+
+.challenges--action{
+  font-size: .65em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  &.positive{
+    background: #81C791;
+  }
+  &.negative{
+    background: #ff4040;
+  }
+}

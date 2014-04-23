@@ -2,7 +2,7 @@
 
 .nav{
   width: 100%;
-  max-width: 60em;
+  max-width: 65em;
   clear: both;
   display: table;
   margin: 0 auto;
@@ -17,8 +17,11 @@
   &:nth-child(2){
     background: #163B42;
   }
-  &:last-child{
+  &:nth-child(3){
     background: #71cedf;
+  }
+  &:last-child{
+    background: #333;
   }
 }
 
