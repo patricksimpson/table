@@ -2,6 +2,11 @@ express = require("express")
 path = require("path")
 http = require("http")
 
+util = require("util")
+
+twitter = require("twitter")
+twit = require('./private-token')
+
 Firebase = require('firebase')
 app = express()
 
@@ -22,11 +27,14 @@ app._auth = (req) ->
   )
 
 #Twitter Watchers
-pingRef = new Firebase('https://thetable.firebaseio.com/waits/')
-pingRef.on('child_added', (childSnapshot, prevChildName) ->
-  console.log childSnapshot.val()
-  console.log "someone pinged!"
-)
+# No one cares about twitter, or thetable.io anyway.
+# pingRef = new Firebase('https://thetable.firebaseio.com/waits/')
+# pingRef.on('child_added', (childSnapshot, prevChildName) ->
+#   waits = childSnapshot.val()
+#   console.log waits
+#   console.log waits.twitter
+#   console.log "someone pinged!"
+# )
 
 require('./routes')(app)
 
