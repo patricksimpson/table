@@ -1,4 +1,4 @@
-class RecordGame
+class Game
   home: null
   away: null
   constructor: (home = 0, away = 0) ->
