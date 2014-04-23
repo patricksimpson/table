@@ -2,6 +2,19 @@ express = require("express")
 Firebase = require('firebase')
 table = new Firebase('https://thetable.firebaseio.com/')
 
+mytoken = require("./private-token")
+
+FirebaseTokenGenerator = require("firebase-token-generator")
+tokenGenerator = new FirebaseTokenGenerator(mytoken)
+token = tokenGenerator.createToken({name: "table-api"}, {admin: true})
+
+table.auth(token, (error) ->
+  if(error)
+    console.log("failed to auth", error)
+   else
+    console.log("authed.")
+)
+
 app = express()
 app.get "/game", (req, res) ->
   current = table.child('current_games')
@@ -27,6 +40,22 @@ app.get "/game/away", (req, res) ->
       person = nameSnapshot.val()
       res.send [
         name: person.name
+      ]
+    )
+    
+  )
+  return
+app.get "/game/away/add", (req, res) ->
+  awayAdd = table.child('current_games')
+  awayAdd.once('value', (nameSnapshot) ->
+    game = nameSnapshot.val()
+    id = Object.keys(game)[0]
+    score = game[id].away_score
+    score = score + 1
+    game[id].away_score = score
+    awayAdd.child(id).set(game[id], =>
+      res.send [
+        score: score
       ]
     )
     

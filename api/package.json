@@ -7,6 +7,7 @@
     "express": "3.x"
   },
   "devDependencies": {
-    "firebase": "~1.0.11"
+    "firebase": "~1.0.11",
+    "firebase-token-generator": "~0.1.4"
   }
 }
