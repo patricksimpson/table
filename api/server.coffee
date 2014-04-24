@@ -10,10 +10,13 @@ twit = require('./private-token')
 Firebase = require('firebase')
 app = express()
 
-app._table = new Firebase('https://thetable.firebaseio.com/')
+routes = require('./routes/index.coffee')
 
+app.use('/', routes)
+
+app._table = new Firebase('https://thetable.firebaseio.com/')
 app._auth = (req) ->
-  mytoken = req.query.token
+  mytoken = req.body.token
   if mytoken == "" or mytoken is null or mytoken is undefined
     return false
   FirebaseTokenGenerator = require("firebase-token-generator")

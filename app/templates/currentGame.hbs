@@ -5,7 +5,10 @@
   {{partial "partials/current_header"}}
   <div class="message">{{message}}</div>
   <div class="gameview--actions">
-    <div class="scoring--text">Scoring, focus out to save score.</div>
+    <div class="scoring--input">
+      {{input type="number" value=currentHomeScore class="score--input score--home" focus-in="clearTempHome" focus-out="homeScoreChanges" min="0" max="99" tabindex=1}}
+      {{input type="number" value=currentAwayScore class="score--input score--away" focus-in="clearTempAway" focus-out="awayScoreChanges" min="0" max="99" tabindex=2}}
+    </div>
     {{#each roundsWithIndex}}
     {{partial "partials/current_round"}}
     {{/each}}

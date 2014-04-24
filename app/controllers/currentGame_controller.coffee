@@ -5,9 +5,12 @@ App.CurrentGameController = Ember.ObjectController.extend
   game: Ember.computed.alias('controllers.game')
   confirmEndMatch: false
   message: ""
+  currentHomeScore: 0
+  currentAwayScore: 0
   gameOverFlag: false
   gameStartedFlag: false
   confirmOpenRound: false
+  isScoring: false
   people: []
   getPeople: (->
     people = []
@@ -32,6 +35,9 @@ App.CurrentGameController = Ember.ObjectController.extend
 
   isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
   roundsWithIndex: ( ->
+    if @get('isScoring')
+      @set('isScoring', false)
+      return false
     if @get('gameOverFlag')
       return false
     rounds = @get('rounds')
@@ -51,6 +57,9 @@ App.CurrentGameController = Ember.ObjectController.extend
       return
     currentRound = game.get('currentRound')
     @get('rounds').map((round, index) =>
+      if (index + 1) == currentRound
+        @set('currentHomeScore', round.homeScore)
+        @set('currentAwayScore', round.awayScore)
       round:
         homeWon: round.homeScore > round.awayScore
         awayWon: round.homeScore < round.awayScore
@@ -187,6 +196,8 @@ App.CurrentGameController = Ember.ObjectController.extend
         round.awayScore = round.awayScore - 1
         if round.awayScore < 0
           return
+    @set('currentAwayScore', round.homeScore)
+    @set('currentHomeScore', round.awayScore)
     updatedRounds =
       homeScore: round.homeScore
       awayScore: round.awayScore
@@ -209,21 +220,22 @@ App.CurrentGameController = Ember.ObjectController.extend
     homeScore = round.homeScore
     awayScore = round.awayScore
     if which == "home"
-      homeScore = score
+      round.homeScore = score*1
     else
-      awayScore = score
+      round.awayScore = score*1
+
+    @set('currentAwayScore', homeScore)
+    @set('currentHomeScore', awayScore)
     updatedRounds =
-      homeScore: score * 1
-      awayScore: round.awayScore
+      homeScore:  homeScore
+      awayScore:  awayScore
       isComplete: false
       isCurrent: true
       index: currentRoundIndex
-
-    rounds[currentRoundIndex] = updatedRounds
     game.set('rounds', rounds.toArray())
     game.save()
+    rounds[currentRoundIndex] = round
     $('.button').removeClass("disabled")
-    $('#activeGameContainer').removeClass("scoring--active")
       
   actions:
     addPointHome: ->
@@ -244,9 +256,8 @@ App.CurrentGameController = Ember.ObjectController.extend
       if score == ""
         $('.score--away').val(@get('tempAwayScore'))
         score = @get('tempAwayScore')
-      @changeScore(score, "home")
+      @changeScore(score, "away")
     endRound: (round) ->
-      debugger
       @set('message', "")
       game = @get('model')
       if round.awayScore == round.homeScore or round.awayScore + 1 == round.homeScore or round.awayScore == round.homeScore + 1
@@ -355,12 +366,10 @@ App.CurrentGameController = Ember.ObjectController.extend
       $('.score--home').val("")
       @set('tempHomeScore', val)
       $('.modal--scoring').show()
-      $('#activeGameContainer').addClass("scoring--active")
       $('.button').addClass("disabled")
     clearTempAway: (val) ->
       $('.score--away').val("")
       @set('tempAwayScore', val)
       $('.modal--scoring').show()
-      $('#activeGameContainer').addClass("scoring--active")
       $('.button').addClass("disabled")
       

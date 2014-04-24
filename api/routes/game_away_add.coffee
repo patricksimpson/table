@@ -1,5 +1,8 @@
+express = require('express')
+router = express.Router()
+
 module.exports = (app) ->
-  app.get "/game/away/add", (req, res) ->
+  router.post "/game/away/add", (req, res) ->
     app._auth req
     add = app._table.child('current_games')
     add.once('value', (nameSnapshot) ->
