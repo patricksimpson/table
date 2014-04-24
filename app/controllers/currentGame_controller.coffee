@@ -10,7 +10,6 @@ App.CurrentGameController = Ember.ObjectController.extend
   gameOverFlag: false
   gameStartedFlag: false
   confirmOpenRound: false
-  isScoring: false
   people: []
   getPeople: (->
     people = []
@@ -35,9 +34,6 @@ App.CurrentGameController = Ember.ObjectController.extend
 
   isActiveGame: Ember.computed.alias('controllers.application.isActiveGame')
   roundsWithIndex: ( ->
-    if @get('isScoring')
-      @set('isScoring', false)
-      return false
     if @get('gameOverFlag')
       return false
     rounds = @get('rounds')
