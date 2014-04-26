@@ -1,6 +1,6 @@
 {{#if myChallenges.length}}
-<div class="challenges--container">
-  <h4 class="challenges--header pad-med">Your Challenges ({{auth.person.challenges.length}})</h4>
+<div class="challenges--container" {{bind-attr class="isChallengePopup:visible"}}>
+  <h4 class="challenges--header pad-med">Your Challenges ({{auth.person.challenges.length}}) <button {{action challengePopup false}} class="button button--close close--challenges">X</button></h4>
   <ul class="action--list pad pad-med">
     {{#each myChallenges}}
     <li>

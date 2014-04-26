@@ -3,7 +3,7 @@
   <div class="utility--auth">
     <ul class="utility--list">
       <li class="utility--list-item alert--notifications">
-        {{#if myChallenges.length}}<a class="alert--notifications-trigger" {{action goToLink "application" "#person-actions"}} >{{myChallenges.length}}</a>{{/if}}
+        {{#if myChallenges.length}}<a class="alert--notifications-trigger" {{action challengePopup true}} >{{myChallenges.length}}</a>{{/if}}
 
         {{partial "partials/queue"}}
 

@@ -3,6 +3,7 @@ App.ApplicationController = Ember.Controller.extend
   needs: ['auth', 'challenge', 'people', 'person', 'wait', 'game', 'currentGame']
   authBinding: "controllers.auth"
   waitList: Ember.computed.alias('controllers.wait')
+  isChallengePopup: false
   game: Ember.computed.alias('controllers.game')
   currentGames: (->
     currentGames = @get('currentGame').map((game) =>
@@ -72,6 +73,8 @@ App.ApplicationController = Ember.Controller.extend
     return games
   ).property('currentGames', 'pendingGameData.content.@each', 'controllers.auth.person')
   actions:
+    challengePopup: (show) ->
+      @set('isChallengePopup', show)
     personJoinWaitingList: ->
       authPerson = @get('controllers.auth.person')
       @get('controllers.person').ping(authPerson)
