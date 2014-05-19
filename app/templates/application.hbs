@@ -4,6 +4,7 @@
 {{partial "partials/header"}}
 {{partial "partials/nav"}}
 {{partial "partials/queue"}}
+<div class="main">
 <div class="content--container">
   {{partial "partials/moderator"}}
   {{outlet}}
@@ -12,5 +13,6 @@
 {{#if pendingGames.length}}
   {{partial "partials/queue_pendingGame"}}
 {{/if}}
+</div>
 </div>
 {{partial "partials/footer"}}
