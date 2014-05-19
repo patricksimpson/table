@@ -1,21 +1,11 @@
 <h4 class="profile--content--header">Actions</h4>
 <div class="profile--actions">
 {{#if isMe}}<!--<button {{action 'editPerson'}} class="button grey">Edit</button>-->{{/if}}
-{{#unless isMe}}
-  {{#if isChallenged}}
-    You challenged {{name}}
+{{#if authedPerson}}
+  {{#unless isWaiting}}
+    <button {{action 'joinWaitingList'}} class="button green">Ping?</button>
   {{else}}
-    {{#if authedPerson}}
-      <button {{action 'challengeRequest'}} class="button blue">Challenge!</button>
-    {{/if}}
-  {{/if}}
-{{else}}
-  {{#if authedPerson}}
-    {{#unless isWaiting}}
-      <button {{action 'joinWaitingList'}} class="button green">Ping?</button>
-    {{else}}
-      <button {{action 'leaveWaitingList'}} class="button black">Cancel Ping</button>
-    {{/unless}}
-  {{/if}}
-{{/unless}}
+    <button {{action 'leaveWaitingList'}} class="button black">Cancel Ping</button>
+  {{/unless}}
+{{/if}}
 </div>
