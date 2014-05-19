@@ -17,7 +17,7 @@ App.GameController = Ember.ObjectController.extend
     newGame.save()
     newGame
   createGame: (home, away) ->
-    @addGame(home, away)
+    @addNewGame(home, away)
   checkCurrent: ->
     # Check for a current game
     @get('store').fetch('currentGame').then ((currentGame) =>
