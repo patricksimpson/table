@@ -1,11 +1,12 @@
 <h4 class="profile--content--header">Actions</h4>
 <div class="profile--actions">
-{{#if isMe}}<!--<button {{action 'editPerson'}} class="button grey">Edit</button>-->{{/if}}
-{{#if authedPerson}}
-  {{#unless isWaiting}}
-    <button {{action 'joinWaitingList'}} class="button green">Ping?</button>
-  {{else}}
-    <button {{action 'leaveWaitingList'}} class="button black">Cancel Ping</button>
-  {{/unless}}
+{{#if isMe}}
+  {{#if authedPerson}}
+    {{#unless isWaiting}}
+      <button {{action 'joinWaitingList'}} class="button green">Ping?</button>
+    {{else}}
+      <button {{action 'leaveWaitingList'}} class="button black">Cancel Ping</button>
+    {{/unless}}
+  {{/if}}
 {{/if}}
 </div>

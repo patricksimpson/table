@@ -1,11 +1,11 @@
 require 'mina/git'
 
-set :domain, 'localhost'
-set :deploy_to, '/var/deploy/thetable.io'
+set :domain, '192.241.172.114'
+set :deploy_to, '/var/www/thetable.io'
 set :repository, 'git@github.com:patricksimpson/table'
 set :branch, 'master'
 set :user, 'patrick'
-# set :forward_agent, true
+set :forward_agent, true
 set :keep_releases, 10
 
 set :shared_paths, ['node_modules', 'bower_components']
